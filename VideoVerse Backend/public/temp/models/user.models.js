@@ -84,7 +84,7 @@ UserSchema.methods.genrateAccessToken = function () {
 
 //genrating the refresh token
 UserSchema.methods.genrateRefreshToken = function () {
-    return jwt.sign({
+    return jwt.verify({
         id: this._id
     },
         process.env.JWT_REFRESH_TOKEN,
