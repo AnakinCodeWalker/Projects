@@ -189,7 +189,7 @@ return res.status(200)  //now put the thing u want  to in cookies
 
 
 export {
-    registerUser,
+   registerUser,
    loginUser,
    logoutUser
 }
