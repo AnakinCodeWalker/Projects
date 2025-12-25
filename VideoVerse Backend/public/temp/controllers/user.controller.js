@@ -20,9 +20,9 @@ const genrateAccessTokenAndRefreshToken = async (userId) => {
 
         user.refreshToken = refreshToken //user already created now putting the refresh token into it
 
-        //why this ??
+       
         await user.save({
-            validateBeforeSave: true
+            validateBeforeSave: true  //why this ?? 
         })
 
         return {
@@ -73,7 +73,36 @@ const registerUser = asyncHandler(async (req, res) => {
     if (existingUser)
         throw new ApiError(409, "User already exists with these credentials")
 
+// file uploading or multer side code 
+//multer  Provides files in req.files
 
+const avatarLocalPath = req.files?.avatar[0]?.path // we have to store multer file to our server in the temp folder 
+//  via .path we could get the path 
+
+
+// const coverImageLocalPath = req.files?.coverImage?.[0].path
+// doing the same thing with simple if condition to reduce the Hassle
+
+let coverImageLocalPath;
+
+if(req.files && Array.isArray(req.files?.coverImage) && req.files?.coverImage.length > 0 ){
+    coverImageLocalPath = req.files.coverImage[0].path
+}
+
+// avatar is mandatory
+if(!avatarLocalPath){
+    throw new ApiError(400 , "Avatar file is Required")
+}
+
+//upload things on cloudinary 
+
+const avatar = await uploadOnCloudinary(avatarLocalPath)
+
+const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+
+if(!avatar){
+    throw new ApiError(500 , "Avatar file is Essential")
+}
 
     const user = await User.create({
         fullName,
@@ -181,12 +210,6 @@ return res.status(200)  //now put the thing u want  to in cookies
 
 
     })
-
-
-
-
-
-
 
 export {
    registerUser,
