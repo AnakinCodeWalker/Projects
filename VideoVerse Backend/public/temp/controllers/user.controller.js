@@ -12,7 +12,7 @@ dotenv.config()
 const genrateAccessTokenAndRefreshToken = async (userId) => {
     try {
 
-        const user = User.findById(userId)
+        const user = await User.findById(userId)
 
         // what happen with the access token 
         const accessToken = user.genrateAccessToken()
@@ -98,7 +98,10 @@ if(!avatarLocalPath){
 
 const avatar = await uploadOnCloudinary(avatarLocalPath)
 
-const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+const coverImage =  coverImageLocalPath
+    ? await uploadOnCloudinary(coverImageLocalPath)
+    : null
+
 
 if(!avatar){
     throw new ApiError(500 , "Avatar file is Essential")
@@ -114,16 +117,22 @@ if(!avatar){
     })
 
     const createdUser = await User.findById(user._id)
-        .select("-password , -refreshToken")   //this lets you remove things just select and remove them
+        .select("-password  -refreshToken")   //this lets you remove things just select and remove them
 
     if (!createdUser)
         throw new ApiError(500, "User not created")
 
     //sending the user after removing the passowrd and the refreshToken
-    res.status(201).json(new ApiResponse(200, createdUser, "User created Successfully"))
+    res.status(201).json(new ApiResponse(201, createdUser, "User created Successfully"))
 
 })
 
+
+     //for cookie
+     const options ={
+         httpOnly:true,
+         secure:true
+     } 
 
     const loginUser = asyncHandler(async (req, res) => {
         const { userName, password } = req.body
@@ -131,14 +140,10 @@ if(!avatar){
         if (!userName || !password)
             throw new ApiError(400, "All credentails are required")
 
-        const user = User.findOne({
-            $or: [{
+        const user = await User.findOne({
                 userName
-
-            }, {
-                password
-            }]
         })
+
         if (!user)
             throw new ApiError(404, "user not Found")
 
@@ -156,14 +161,9 @@ if(!avatar){
 
 
 const loggedInUser = await User.findById(user._id)
-   .select("-password","-refreshToken")
+   .select("-password  -refreshToken")
 
 
-   //for cookie
-const options ={
-    httpOnly:true,
-    secure:true
-} 
 
 
 return res.status(200)  //now put the thing u want  to in cookies
