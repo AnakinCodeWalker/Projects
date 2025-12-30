@@ -1,6 +1,83 @@
+# =========================
+# Dependencies
+# =========================
+node_modules/
+.pnp/
+.pnp.js
+
+# =========================
+# Build outputs
+# =========================
+dist/
+build/
+out/
+coverage/
+
+# =========================
+# TypeScript
+# =========================
+*.tsbuildinfo
+
+# =========================
+# Environment files
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Logs
+# =========================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+Thumbs.db
+
+.vscode/
+!.vscode/extensions.json
+
+.idea/
+*.swp
+
+# =========================
+# Cache
+# =========================
+.cache/
+.parcel-cache/
+.eslintcache
+
+# =========================
+# React / Vite / CRA
+# =========================
+.vite/
+.vite-cache/
+.eslintcache
+
+# =========================
+# Testing
+# =========================
+*.lcov
+
+# =========================
+# Misc
+# =========================
+*.pid
+*.seed
+*.pid.lock
+
+
+
 #notes
 .notes.js
-
+.notes.ts
 # Logs
 logs
 *.log
