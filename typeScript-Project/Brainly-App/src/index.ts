@@ -1,16 +1,24 @@
-import express, { Request, Response } from "express";
+import express from "express"
+import { db } from "./config/db.js";
+const app=express();
+import dotenv from 'dotenv'
+dotenv.config()
 
-const app = express();
-const PORT = 3000;
+// const PORT=process.env.PORT use the .env.ts file configuration
 
-// middleware
-app.use(express.json());
+app.use(express.json({
+    limit:"24kb"
+}))
 
-// route
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello from Express + TypeScript 🚀");
-});
+db().
+then((result) => {
+    console.log(`connected to the db`);
+    console.log(`${result.message}`);
+    app.listen(PORT||8080,()=>{
+        console.log(`server Started at ${PORT}`);
+    })
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+
+}).catch((err) => {
+    console.log(`error connecting mongo db ${err.message}`);
 });
