@@ -1,6 +1,6 @@
 import { app } from "./app.js";
 import { db } from "../public/temp/db/db.js";
-import dotenv from 'dotenv'
+import UserRoutes from '../public/temp/routes/User.route.js'
 dotenv.config()
 
 const PORT =process.env.PORT
@@ -18,3 +18,5 @@ try {
 console.log(`error in connecting to db`);
 console.log(`${error.message}`);
 })
+
+app.use("/api/v1/user",UserRoutes)
