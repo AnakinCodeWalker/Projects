@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+import dotenv from "dotenv"
+dotenv.config()
+
+import bcrypt from  "bcrypt"
+
+
 const UserSchema = new mongoose.model({
     name: {
         type: String,
@@ -42,6 +48,15 @@ const UserSchema = new mongoose.model({
 }, {
     timestamps: true
 })
+
+// before saving the password to the db 
+UserSchema.pre("save",async function(next){
+   if (!this.ifModified("password"))
+    next()
+    this.password = await bcrypt.hash(this.password,10)
+    
+})
+
 
 const User = mongoose.model("User", UserSchema)
 
