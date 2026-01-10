@@ -50,11 +50,12 @@ const UserSchema = new mongoose.model({
 })
 
 // before saving the password to the db 
+// the hook need to have a next().
 UserSchema.pre("save",async function(next){
-   if (!this.ifModified("password"))
-    next()
+   if (this.ifModified("password")){
     this.password = await bcrypt.hash(this.password,10)
-    
+   }
+   next() 
 })
 
 

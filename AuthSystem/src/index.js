@@ -3,7 +3,7 @@ import { db } from "../public/temp/db/db.js";
 import UserRoutes from '../public/temp/routes/User.route.js'
 dotenv.config()
 
-const PORT =process.env.PORT
+const PORT =Number(process.env.PORT)
 db().then(()=>{
 try {
     app.listen(PORT||8080,()=>{
