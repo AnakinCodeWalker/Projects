@@ -19,6 +19,9 @@ app.use(cors({
 }))
 
 app.use(express.static("public"))
+
+// to access cookie and token which will stored in here.
+// you can now access them into the req and res 
 app.use(cookieParser())
 
 
