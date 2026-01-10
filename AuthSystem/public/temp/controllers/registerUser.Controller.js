@@ -4,6 +4,7 @@ import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
 import nodemailer from "nodemailer"
 import User from '../models/User.model.js'
+import cookieParser from "cookie-parser"
 const registerUserController = async (req, res) => {
 
     // get data from the user
@@ -77,7 +78,7 @@ const registerUserController = async (req, res) => {
     }
 
     //  transporter is created 
-    //  options are created 
+    //  cookieOptions are created 
     //  now send mail to the user via transporter.sendmail() .
 
     try {
@@ -99,7 +100,7 @@ const registerUserController = async (req, res) => {
 
 }
 
-const verifyUser = async (req, res) => {
+const verifyUserController = async (req, res) => {
     // get the token from the url
     // find the user from the token
     //  verify the token
@@ -115,7 +116,8 @@ console.log(`Token is : ${token}`);
 
 if(!token)
     throw new ApiError(400,"Can not Find Token")
-}
+
+
 
 const verifiedUser =  await User.findOne({
     verificationToken:token
@@ -128,7 +130,63 @@ verifiedUser.verificationToken =undefined
 await verifiedUser.save()
 
 
+}
+
+const userLoginController = async (req,res) => {
+    const{name ,email ,password} =req.body ;
+    
+    if(!name||!email||!password)
+        throw new ApiError(400,"All fields are Required")
+    
+
+    const findUser = await User.findOne({email})
+
+    if(!findUser)
+        throw new ApiError(403,"Invalid Credentials")
+    
+    /*
+   await bcrypt.compare(password,findUser.password) or u can create a method and call it.
+*/
+
+    const isMatch = findUser.isPasswordCorrect(password)
+
+    if(!isMatch)
+        throw new ApiError(300,"Invalid password")
+
+    // using the cookieparser to store the Access_Token and Refresh_Token
+// u can access them into the req and res
+
+const cookieOptions ={
+httpOnly:true, //now only backend has access of cookie.
+secure:true,  
+maxAge:24 * 60 * 60 * 1000 // age of the cookie.
+}
+
+// it store value in the form of key : value
+// u could provide cookie option as well ki expire cookie wagera.
+
+res.cookieParser("", ,cookieOptions) //access token 
+res.cookieParser("",,cookieOptions) // refresh token
+
+// save refreshtoken into the db also 
+
+const  user = findUser.select("-password  -resetPasswordToken -resetPasswordExpiry")
+
+// sending the user neccessary details after logging in .
+return res.status(200).json(
+   new ApiResponse(200 , "User logged in...",user)
+)
+}
+
+
+const userLogOutController = async (req,res) => {
+ 
+    
+}
+
 export {
     registerUserController,
-    verifyUser
+    verifyUserController,
+    userLoginController,
+    userLogOutController
 } 
