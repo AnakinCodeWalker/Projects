@@ -53,12 +53,15 @@ const UserSchema = new mongoose.Schema({
 //using the prehook
 UserSchema.pre("save", async function (next) {
 
-    //first checking ki password mai modification to nhi hua
+//first checking ki password mai modification to nhi hua
+    // if not modified then skip 
     if (!this.isModified("password"))
         return next()
-
     //then hashing the password and then saving it 
     this.password = await bcrypt.hash(this.password, 10)
+        next()
+    
+    
 })
 
 
