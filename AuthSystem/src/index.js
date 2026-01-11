@@ -7,7 +7,7 @@ dotenv.config()
 const PORT =Number(process.env.PORT)
 db().then(()=>{
 try {
-    app.listen(PORT||8080,()=>{
+    app.listen(Number(PORT)||8080,()=>{
         console.log(`Server started listening on port ${PORT}`);
     })
 } catch (error) {
