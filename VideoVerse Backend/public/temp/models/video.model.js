@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
 dotenv.config()
 
@@ -33,7 +32,7 @@ const VideoSchema = mongoose.model({
         default: true
     },
     owner: {
-        type: Schema.Types.objectId,
+        type: mongoose.Schema.Types.objectId,
         ref: "User"
     }
 }, {

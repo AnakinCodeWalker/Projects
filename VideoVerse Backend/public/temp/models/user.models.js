@@ -35,8 +35,8 @@ const UserSchema = new mongoose.Schema({
         type: String //cloudinary Url
     },
     watchHistory: [{ //this will be refrenced from video model
-        type: Schema.Types.objectId,
-        ref: "video"
+       type: mongoose.Schema.Types.ObjectId,
+        ref: "Video"
     }],
     password: {
         type: String,
