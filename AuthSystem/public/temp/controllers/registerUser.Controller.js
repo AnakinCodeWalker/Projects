@@ -6,6 +6,7 @@ import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
 import nodemailer from "nodemailer"
 import User from '../models/User.model.js'
+import jwt from "jsonwebtoken"
 const registerUserController = async (req, res) => {
 
     // get data from the user
@@ -94,10 +95,23 @@ console.log(`${token}`);
         throw new ApiError(500, "can not send mail")
     }
 
-    createdUser.select("--password --resetPasswordToken")
+/*
+sinceis already a document, not a query u can not  use this .
+   createdUser.select("-password -resetPasswordToken")
+*/
+
+/*
+does not work on docs so it will return an error if u dont chain it
+will give an error
+
+it remove the data from the view level not the doc level.
+*/
+  const responseUser = await User.findById(createdUser._id).select("-password -resetPasswordToken")
 
     res.status(200).json(
-        new ApiResponse(200, "User Created Successfully")
+        new ApiResponse(200, "User Created Successfully",{
+            user : responseUser
+        })
     )
 
 }
@@ -120,18 +134,24 @@ if(!token)
     throw new ApiError(400,"Can not Find Token")
 
 
-
-const verifiedUser =  await User.findOne({
-    verificationToken:token
-}) 
-if(!verifiedUser)
-    throw new ApiError(203,"Invalid Token")
-
-verifiedUser.isVerified = true 
-verifiedUser.verificationToken =undefined
-await verifiedUser.save()
-
-
+try {
+    
+    const verifiedUser =  await User.findOne({
+        verificationToken:token
+    }) 
+    if(!verifiedUser)
+        throw new ApiError(203,"Invalid Token")
+    
+    verifiedUser.isVerified = true 
+    // make the verification token 
+    verifiedUser.verificationToken = undefined
+    await verifiedUser.save()
+    console.log(`successfully verified.`);
+    res.status(201).json( new ApiResponse(200,"Verified Successfully"))
+    
+} catch (error) {
+    console.log("Error in verification",error.message)
+}
 }
 
 const userLoginController = async (req,res) => {
@@ -150,13 +170,14 @@ const userLoginController = async (req,res) => {
    await bcrypt.compare(password,findUser.password) or u can create a method and call it.
 */
 
-    const isMatch = findUser.isPasswordCorrect(password)
+// if u call async method put await in it , since isPasswordCorrect is async method put await in it.
+    const isMatch = await findUser.isPasswordCorrect(password)
 
     if(!isMatch)
         throw new ApiError(300,"Invalid password")
 
    
-
+//  u could genrate them in model and access it here also.
 // genrating accessToken.
  
 const payload = {
@@ -190,16 +211,18 @@ maxAge:24 * 60 * 60 * 1000 // age of the cookie.
 // it store value in the form of key : value
 // u could provide cookie option as well ki expire cookie wagera.
 
-res.cookies("token", token,cookieOptions) //access token 
-res.cookies("refreshToken",refreshToken,cookieOptions) // refresh token
+res.cookie("token", token,cookieOptions) //access token 
+res.cookie("refreshToken",refreshToken,cookieOptions) // refresh token
 
 
-// save refreshtoken into the db also /////////////////////////////////////
+// save refreshtoken into the db also
+findUser.refreshToken = refreshToken
+await findUser.save()
 
-
-const  user = findUser.select("-password  -resetPasswordToken -resetPasswordExpiry")
+const  user = await User.findById(findUser._id).select("-password  -resetPasswordToken -resetPasswordExpiry")
 
 // sending the user neccessary details after logging in .
+console.log(`user logged in...`);
 return res.status(200).json(
    new ApiResponse(200 , "User logged in...",user)
 )
@@ -228,9 +251,10 @@ const userLogOutController = async (req,res) => {
     // userId  which is inserted into the body in the middleware.
     const {userId} = req.body
 
-    // updating the db and returning the 
+    //  accessing the userId  from req.body which we put previouslly.
+    // updating the db and returning the new doc 
     await User.findByIdAndUpdate(userId,{
-     $unset: { refreshToken: 1 }    
+     $unset: { refreshToken : 1 }    
     },{
         new :true
     } )
