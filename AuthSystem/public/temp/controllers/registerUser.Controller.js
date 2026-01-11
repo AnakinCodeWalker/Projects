@@ -1,10 +1,11 @@
 // use ZOD for validation.
 
+//     --> crypto needs to be imported like this 
+import { randomBytes } from "node:crypto";
 import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
 import nodemailer from "nodemailer"
 import User from '../models/User.model.js'
-import cookieParser from "cookie-parser"
 const registerUserController = async (req, res) => {
 
     // get data from the user
@@ -21,11 +22,10 @@ const registerUserController = async (req, res) => {
 
     if (!name || !email || !password)
         throw new ApiError(400, "All Fields are required")
-
     const findUser = await User.findOne({ email })
 
     if (findUser)
-        throw new ApiError(400, "User with these credentail already Exists")
+        throw new ApiError(400, "User with these credentials already Exists")
 
     const newUser = await User.create({
         name,
@@ -38,14 +38,16 @@ const registerUserController = async (req, res) => {
 
 
 
-    const createdUser = await User.findbyId(newUser._id)
+    const createdUser = await User.findById(newUser._id)
 
     // create a token.
-    const token = crypto.randomBytes(32).toString("hex")
-
+    const token = randomBytes(32).toString("hex")
+console.log(`${token}`);
     // update  /provide in the db 
     createdUser.verificationToken = token;
-    await createdUser.save()
+     const updateUser = await createdUser.save()
+
+     console.log(updateUser);
 
     // send it to the user via mail.
 
@@ -153,9 +155,32 @@ const userLoginController = async (req,res) => {
     if(!isMatch)
         throw new ApiError(300,"Invalid password")
 
-    // using the cookieparser to store the Access_Token and Refresh_Token
-// u can access them into the req and res
+   
 
+// genrating accessToken.
+ 
+const payload = {
+    id : findUser._id
+}
+     const token = jwt.sign(payload,
+        process.env.JWT_SECRET_KEY,
+        {
+        expiresIn:process.env.JWT_SECRET_KEY_EXPIRY
+    })
+   
+    
+    // genrating refreshToken.
+    const refreshToken = jwt.sign(payload,
+            process.env.JWT_REFRESH_KEY,
+            {
+            expiresIn:process.env.JWT_REFRESH_KEY_EXPIRY
+        })
+    
+    
+
+
+ // using the cookieparser to store the Access_Token and Refresh_Token
+// u can access them into the req and res
 const cookieOptions ={
 httpOnly:true, //now only backend has access of cookie.
 secure:true,  
@@ -165,10 +190,12 @@ maxAge:24 * 60 * 60 * 1000 // age of the cookie.
 // it store value in the form of key : value
 // u could provide cookie option as well ki expire cookie wagera.
 
-res.cookieParser("", ,cookieOptions) //access token 
-res.cookieParser("",,cookieOptions) // refresh token
+res.cookies("token", token,cookieOptions) //access token 
+res.cookies("refreshToken",refreshToken,cookieOptions) // refresh token
 
-// save refreshtoken into the db also 
+
+// save refreshtoken into the db also /////////////////////////////////////
+
 
 const  user = findUser.select("-password  -resetPasswordToken -resetPasswordExpiry")
 
@@ -179,14 +206,46 @@ return res.status(200).json(
 }
 
 
-const userLogOutController = async (req,res) => {
- 
+const resetPasswordController = async (req,res) => {
+
+    const {email} = req.body ;
+    const foundUser = await User.findOne({email})
+    if(!foundUser)
+        throw new ApiError(400,"unAuthorized")
+
+
+    res.status(201).json(new ApiResponse(201 ,"passowrd Reset successfull"))
+
     
+} 
+
+const userLogOutController = async (req,res) => {
+     // first check if the user is logged in or not  ? --> from middleware.
+    //  user hit a logout page 
+    // remove the refresh token from db and user cookie.
+
+    
+    // userId  which is inserted into the body in the middleware.
+    const {userId} = req.body
+
+    // updating the db and returning the 
+    await User.findByIdAndUpdate(userId,{
+     $unset: { refreshToken: 1 }    
+    },{
+        new :true
+    } )
+  
+    // clearing the cookie
+    res.clearCookie("token")
+    res.clearCookie("refreshToken")
+
+    res.status(200).json(new ApiResponse(200, "User Logged Out Successfully"))
 }
 
 export {
     registerUserController,
     verifyUserController,
     userLoginController,
+    resetPasswordController,
     userLogOutController
 } 
