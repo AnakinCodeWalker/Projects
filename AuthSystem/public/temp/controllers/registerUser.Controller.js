@@ -7,6 +7,8 @@ import ApiResponse from "../utils/ApiResponse.js"
 import nodemailer from "nodemailer"
 import User from '../models/User.model.js'
 import jwt from "jsonwebtoken"
+
+
 const registerUserController = async (req, res) => {
 
     // get data from the user
