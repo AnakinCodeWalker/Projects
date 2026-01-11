@@ -7,6 +7,7 @@ import cors from 'cors'
 import dotenv from "dotenv";
 dotenv.config()
 
+import userRouter from "../public/temp/routes/user.routes.js"
 const BASE_URL=process.env.BASE_URL
 
 const app = express()
@@ -35,4 +36,6 @@ app.use(cookieParser())
 //  Makes Express serve static files (HTML, CSS, JS, images) from the "public" folder automatically.
 app.use(express.static("public"))
 
+
+app.use("/api/v1/users",userRouter)
 export {app}
