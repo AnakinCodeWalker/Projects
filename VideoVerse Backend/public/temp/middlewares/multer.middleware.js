@@ -1,5 +1,13 @@
-const multerMiddleware =(req,res,next) => {
+import multer from "multer"
 
-}
 
-export default multerMiddleware
+const storage = multer.diskStorage({
+    destination: function(req,file,cb){
+        cb(null,"./public/temp")
+    },
+    filename:function (req,file,cb){
+        cb(null,file.originalname)
+    }
+})
+
+export const upload = multer({storage})
