@@ -1,4 +1,4 @@
-
+// this lets u skip code repetition of try catch block
 const asyncHandler =(requestHandler)=>{
 
     return (req,res,next)=>{
