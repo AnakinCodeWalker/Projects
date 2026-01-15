@@ -17,18 +17,17 @@
 
 
 class ApiError extends Error {
+
+  //  define the class variable  and later on initialize them.
   public statusCode: number;
   public errors?: any[];
 
-  constructor(
-    statusCode: number,
-    message: string,
-    errors?: any[]
-  ) {
+  constructor(statusCode: number,message: string,errors?: any[]) {
+   
     super(message);
 
     this.statusCode = statusCode;
-    this.errors = errors || []; //why || works and not | here ??
+    this.errors = errors || [];
 
     // Maintains proper stack trace (important)
     Object.setPrototypeOf(this, ApiError.prototype);
