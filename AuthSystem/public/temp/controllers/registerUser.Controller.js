@@ -69,6 +69,7 @@ console.log(`${token}`);
     // link on this route.
     const verificationLink = `${process.env.BASE_URL}/api/v1/user/verify?token=${token}`;
 
+
     const mailOption = {
         from: process.env.MAILTRAP_SENDEREMAIL, //provided by the nodemailer
         to: createdUser.email,
@@ -83,7 +84,7 @@ console.log(`${token}`);
     }
 
     //  transporter is created 
-    //  cookieOptions are created 
+    //  mailOptions are created 
     //  now send mail to the user via transporter.sendmail() .
 
     try {
@@ -188,7 +189,8 @@ const payload = {
      const token = jwt.sign(payload,
         process.env.JWT_SECRET_KEY,
         {
-        expiresIn:process.env.JWT_SECRET_KEY_EXPIRY
+        expiresIn:process.env.JWT_ACCESS_TOKEN_EXPIRY
+
     })
    
     
