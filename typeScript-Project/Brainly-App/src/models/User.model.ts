@@ -22,6 +22,17 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
         trim: true
+    },
+    verificationToken:{  //token sending to mail
+        type :String,
+
+    },
+    verificationTokenExpiry:{ // token expiry send to mail
+          type : Date
+    },
+    isVerified: {  // for user verification..
+        type: Boolean,
+        default: false,
     }
 
 }, {
@@ -31,16 +42,13 @@ const UserSchema = new mongoose.Schema({
 // if u want to create some method u can do that here.
 // Hash the password before saving it into the db.
 // not creating an arrow function because it will not have the context of this
-UserSchema.pre("save",async function(next){ //why pass nect here ?
+UserSchema.pre("save", async function () { //if this is  ?
 
-
-    //explain this block of code
-    if(!this.isModified("password")){
-        return next()
+    if (!this.isModified("password")) {
+        return
     }
-
-//hashing the password and putting it into db
-this.password = await bcrypt.hash(this.password,10) 
+    //hashing the password and putting it into db
+    this.password = await bcrypt.hash(this.password, 10)
 })
 
 // add types here
