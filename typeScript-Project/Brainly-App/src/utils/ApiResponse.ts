@@ -3,7 +3,7 @@ class ApiResponse <T = unknown> {
     // define the class variable later on initialize them.
     statusCode: number
     message: string
-     data  : T | undefined   // if the data is present thien of T otherwise undefined. 
+     data  : T | undefined   // if the data is present then of T otherwise undefined. 
     success : boolean = true 
     constructor(statusCode: number, message: string, data ? :T) { //checking if data is present in the constructor then type t otherwise undefined
         this.statusCode = statusCode,

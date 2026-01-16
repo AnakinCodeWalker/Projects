@@ -22,7 +22,7 @@ class ApiError extends Error {
   public statusCode: number;
   public errors?: any[];
 
-  constructor(statusCode: number,message: string,errors?: any[]) {
+  constructor(statusCode: number,message: string="something went wrong",errors?: any[]) {
    
     super(message);
 
