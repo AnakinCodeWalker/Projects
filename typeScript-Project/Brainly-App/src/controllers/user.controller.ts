@@ -4,8 +4,11 @@ import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {randomBytes} from "crypto"
 import { transporter } from "../utils/mailSender.js";
-import jwt  from "jsonwebtoken";
+
+import jwt ,{ SignOptions }  from "jsonwebtoken";
 import { CookieOptions } from "express";
+import type { StringValue } from "ms";
+
 import bcrypt from 'bcrypt'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -177,7 +180,11 @@ const signin = async (req:Request,res:Response) :Promise<void>=> {
     if(!isPasswordCorrect)
         throw new ApiError(309,"Invalid Password")
 
-   const payload = {
+    // even without it will do the type infrence and work perfectly.
+    interface payLoad {
+        id :string
+    }
+   const payload :payLoad= {
   id: findUser._id.toString(),
 };
 
@@ -188,20 +195,25 @@ if (!accessSecret || !accessExpiry) {
   throw new ApiError(500, "Access token env missing");
 }
 
-const token = jwt.sign(payload, accessSecret, {
-  expiresIn: accessExpiry,
-});
+
+const accessOptions :SignOptions={
+ expiresIn: accessExpiry as StringValue,
+}
+
+const token = jwt.sign(payload, accessSecret, accessOptions );
 
 const refreshSecret = process.env.JWT_REFRESH_KEY;
 const refreshExpiry = process.env.JWT_REFRESH_TOKEN_EXPIRY;
 
-if (!refreshSecret || !refreshExpiry) {
+if (!refreshSecret || !refreshExpiry) {  // they are either string or undefined after narrwoing they are string
   throw new ApiError(500, "Refresh token env missing");
 }
 
-const refreshToken = jwt.sign(payload, refreshSecret, {
-  expiresIn: refreshExpiry,
-});
+const refreshOptions :SignOptions = {
+    //  as unknown as string  -- tells first forget about the type and now remember what i am telling.
+expiresIn: refreshExpiry as unknown as StringValue ,
+}
+const refreshToken = jwt.sign(payload, refreshSecret, refreshOptions);
 
 
 if(!(token||refreshToken))
