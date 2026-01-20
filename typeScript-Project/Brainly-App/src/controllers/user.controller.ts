@@ -4,15 +4,13 @@ import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {randomBytes} from "crypto"
 import { transporter } from "../utils/mailSender.js";
-
-import jwt ,{ SignOptions }  from "jsonwebtoken";
+import bcrypt from 'bcrypt'
+import jwt ,{ JwtPayload , SignOptions }  from "jsonwebtoken";
 import { CookieOptions } from "express";
 import type { StringValue } from "ms";
 
-import bcrypt from 'bcrypt'
-import dotenv from 'dotenv'
-dotenv.config()
 
+import {env} from '../config/env.js'
 // add zod validations.
 
 
@@ -181,15 +179,16 @@ const signin = async (req:Request,res:Response) :Promise<void>=> {
         throw new ApiError(309,"Invalid Password")
 
     // even without it will do the type infrence and work perfectly.
-    interface payLoad {
+    //  you have to use JwtPayload and  SignOptions
+    interface payLoad   extends JwtPayload {
         id :string
     }
    const payload :payLoad= {
   id: findUser._id.toString(),
 };
 
-const accessSecret = process.env.JWT_SECRET_KEY;
-const accessExpiry = process.env.JWT_SECRET_KEY_EXPIRY;
+const accessSecret = env.JWT_SECRET_KEY;
+const accessExpiry = env.JWT_SECRET_KEY_EXPIRY;
 
 if (!accessSecret || !accessExpiry) {
   throw new ApiError(500, "Access token env missing");
@@ -202,8 +201,8 @@ const accessOptions :SignOptions={
 
 const token = jwt.sign(payload, accessSecret, accessOptions );
 
-const refreshSecret = process.env.JWT_REFRESH_KEY;
-const refreshExpiry = process.env.JWT_REFRESH_TOKEN_EXPIRY;
+const refreshSecret = env.JWT_REFRESH_KEY;
+const refreshExpiry = env.JWT_REFRESH_TOKEN_EXPIRY;
 
 if (!refreshSecret || !refreshExpiry) {  // they are either string or undefined after narrwoing they are string
   throw new ApiError(500, "Refresh token env missing");
@@ -249,6 +248,7 @@ maxAge:24 * 60 * 60 * 1000 // age of the cookie.
     //  user hit a logout page 
     // remove the refresh token from db and user cookie.
     // userId  which is inserted into the body in the middleware.
+
 
      
 

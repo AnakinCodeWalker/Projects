@@ -1,12 +1,10 @@
 import { app } from "./app.js";
 import { db } from "./config/db.js";
 import {userRoutes} from "./routes/User.route.js"
-import dotenv from 'dotenv'
-dotenv.config()
-
+import {env} from './config/env.js'
 // check if there is port present then convert it into a number else make it undefined.
 
-const PORT  = process.env.PORT?Number(process.env.PORT):undefined
+const PORT  = env.PORT?Number(env.PORT):undefined
 
 // if port is not present or not a number  print the error.
 if(!PORT ||Number.isNaN(PORT)){
