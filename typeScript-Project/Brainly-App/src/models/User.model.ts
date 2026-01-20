@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt"
+import { string } from "zod";
 // Mongoose schema also have “types” add it later on.
 // add interfaces 
 
@@ -33,6 +34,10 @@ const UserSchema = new mongoose.Schema({
     isVerified: {  // for user verification..
         type: Boolean,
         default: false,
+    },
+    refreshToken:{
+        type:string,
+
     }
 
 }, {

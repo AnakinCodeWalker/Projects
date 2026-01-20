@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser'
 dotenv.config()
 
 const app = express()
-
+app.use(express.static("public")) // in case u want to files data in server.
 app.use(express.json())
 app.use(urlencoded({
     extended: true

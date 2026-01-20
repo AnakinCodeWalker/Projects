@@ -5,6 +5,7 @@ jo normal .env se values leta hai
 ur wahi object poore project me use hota hai
 
 */
+//  at runtime this things will throw an error..
 
 import dotenv from 'dotenv'
 dotenv.config()
