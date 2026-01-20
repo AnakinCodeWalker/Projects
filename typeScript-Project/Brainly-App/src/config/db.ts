@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 import { env } from "./env.js";  // here the syntax should be .ts why .js ?
-const db = async ():Promise<void>=>{  //you have to use the <T> i forgot the name [will search later on]
+const db = async ():Promise<void>=>{ 
     try {
         await mongoose.connect(env.MONGO_URL);
         console.log(`connected to monogo db`);

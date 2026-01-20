@@ -15,11 +15,9 @@ if(!PORT ||Number.isNaN(PORT)){
 }
 db().
 then((result) => {
-    console.log(`connected to the db`);
-    console.log(result);
    try {
      app.listen(PORT||8080,()=>{
-         console.log(`server Started at ${PORT}`);
+         console.log(`server Started at port :  ${PORT}`);
      })
    } catch (error) {
        if(error instanceof Error){
