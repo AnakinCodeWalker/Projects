@@ -59,3 +59,5 @@ UserSchema.pre("save", async function () { //if this is  ?
 // add types here
 const User = mongoose.model("User", UserSchema)
 export default User
+
+// when the relationship is one to many or many to one , create an array of object

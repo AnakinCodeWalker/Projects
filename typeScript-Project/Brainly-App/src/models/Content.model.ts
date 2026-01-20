@@ -15,6 +15,8 @@ const ContentSchema = new mongoose.Schema({
         ref : "Tag"
     }
    ],
+
+//     when the relationship is one to many or many to one , create an array of object
    userId:[{
      type:mongoose.Schema.ObjectId,
         ref : "User",
