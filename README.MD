@@ -1,145 +1,217 @@
-# 🚀 Welcome to My Development Repository
-
-![Learning](https://img.shields.io/badge/Learning-Continuous-brightgreen)
-![Status](https://img.shields.io/badge/Status-Active-blue)
-![Focus](https://img.shields.io/badge/Focus-Full--Stack-orange)
-![Made With Love](https://img.shields.io/badge/Made%20With-Passion-red)
-![GitHub Stars](https://img.shields.io/github/stars/USERNAME/REPO_NAME?style=social)
+# Welcome to My Development Repository
 
 ---
 
-Welcome to my repository!  
+Welcome to my repository!
 
 This repo contains projects built using **HTML, CSS, JavaScript, React, TypeScript, MERN Stack, SQL, and PostgreSQL**, showcasing my **learning mindset, curiosity, and passion for development**.
 
 ---
 
-## 👨‍💻 About Me
+## About Me
 
-I am a passionate and curious developer who believes in **learning by building**.  
+I am a passionate and curious developer who believes in **learning by building**.
 This repository reflects my journey from **web fundamentals** to **full-stack and database-driven applications**.
 
 I enjoy:
-- Exploring how things work internally  
-- Writing clean and maintainable code  
-- Learning modern tools and best practices  
-- Solving real-world problems 🚀  
+- Exploring how things work internally
+- Writing clean and maintainable code
+- Learning modern tools and best practices
+- Solving real-world problems
 
 ---
 
-## 🛠️ Technologies & Skills
+## Technologies & Skills
 
-### 🌐 Frontend
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+### Frontend
+- HTML5
+- CSS3
+- JavaScript
+- React
+- TypeScript
 
----
+### Backend & Databases
+- Node.js
+- Express.js
+- MongoDB & Mongoose
+- SQL
+- PostgreSQL
 
-### ⚙️ Backend & Databases
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-003B57?style=for-the-badge&logo=database&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-
----
-
-### 🧰 Tools & Workflow
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
-![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
-![Git Bash](https://img.shields.io/badge/Git%20Bash-000000?style=for-the-badge&logo=git&logoColor=white)
+### Tools & Workflow
+- Git & GitHub
+- VS Code
+- npm
+- Git Bash
 
 ---
 
-## 📂 Project Categories
+# Projects — Full Stack & Real-Time Systems
 
-### 🔹 HTML & CSS Projects
-Focus on:
-- Semantic HTML  
-- Responsive layouts  
-- UI & design fundamentals  
+This repository contains a curated collection of **backend-heavy, full-stack, and real-time projects** built using modern web technologies.
+
+The focus of these projects is not just UI, but **production-ready backend architecture, authentication, real-time communication, and scalability concepts**.
 
 ---
 
-### 🔹 JavaScript Projects
-Demonstrating:
-- DOM manipulation  
-- Events & browser APIs  
-- Async JavaScript (Promises, Fetch)  
-- Problem-solving skills  
+## Author
+
+**Prince Kumar**
+- Email: parag31ja@gmail.com
+- LinkedIn: https://www.linkedin.com/in/princekumar3111
+- GitHub: https://github.com/AnakinCodeWalker
 
 ---
 
-### 🔹 React Projects
-Built using:
-- Functional components  
-- Hooks (useState, useEffect, useRef, useCallback)  
-- Component reusability  
-- Modern React patterns  
+## What This Repository Demonstrates
+
+- Strong **backend fundamentals** (Node.js, Express, MongoDB)
+- Secure **authentication & authorization systems**
+- **JWT + Refresh Token** session management
+- **Email verification & token expiry flows**
+- **Real-time communication** using WebRTC & Socket.IO
+- **TypeScript-driven development** with proper typing & env handling
+- Clean architecture with controllers, middleware, utils & models
+- Practical experience with **production patterns**, not toy apps
 
 ---
 
-### 🔹 TypeScript Projects
-Showcasing:
-- Static typing & interfaces  
-- Better error handling  
-- Scalable and maintainable code  
-- TypeScript with React & Node.js  
+## Tech Stack Overview
+
+### Frontend
+- React
+- TypeScript
+- Modern hooks & component architecture
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB & Mongoose
+- JWT (Access + Refresh Tokens)
+- Zod validation
+- bcrypt
+- Nodemailer
+- Cookie-based authentication
+
+### Real-Time & Media
+- WebRTC (P2P communication)
+- Socket.IO (signaling)
+- Multer (file handling)
+- Cloudinary (media storage)
+
+### Tooling
+- TypeScript
+- Git & GitHub
+- dotenv
+- REST APIs
 
 ---
 
-### 🔹 MERN Stack Projects
-Full-stack applications involving:
-- Backend APIs with Node & Express  
-- MongoDB integration  
-- Authentication & authorization  
-- Frontend–backend communication  
+## Projects Inside This Repository
+
+### AuthSystem — Secure Authentication Backend
+
+A **production-grade authentication system** implementing real-world security patterns.
+
+**Key Features**
+- User registration & login
+- JWT-based authentication
+- Access & Refresh token strategy
+- HTTP-only secure cookies
+- Password hashing using bcrypt
+- Email verification via token & expiry
+- Zod-based request validation
+- Centralized error & response handling
+
+**Tech:** Node.js, Express, MongoDB, JWT, Zod, bcrypt, Nodemailer
 
 ---
 
-### 🔹 SQL & PostgreSQL Projects
-Projects focused on:
-- Database design & normalization  
-- Writing optimized SQL queries  
-- CRUD operations  
-- Joins, constraints & relationships  
-- PostgreSQL with backend integration  
+### Brainly-App — TypeScript + React
+
+A Q&A platform inspired by Brainly, focused on **type safety and clean frontend architecture**.
+
+**Highlights**
+- Built with React & TypeScript
+- Reusable components
+- REST API integration
+- Proper state & error handling
+- Scalable folder structure
+
+**Tech:** React, TypeScript, REST APIs
 
 ---
 
-## 🎯 Purpose of This Repository
+### VideoVerse — Backend for Media Platform
 
-- Track my learning progress 📈  
-- Strengthen full-stack fundamentals  
-- Practice database-driven applications  
-- Prepare for internships, jobs & open-source contributions  
+Backend services for a **video-centric application** similar to YouTube / collaboration platforms.
 
----
+**Key Features**
+- Secure authentication & sessions
+- User profile with avatar & cover image
+- Media uploads using Multer + Cloudinary
+- JWT-based session handling
+- Modular & scalable backend design
 
-## 🌱 Currently Learning
-- Advanced React & TypeScript  
-- Backend architecture  
-- PostgreSQL optimization  
-- System design fundamentals  
+**Tech:** Node.js, Express, MongoDB, JWT, Multer, Cloudinary
 
 ---
 
-## 🤝 Open for Collaboration
+### PeerMeet — Real-Time Video Meeting Platform (Ongoing)
 
-I’m open to:
-- Collaboration  
-- Open-source contributions  
-- Learning from peers  
-- Feedback & suggestions  
+A Zoom / Google Meet inspired **real-time video communication platform**.
 
-Feel free to explore the projects and connect with me!
+**Current Status**
+- Backend architecture implemented
+- Core auth & room logic in place
+- Frontend under active development
+
+**Planned / Implemented Features**
+- WebRTC-based **peer-to-peer (P2P)** video & audio calls
+- Socket.IO used for **signaling**
+- Room creation & participant management
+- Secure authentication
+- React-based frontend UI
+
+**Tech**
+- Frontend: React, TypeScript
+- Backend: Node.js, Express, MongoDB
+- Real-Time: WebRTC (P2P), Socket.IO
 
 ---
 
-⭐ If you find this repository useful, consider giving it a star!
+## Why This Repository Matters
+
+This repository is built to:
+- Practice **real-world backend systems**
+- Understand **auth, security & token lifecycles**
+- Build **real-time communication systems**
+- Prepare for **internships, placements & programs like PwC Launchpad**
+- Demonstrate readiness for **production-level development**
+
+---
+
+## Currently Learning
+
+- Advanced TypeScript patterns
+- Backend scalability & architecture
+- WebRTC internals
+- System design fundamentals
+- Open-source collaboration (recently selected)
+
+---
+
+## Open to Opportunities
+
+I'm actively open to:
+- Internships & entry-level roles
+- Backend / full-stack opportunities
+- Open-source collaboration
+- Technical mentorship & feedback
+
+Feel free to reach out:
+- Email: parag31ja@gmail.com
+- LinkedIn: https://www.linkedin.com/in/princekumar3111
+
+---
+
+If you find this repository useful or interesting, consider giving it a star!
