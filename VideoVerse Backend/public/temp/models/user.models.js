@@ -51,15 +51,16 @@ const UserSchema = new mongoose.Schema({
 
 //encrypt the password before saving it into the db
 //using the prehook
-UserSchema.pre("save", async function (next) {
+//  async  hook function does not need next ..
+UserSchema.pre("save", async function () {
 
 //first checking ki password mai modification to nhi hua
     // if not modified then skip 
     if (!this.isModified("password"))
-        return next()
+        return 
     //then hashing the password and then saving it 
     this.password = await bcrypt.hash(this.password, 10)
-        next()
+        
     
     
 })

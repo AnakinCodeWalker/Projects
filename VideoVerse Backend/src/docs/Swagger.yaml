@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  title: VideoVerse Backend API
+  description: Backend services for a media platform (auth + uploads).
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: Users
+  - name: Media
+
+paths:
+  /api/v1/users/signup:
+    post:
+      tags: [Users]
+      summary: Register user with avatar
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [userName, email, password, avatar]
+              properties:
+                userName:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                avatar:
+                  type: string
+                  format: binary
+                coverImage:
+                  type: string
+                  format: binary
+      responses:
+        "201":
+          description: User registered successfully
+
+  /api/v1/users/login:
+    post:
+      tags: [Users]
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userName, password]
+              properties:
+                userName:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+
+  /api/v1/users/logout:
+    post:
+      tags: [Users]
+      summary: Logout user
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Logout successful
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: accessToken
