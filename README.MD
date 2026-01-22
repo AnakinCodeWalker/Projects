@@ -1,5 +1,10 @@
 # Welcome to My Development Repository
 
+![Learning](https://img.shields.io/badge/Learning-Continuous-brightgreen)
+![Status](https://img.shields.io/badge/Status-Active-blue)
+![Focus](https://img.shields.io/badge/Focus-Full--Stack-orange)
+![Made With Love](https://img.shields.io/badge/Made%20With-Passion-red)
+
 ---
 
 Welcome to my repository!
