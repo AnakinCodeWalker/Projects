@@ -1,222 +1,167 @@
-# Welcome to My Development Repository
+# 🚀 Projects — Full Stack & Real-Time Systems
 
-![Learning](https://img.shields.io/badge/Learning-Continuous-brightgreen)
-![Status](https://img.shields.io/badge/Status-Active-blue)
-![Focus](https://img.shields.io/badge/Focus-Full--Stack-orange)
-![Made With Love](https://img.shields.io/badge/Made%20With-Passion-red)
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" />
+  <img src="https://img.shields.io/badge/WebRTC-333333?style=for-the-badge&logo=webrtc&logoColor=white" />
+</p>
 
----
-
-Welcome to my repository!
-
-This repo contains projects built using **HTML, CSS, JavaScript, React, TypeScript, MERN Stack, SQL, and PostgreSQL**, showcasing my **learning mindset, curiosity, and passion for development**.
-
----
-
-## About Me
-
-I am a passionate and curious developer who believes in **learning by building**.
-This repository reflects my journey from **web fundamentals** to **full-stack and database-driven applications**.
-
-I enjoy:
-- Exploring how things work internally
-- Writing clean and maintainable code
-- Learning modern tools and best practices
-- Solving real-world problems
+A curated collection of **production-oriented full-stack and real-time projects** focused on backend architecture, authentication systems, and WebRTC-based communication.
 
 ---
 
-## Technologies & Skills
-
-### Frontend
-- HTML5
-- CSS3
-- JavaScript
-- React
-- TypeScript
-
-### Backend & Databases
-- Node.js
-- Express.js
-- MongoDB & Mongoose
-- SQL
-- PostgreSQL
-
-### Tools & Workflow
-- Git & GitHub
-- VS Code
-- npm
-- Git Bash
-
----
-
-# Projects — Full Stack & Real-Time Systems
-
-This repository contains a curated collection of **backend-heavy, full-stack, and real-time projects** built using modern web technologies.
-
-The focus of these projects is not just UI, but **production-ready backend architecture, authentication, real-time communication, and scalability concepts**.
-
----
-
-## Author
+## 👨‍💻 Author
 
 **Prince Kumar**
-- Email: parag31ja@gmail.com
-- LinkedIn: https://www.linkedin.com/in/princekumar3111
-- GitHub: https://github.com/AnakinCodeWalker
+📧 Email: **[parag31ja@gmail.com](mailto:parag31ja@gmail.com)**
+🔗 LinkedIn: **[https://www.linkedin.com/in/princekumar3111](https://www.linkedin.com/in/princekumar3111)**
+💻 GitHub: **[https://github.com/AnakinCodeWalker](https://github.com/AnakinCodeWalker)**
 
 ---
 
-## What This Repository Demonstrates
+## 🧠 What This Repository Demonstrates
 
-- Strong **backend fundamentals** (Node.js, Express, MongoDB)
-- Secure **authentication & authorization systems**
-- **JWT + Refresh Token** session management
-- **Email verification & token expiry flows**
-- **Real-time communication** using WebRTC & Socket.IO
-- **TypeScript-driven development** with proper typing & env handling
-- Clean architecture with controllers, middleware, utils & models
-- Practical experience with **production patterns**, not toy apps
-
----
-
-## Tech Stack Overview
-
-### Frontend
-- React
-- TypeScript
-- Modern hooks & component architecture
-
-### Backend
-- Node.js
-- Express.js
-- MongoDB & Mongoose
-- JWT (Access + Refresh Tokens)
-- Zod validation
-- bcrypt
-- Nodemailer
-- Cookie-based authentication
-
-### Real-Time & Media
-- WebRTC (P2P communication)
-- Socket.IO (signaling)
-- Multer (file handling)
-- Cloudinary (media storage)
-
-### Tooling
-- TypeScript
-- Git & GitHub
-- dotenv
-- REST APIs
+* Strong **backend fundamentals** (Node.js, Express, MongoDB)
+* Secure **authentication & authorization**
+* **JWT + Refresh Token** session lifecycle
+* Email verification & token expiry flows
+* **Real-time communication** using **WebRTC (P2P)** & Socket.IO
+* **TypeScript-first development** with proper typing & env handling
+* Clean, scalable project architecture
+* Hands-on experience with **production patterns**
 
 ---
 
-## Projects Inside This Repository
+## 🛠️ Tech Stack
 
-### AuthSystem — Secure Authentication Backend
+### 🌐 Frontend
 
-A **production-grade authentication system** implementing real-world security patterns.
+<p>
+  <img src="https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB"/>
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white"/>
+</p>
 
-**Key Features**
-- User registration & login
-- JWT-based authentication
-- Access & Refresh token strategy
-- HTTP-only secure cookies
-- Password hashing using bcrypt
-- Email verification via token & expiry
-- Zod-based request validation
-- Centralized error & response handling
+### ⚙️ Backend & Databases
+
+<p>
+  <img src="https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white"/>
+</p>
+
+### 🔁 Real-Time & Media
+
+<p>
+  <img src="https://img.shields.io/badge/WebRTC-P2P-blue?style=flat&logo=webrtc"/>
+  <img src="https://img.shields.io/badge/Socket.IO-Signaling-black?style=flat&logo=socket.io"/>
+</p>
+
+---
+
+## 📂 Projects Inside This Repository
+
+---
+
+### 🔐 AuthSystem — Secure Authentication Backend
+
+A **production-grade authentication system** following real-world security practices.
+
+**Key Highlights**
+
+* User signup & login
+* JWT-based authentication
+* Access & Refresh token strategy
+* HTTP-only secure cookies
+* Password hashing (bcrypt)
+* Email verification with token expiry
+* Zod-based request validation
+* Centralized error & response handling
 
 **Tech:** Node.js, Express, MongoDB, JWT, Zod, bcrypt, Nodemailer
 
 ---
 
-### Brainly-App — TypeScript + React
+### 🧠 Brainly-App — React + TypeScript
 
-A Q&A platform inspired by Brainly, focused on **type safety and clean frontend architecture**.
+A Q&A platform inspired by Brainly with a focus on **type safety and clean UI architecture**.
 
 **Highlights**
-- Built with React & TypeScript
-- Reusable components
-- REST API integration
-- Proper state & error handling
-- Scalable folder structure
+
+* Built using React & TypeScript
+* Reusable components
+* REST API integration
+* Proper state & error handling
 
 **Tech:** React, TypeScript, REST APIs
 
 ---
 
-### VideoVerse — Backend for Media Platform
+### 🎥 VideoVerse — Backend for Media Platform
 
-Backend services for a **video-centric application** similar to YouTube / collaboration platforms.
+Backend services for a **video-centric application**.
 
 **Key Features**
-- Secure authentication & sessions
-- User profile with avatar & cover image
-- Media uploads using Multer + Cloudinary
-- JWT-based session handling
-- Modular & scalable backend design
+
+* Secure authentication & sessions
+* User profile with avatar & cover image
+* Media upload using Multer + Cloudinary
+* JWT-based session handling
+* Scalable backend architecture
 
 **Tech:** Node.js, Express, MongoDB, JWT, Multer, Cloudinary
 
 ---
 
-### PeerMeet — Real-Time Video Meeting Platform (Ongoing)
+### 🚧 PeerMeet — Real-Time Video Meeting Platform (Ongoing)
 
-A Zoom / Google Meet inspired **real-time video communication platform**.
+A Zoom / Google Meet inspired **real-time communication platform**.
+
+<p>
+  <img src="https://img.shields.io/badge/WebRTC-P2P-blue?style=flat&logo=webrtc"/>
+  <img src="https://img.shields.io/badge/Socket.IO-Signaling-black?style=flat&logo=socket.io"/>
+  <img src="https://img.shields.io/badge/React-Frontend-61DAFB?style=flat&logo=react"/>
+</p>
 
 **Current Status**
-- Backend architecture implemented
-- Core auth & room logic in place
-- Frontend under active development
 
-**Planned / Implemented Features**
-- WebRTC-based **peer-to-peer (P2P)** video & audio calls
-- Socket.IO used for **signaling**
-- Room creation & participant management
-- Secure authentication
-- React-based frontend UI
+* Backend architecture implemented
+* Core auth & room logic in place
+* Frontend under active development
 
-**Tech**
-- Frontend: React, TypeScript
-- Backend: Node.js, Express, MongoDB
-- Real-Time: WebRTC (P2P), Socket.IO
+**Planned / Implemented**
+
+* WebRTC-based **P2P audio/video**
+* Socket.IO for signaling
+* Room creation & participant management
+* Secure authentication
+* React-based frontend UI
 
 ---
 
-## Why This Repository Matters
+## 🌱 Currently Learning
 
-This repository is built to:
-- Practice **real-world backend systems**
-- Understand **auth, security & token lifecycles**
-- Build **real-time communication systems**
-- Prepare for **internships, placements & programs like PwC Launchpad**
-- Demonstrate readiness for **production-level development**
+* Advanced TypeScript patterns
+* Backend scalability & system design
+* WebRTC internals
+* Open-source collaboration (**recently selected**)
 
 ---
 
-## Currently Learning
+## 🤝 Open to Opportunities
 
-- Advanced TypeScript patterns
-- Backend scalability & architecture
-- WebRTC internals
-- System design fundamentals
-- Open-source collaboration (recently selected)
+I’m open to:
 
----
+* Internships & entry-level roles
+* Backend / full-stack opportunities
+* Open-source collaboration
 
-## Open to Opportunities
+📩 **Contact**
 
-I'm actively open to:
-- Internships & entry-level roles
-- Backend / full-stack opportunities
-- Open-source collaboration
-- Technical mentorship & feedback
-
-Feel free to reach out:
-- Email: parag31ja@gmail.com
-- LinkedIn: https://www.linkedin.com/in/princekumar3111
+* Email: [parag31ja@gmail.com](mailto:parag31ja@gmail.com)
+* LinkedIn: [https://www.linkedin.com/in/princekumar3111](https://www.linkedin.com/in/princekumar3111)
 
 ---
 
-If you find this repository useful or interesting, consider giving it a star!
+⭐ If you find this repository useful, consider giving it a star!
