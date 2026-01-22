@@ -53,3 +53,8 @@ project-root/
 even though it is a ts file import will be with .js ->works fine
 you could change it in ts.config and for ts u dont have to add .ts in the end
 */
+
+
+
+//  middleware in ts need to be studied and api response also 
+// token creation and verification logic also..
