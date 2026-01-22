@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Learning-Continuous-brightgreen?style=for-the-badge" alt="Learning"/>
   <img src="https://img.shields.io/badge/Status-Active-blue?style=for-the-badge" alt="Status"/>
-  <img src="https://img.shields.io/badge/Focus-Full--Stack-orange?style=for-the-badge" alt="Focus"/>
+  <img src="https://img.shields.io/badge/Focus-Production--Ready-orange?style=for-the-badge" alt="Focus"/>
 </p>
 
 <p align="center">
@@ -16,409 +16,259 @@
 
 ---
 
-A curated collection of **production-oriented, full-stack projects** demonstrating secure authentication, media handling, real-time systems, and scalable backend architecture.
+A curated collection of **enterprise-grade, full-stack projects** demonstrating secure authentication, media handling, real-time systems, and scalable backend architecture. Built with production standards, clean code principles, and industry best practices.
 
 ---
 
-## 👨‍💻 About / Contact
+## 👨‍💻 Developer Profile
 
-**Prince Kumar** — `@AnakinCodeWalker`
+**Prince Kumar** — Full Stack Developer | Backend Specialist
 
 - ✉️ Email: **[parag31ja@gmail.com](mailto:parag31ja@gmail.com)**
 - 🔗 LinkedIn: **[https://www.linkedin.com/in/princekumar3111](https://www.linkedin.com/in/princekumar3111)**
 - 💻 GitHub: **[https://github.com/AnakinCodeWalker](https://github.com/AnakinCodeWalker)**
 
-I build backend-first, production-style features: JWT lifecycle, secure cookies, media upload flows, WebRTC signaling, and real-time systems. Always happy to discuss architecture and security patterns.
+**Specialization:** Backend architecture, authentication systems, real-time communication, and scalable microservices.
+
 
 ---
 
-## 🧠 What This Repository Demonstrates
+## 🛠️ Technology Stack 
 
-- ✅ Strong **backend fundamentals** (Node.js, Express, MongoDB, PostgreSQL)
-- ✅ Secure **authentication & authorization** systems
-- ✅ **JWT + Refresh Token** lifecycle management
-- ✅ Email verification with token expiry flows
-- ✅ **Real-time communication** using WebRTC (P2P) & Socket.IO
-- ✅ **TypeScript-first development** with proper typing
-- ✅ Media handling: **Multer → Cloudinary** integration
-- ✅ Clean architecture: controllers, middleware, models, utils
-- ✅ Hands-on experience with **production patterns** (not toy apps)
+### Backend (Node.js Ecosystem)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-Auth-orange?style=flat)
 
----
-
-## 🛠️ Tech Stack
-
-### Frontend Stack
+### Frontend (React Ecosystem)
 ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 
-### Backend Stack
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql&logoColor=white)
-
-### Real-Time & Media
-![WebRTC](https://img.shields.io/badge/WebRTC-333333?style=flat&logo=webrtc&logoColor=white)
-![Socket.IO](https://img.shields.io/badge/Socket.IO-000000?style=flat&logo=socket.io&logoColor=white)
+### Real-Time & Infrastructure
+![WebRTC](https://img.shields.io/badge/WebRTC-P2P-333333?style=flat&logo=webrtc&logoColor=white)
+![Socket.IO](https://img.shields.io/badge/Socket.IO-Signaling-black?style=flat&logo=socket.io&logoColor=white)
 ![Multer](https://img.shields.io/badge/Multer-File%20Upload-green?style=flat)
-![Cloudinary](https://img.shields.io/badge/Cloudinary-Media%20Storage-blue?style=flat)
+![Cloudinary](https://img.shields.io/badge/Cloudinary-Cloud%20Storage-blue?style=flat)
 
 ### Security & Validation
-![JWT](https://img.shields.io/badge/JWT-Auth-orange?style=flat)
-![Zod](https://img.shields.io/badge/Zod-Validation-blueviolet?style=flat)
-![bcrypt](https://img.shields.io/badge/bcrypt-Hashing-red?style=flat)
+![bcrypt](https://img.shields.io/badge/bcrypt-Password%20Hashing-red?style=flat)
+![Zod](https://img.shields.io/badge/Zod-Data%20Validation-blueviolet?style=flat)
+![Nodemailer](https://img.shields.io/badge/Nodemailer-Email%20Service-yellow?style=flat)
 
 ---
 
-## 📂 Projects (Ordered by Completion)
+## 📂 Projects 
 
-> **Note:** Projects are intentionally ordered—completed, deployable work first, followed by ongoing projects.
+> **Portfolio Strategy:** Completed projects first → Ongoing projects last
 
 ---
 
-### 1️⃣ 🔐 **AuthSystem** — Secure Authentication Backend ✅ COMPLETE
+### 🔐 Project 1: AuthSystem — Enterprise Authentication Backend
 
-**Location:** `Projects/AuthSystem`
+**Status:** ✅ **PRODUCTION READY**  
+**Location:** `Projects/AuthSystem`  
 
-**Tech Stack:**
-- Node.js, Express.js, MongoDB, Mongoose
-- JWT (access + refresh tokens)
-- Zod validation
-- bcrypt password hashing
-- Nodemailer email service
-- HTTP-only secure cookies
 
-**Key Features:**
-- User registration with email verification
-- Login with JWT-based session management
-- Access & Refresh token strategy
-- Token expiry and renewal flows
-- Centralized error handling
-- Request validation middleware
-- Production-ready folder structure
+#### Core Responsibilities Demonstrated
+- **Authentication Flow:** Complete user lifecycle (signup → email verify → login → token refresh → logout)
+- **Security Implementation:** JWT strategy, bcrypt hashing, HTTP-only cookies
+- **Backend Architecture:** Controllers, middleware, models, utils separation
+- **Database Design:** User schema with email verification, token storage
+- **Email Integration:** Nodemailer service with verification tokens
 
-**What You'll Learn:**
-- Complete auth lifecycle (signup → email verify → login → token refresh → logout)
-- JWT best practices
-- Secure cookie management
-- Password hashing strategies
-- Email service integration
-
-**To Run:**
-```bash
-cd Projects/AuthSystem
-npm install
-cp .env.example .env
-# Add: MONGO_URL, JWT_SECRET, JWT_REFRESH_SECRET, NODEMAILER_PASS, BASE_URL
-npm run dev
+#### Technical Highlights for PwC Interview
+```
+JWT Access Token (15 min) ──> Refresh Token (7 days) ──> New Access Token
+              │
+         httpOnly Cookie (secure transport)
+              │
+         Database validation & cleanup
 ```
 
-**API Endpoints Example:**
-- `POST /api/auth/signup` - Register user
-- `POST /api/auth/login` - Login user
-- `POST /api/auth/verify-email` - Verify email token
-- `POST /api/auth/refresh-token` - Refresh access token
-- `GET /api/auth/me` - Get current user (protected)
+**Tech Stack:**
+- Node.js, Express.js
+- MongoDB + Mongoose
+- JWT (access + refresh)
+- bcrypt, Zod, Nodemailer
 
 ---
 
-### 2️⃣ 🧠 **Brainly-App** — React + TypeScript Q&A Platform ✅ COMPLETE
+### 🧠 Project 2: Brainly-App — React + TypeScript Frontend
 
-**Location:** `Projects/typeScript-Project/Brainly-App`
+**Status:** ✅ **COMPLETE**  
+**Location:** `Projects/typeScript-Project/Brainly-App`  
 
-**Tech Stack:**
-- React 18+ with TypeScript
-- REST API integration
-- Component-based architecture
-- State management
 
-**Key Features:**
-- Type-safe React components
-- Clean folder structure
-- Reusable component library
-- Form handling with validation
-- Error boundaries
-- Responsive UI design
+#### Core Responsibilities Demonstrated
+- **Type-Safe Components:** TypeScript interfaces for all props
+- **API Integration:** REST client setup, error handling
+- **State Management:** React hooks (useState, useEffect, useContext)
+- **Clean Architecture:** Reusable components, proper separation
 
-**What You'll Learn:**
-- TypeScript best practices in React
-- Component composition patterns
-- API integration patterns
-- State management strategies
-
-**To Run:**
-```bash
-cd Projects/typeScript-Project/Brainly-App
-npm install
-npm start
+#### Technical Highlights
+```
+Q&A Platform Architecture:
+├── Questions Component
+├── Answers Component
+├── User Profiles
+└── Search & Filter
 ```
 
+**Tech Stack:**
+- React 18+
+- TypeScript
+- REST APIs
+- Component composition
+
+
 ---
 
-### 3️⃣ 🎥 **VideoVerse** — Media Platform Backend ✅ COMPLETE
+### 🎥 Project 3: VideoVerse — Media Platform Backend
 
-**Location:** `Projects/VideoVerse_Backend`
+**Status:** ✅ **PRODUCTION READY**  
+**Location:** `Projects/VideoVerse_Backend`  
+**Time to Understand:** 8-12 minutes
+
+#### Core Responsibilities Demonstrated
+- **File Upload Pipeline:** Multer → validation → Cloudinary → cleanup
+- **User Management:** Profiles with avatar & cover images
+- **Cloud Integration:** Cloudinary API integration
+- **Security:** JWT authentication on protected routes
+- **Scalability:** Proper error handling, cleanup mechanisms
+
 
 **Tech Stack:**
-- Node.js, Express.js, MongoDB
+- Node.js, Express.js
+- MongoDB + Mongoose
 - Multer (file upload)
 - Cloudinary (media storage)
 - JWT authentication
-- Mongoose ODM
-
-**Key Features:**
-- Secure user authentication
-- User profile management
-- Avatar and cover image upload
-- Media file handling (Multer)
-- Cloud storage integration (Cloudinary)
-- Cleanup mechanisms for failed uploads
-- Scalable folder structure
-
-**What You'll Learn:**
-- File upload handling best practices
-- Multer middleware configuration
-- Cloudinary integration workflow
-- User profile management
-- Media optimization strategies
-
-**To Run:**
-```bash
-cd Projects/VideoVerse_Backend
-npm install
-cp .env.example .env
-# Add: MONGO_URL, JWT_SECRET, CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
-npm run dev
-```
-
-**API Features:**
-- User registration & authentication
-- Profile creation and updates
-- Image uploads (avatar, cover)
-- Media file management
 
 ---
 
-### 4️⃣ 🚧 **PeerMeet** — Real-Time Video Meeting Platform 🔄 ONGOING
+### 🚧 Project 4: PeerMeet — Real-Time Video Platform (ONGOING)
 
-**Location:** `Projects/PeerMeet`
+**Status:** 🔄 **IN DEVELOPMENT**  
+**Location:** `Projects/PeerMeet`  
+**Time to Understand:** 10-15 minutes
+
+#### Core Responsibilities Demonstrated
+- **WebRTC Implementation:** P2P audio/video streaming
+- **Real-Time Signaling:** Socket.IO for connection establishment
+- **Room Management:** Participant tracking, join/leave events
+- **Backend Infrastructure:** Session management, authentication
 
 **Tech Stack:**
 - Frontend: React, TypeScript
-- Backend: Node.js, Express.js, MongoDB
-- Real-Time: WebRTC (P2P), Socket.IO (signaling)
+- Backend: Node.js, Express, MongoDB
+- Real-Time: WebRTC, Socket.IO
 - Authentication: JWT
 
-**Current Status:**
-- ✅ Backend architecture completed
-- ✅ Authentication & authorization implemented
-- ✅ Room creation & management logic
-- ✅ WebRTC signaling server setup
-- 🔄 Frontend UI under active development
-- 🔄 P2P media stream integration
+**Current Implementation Status:**
+- ✅ User authentication & authorization
+- ✅ Room creation & management
+- ✅ Participant tracking system
+- ✅ WebRTC signaling protocol
+- ✅ ICE candidate exchange
+- ✅ SDP offer/answer handling
+- 🔄 Frontend UI components
+- 🔄 Media stream integration
+- 📋 Screen sharing (planned)
+- 📋 Recording (planned)
 
-**Implemented Features:**
-- Secure user authentication
-- Room-based architecture
-- Participant management
-- WebRTC signaling protocol
-- Ice candidate exchange
-- SDP offer/answer handling
-
-**Planned Features:**
-- Screen sharing
-- Audio/video controls
-- Chat messaging
-- Recording capabilities
-- Room permissions
-
-**What You'll Learn:**
-- WebRTC internals (ICE candidates, STUN/TURN)
-- Peer-to-peer communication patterns
-- Socket.IO signaling implementation
-- Real-time session management
-- NAT traversal concepts
-
-**To Run:**
-```bash
-cd Projects/PeerMeet/backend
-npm install
-cp .env.example .env
-# Add: MONGO_URL, JWT_SECRET, SOCKET_SECRET
-npm run dev
-
-# In another terminal
-cd Projects/PeerMeet/frontend
-npm install
-npm start
 ```
 
 ---
 
-## 🚀 Quick Start (General Pattern)
+## 🔒 Security & Best Practices Implemented
 
-Each project follows a similar setup pattern:
+### Authentication & Authorization
+- ✅ JWT-based authentication (access + refresh tokens)
+- ✅ Secure password hashing (bcrypt with salt rounds)
+- ✅ HTTP-only cookies (prevent XSS)
+- ✅ CORS configuration (prevent CSRF)
+- ✅ Email verification (prevent spam)
+- ✅ Token expiry & cleanup (prevent token reuse)
 
+### Data Validation
+- ✅ Zod schema validation (request body)
+- ✅ TypeScript type safety (compile-time errors)
+- ✅ File type & size validation (prevent attacks)
+- ✅ Input sanitization (prevent injection)
+
+### Database Security
+- ✅ Password hashing (never store plain text)
+- ✅ Sensitive data encryption
+- ✅ Proper indexing (prevent N+1 queries)
+- ✅ Connection pooling (resource management)
+
+
+---
+
+### Clone & Install
 ```bash
-# Clone the repository
 git clone https://github.com/AnakinCodeWalker/Projects.git
 cd Projects
-
-# Navigate to specific project
-cd <project-folder>
-
-# Install dependencies
-npm install
-
-# Setup environment
-cp .env.example .env
-# Edit .env with your credentials
-
-# Run development server
-npm run dev
 ```
 
----
 
-## 📋 Environment Variables Template
+## 🎓 Learning Resources
 
-### AuthSystem (.env.example)
-```env
-MONGO_URL=mongodb://localhost:27017/authsystem
-JWT_SECRET=your_jwt_secret_key
-JWT_REFRESH_SECRET=your_refresh_token_secret
-NODEMAILER_EMAIL=your_email@gmail.com
-NODEMAILER_PASS=your_app_password
-BASE_URL=http://localhost:5000
-PORT=5000
-```
+### Authentication & JWT
+- [JWT Best Practices](https://tools.ietf.org/html/rfc7519)
+- [Refresh Token Rotation](https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/)
+- [bcrypt Algorithm](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
 
-### VideoVerse (.env.example)
-```env
-MONGO_URL=mongodb://localhost:27017/videoverse
-JWT_SECRET=your_jwt_secret_key
-CLOUDINARY_NAME=your_cloudinary_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-BASE_URL=http://localhost:5000
-PORT=5000
-```
-
-### PeerMeet (.env.example)
-```env
-MONGO_URL=mongodb://localhost:27017/peermeet
-JWT_SECRET=your_jwt_secret_key
-SOCKET_SECRET=your_socket_secret
-BASE_URL=http://localhost:5000
-FRONTEND_URL=http://localhost:3000
-PORT=5000
-```
----
-
-## 🔑 Key Concepts Demonstrated
-
-### Authentication & Security
-- JWT implementation (access + refresh tokens)
-- Secure password hashing with bcrypt
-- HTTP-only cookie storage
-- Email verification workflows
-- Token expiry and renewal mechanisms
-- Authorization middleware
-
-### Database Design
-- MongoDB schemas with Mongoose
-- Relationships and references
-- Data validation
-- Indexing strategies
-- Clean data models
-
-### Media Handling
-- Multer file upload configuration
-- Cloudinary integration
-- File type validation
-- Error handling and cleanup
-- Temporary file management
-
-### Real-Time Systems
-- WebRTC peer connections
-- Socket.IO signaling
-- ICE candidate handling
-- SDP offer/answer exchange
-- Room management
-- Participant tracking
+### WebRTC & Real-Time
+- [MDN WebRTC API](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API)
+- [WebRTC Signaling](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Session_description)
+- [Socket.IO Guide](https://socket.io/docs/)
 
 ### Backend Architecture
-- MVC pattern
-- Middleware chain
-- Error handling
-- Request validation
-- Separation of concerns
-- Scalable folder structure
+- [Express.js Best Practices](https://expressjs.com/en/advanced/best-practice-performance.html)
+- [MongoDB Schema Design](https://docs.mongodb.com/manual/core/data-model-design/)
+- [RESTful API Design](https://restfulapi.net/)
+
+### General
+- [System Design Primer](https://github.com/donnemartin/system-design-primer)
+- [Clean Code Principles](https://www.oreilly.com/library/view/clean-code-a/9780136083238/)
 
 ---
 
-## 🌱 Currently Learning
 
-- Advanced TypeScript patterns
-- Backend scalability & system design
-- WebRTC internals and optimization
-- Microservices architecture
-- Docker & containerization
-- Open-source collaboration (recently selected)
+## 📞 Contact & Open to Opportunities
 
----
+**I'm actively looking for:**
+- Backend/Full-Stack internships
+- Entry-level software engineer roles
+- Open-source contributions
 
-## 📚 Resources & Documentation
-
-- [JWT Best Practices](https://tools.ietf.org/html/rfc7519)
-- [WebRTC Documentation](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API)
-- [MongoDB Guide](https://docs.mongodb.com/)
-- [Express.js Docs](https://expressjs.com/)
-- [Cloudinary API](https://cloudinary.com/documentation)
-
----
-
-## 🤝 Open to Opportunities
-
-I'm actively looking for:
-
-- **Internships** (backend, full-stack)
-- **Entry-level roles** in tech companies
-- **Open-source contributions** and collaboration
-- **Freelance projects** (backend, API development)
-- **Technical mentorship** and feedback
-
-Feel free to reach out:
-
+**Get in touch:**
 - 📧 Email: [parag31ja@gmail.com](mailto:parag31ja@gmail.com)
 - 🔗 LinkedIn: [https://www.linkedin.com/in/princekumar3111](https://www.linkedin.com/in/princekumar3111)
-- 💬 GitHub: [@AnakinCodeWalker](https://github.com/AnakinCodeWalker)
+- 💻 GitHub: [@AnakinCodeWalker](https://github.com/AnakinCodeWalker)
+
+**Available for:**
+- Technical discussions
+- Architecture deep-dives
+- Code reviews
+- Pair programming
 
 ---
 
 ## 📝 License
 
-This repository is open source and available under the MIT License. See `LICENSE` file for details.
-
----
-
-## ⭐ Show Your Support
-
-If you find this repository useful or interesting, please consider:
-
-- ⭐ Giving it a star on GitHub
-- 🔄 Sharing it with others
-- 💬 Providing feedback
-- 🐛 Reporting issues
-- 🚀 Contributing improvements
+MIT License - See LICENSE file for details
 
 ---
 
 <p align="center">
-  <strong>Made with ❤️ by Prince Kumar</strong><br/>
-  Building production-ready systems, one line of code at a time.
+  <strong>Building Production-Ready Systems</strong><br/>
+  <em>One line of code at a time</em><br/><br/>
+  Made with ❤️ by Prince Kumar<br/>
+  Ready for PwC Launchpad 🚀
 </p>
