@@ -30,7 +30,7 @@ const extractToken = (req: Request): string | undefined =>{
 }
 
 //  in a middleware you dont throw the error u pass it into next .
-const userMiddleware =(req:Request ,res:Response ,next:NextFunction): void =>{   
+const authMiddleware =(req:Request ,res:Response ,next:NextFunction): void =>{   
    
      /*
 
@@ -63,4 +63,4 @@ let decodedToken :token  =  jwt.verify(token,env.JWT_SECRET_KEY)
 
 
 }
-export {userMiddleware}
+export {authMiddleware}

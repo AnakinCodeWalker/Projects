@@ -242,7 +242,7 @@ maxAge:24 * 60 * 60 * 1000 // age of the cookie.
         res.status(200).json(new ApiResponse(200 ,"User logged in",user))
     }
 
-    const logout  = async (req:Request , res: Response) : Promise<void> => {
+    const signout  = async (req:Request , res: Response) : Promise<void> => {
        
       // first check if the user is logged in or not  ? --> from middleware.
     //  user hit a logout page 
@@ -257,5 +257,5 @@ maxAge:24 * 60 * 60 * 1000 // age of the cookie.
 export {signup,
     userVerification,
     signin,
-    logout
+    signout
 }

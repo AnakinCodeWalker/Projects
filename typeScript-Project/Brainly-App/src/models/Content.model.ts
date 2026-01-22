@@ -4,7 +4,8 @@ import { string } from "zod";
 const ContentSchema = new mongoose.Schema({
 
    title:{
-    type:string
+    type:string,
+    required : true
    },
    link:{
     type:string
