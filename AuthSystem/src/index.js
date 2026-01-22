@@ -4,6 +4,21 @@ import UserRoutes from '../public/temp/routes/User.route.js'
 import dotenv from "dotenv"
 dotenv.config()
 
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const swaggerDocument = YAML.load(
+  path.join(__dirname, "docs", "Swagger.yaml")
+);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use("/api/v1/users",UserRoutes)
+
 const PORT =Number(process.env.PORT)
 db().then(()=>{
 try {
@@ -20,4 +35,5 @@ console.log(`error in connecting to db`);
 console.log(`${error.message}`);
 })
 
-app.use("/api/v1/users",UserRoutes)
+
+

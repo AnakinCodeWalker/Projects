@@ -1,0 +1,123 @@
+openapi: 3.0.3
+info:
+  title: AuthSystem API
+  description: >
+    Production-grade authentication system with JWT (Access + Refresh),
+    email verification, secure cookies and Zod validation.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+tags:
+  - name: Auth
+    description: Authentication & authorization APIs
+
+paths:
+  /api/v1/user/registerUser:
+    post:
+      tags: [Auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "400":
+          description: Validation error
+
+  /api/v1/user/verify/{token}:
+    get:
+      tags: [Auth]
+      summary: Verify user email
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User verified successfully
+        "400":
+          description: Invalid or expired token
+
+  /api/v1/user/login:
+    post:
+      tags: [Auth]
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login successful (cookies set)
+          headers:
+            Set-Cookie:
+              description: HTTP-only access & refresh tokens
+              schema:
+                type: string
+
+  /api/v1/user/logout:
+    post:
+      tags: [Auth]
+      summary: Logout user
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Logged out successfully
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [name, email, password]
+      properties:
+        name:
+          type: string
+          example: Prince
+        email:
+          type: string
+          example: prince@example.com
+        password:
+          type: string
+          example: strongPassword123
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          example: prince@example.com
+        password:
+          type: string
+          example: strongPassword123
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: User created successfully  
