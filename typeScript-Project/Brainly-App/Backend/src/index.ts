@@ -1,6 +1,6 @@
 import { app } from "./app.js";
 import { db } from "./config/db.js";
-import {userRoutes ,courseRoutes} from "./routes/User.route.js"
+import {userRoutes ,courseRoutes ,brainRoutes} from "./routes/User.route.js"
 
 import {env} from './config/env.js'
 // check if there is port present then convert it into a number else make it undefined.
@@ -34,6 +34,6 @@ process.exit(1)}
 
 app.use("/api/v1/users",userRoutes)
 app.use("/api/v1/course",courseRoutes)
-
+app.use("/api/v1/brain",brainRoutes)
 
 // only throw api error when the  method has access to req,res..
