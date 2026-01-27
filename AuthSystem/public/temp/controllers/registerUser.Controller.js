@@ -7,7 +7,7 @@ import ApiResponse from "../utils/ApiResponse.js"
 import nodemailer from "nodemailer"
 import User from '../models/User.model.js'
 import jwt from "jsonwebtoken"
-import bcrypt from "bcrypt"
+import crypto from "crypto"
 
 
 const registerUserController = async (req, res) => {
@@ -191,8 +191,6 @@ const userLoginController = async (req,res) => {
      
   //  u could genrate them in model and access it here also.
   // genrating accessToken.
-   console.log(process.env.JWT_SECRET_KEY_EXPIRY);
-   console.log(process.env.JWT_REFRESH_KEY_EXPIRY);
    
   const payload = {
       id : findUser._id
@@ -265,13 +263,19 @@ const resetPasswordController = async (req,res) => {
         throw new ApiError(400,"unAuthorized")
 
   const token = await  randomBytes(32).toString("hex")
-  const hashedToken = await bcrypt.hash(token, 10)
+   
+  // using crypto for hashing because it is fast and deterministic also 
+  const hashedToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
   foundUser.resetPasswordToken = hashedToken
   
 //   Sets token expiry time
 const resetTokenExpiry = Date.now() + 15 * 60 * 1000;
 foundUser.resetPasswordExpiry =  resetTokenExpiry
-  await foundUser.save()
+  await foundUser.save({ validateBeforeSave: false })
 
 
 //    send the reset token to the user..
@@ -295,9 +299,9 @@ foundUser.resetPasswordExpiry =  resetTokenExpiry
   const mailOption = {
         from: process.env.MAILTRAP_SENDEREMAIL, //provided by the nodemailer
         to: foundUser.email,
-        subject: "Verify Your Email",
+        subject: "Reset Your Password",
         // Plain-text version of the message
-        html: "<b>Confriming your email</b>", // HTML version of the message
+        html: "<b>Click below to reset your password</b>", // HTML version of the message
 
         // creating a link.. and sending the token into it.
         text: `Hi ${foundUser.name}, please verify your email: ${ReserPasswordLink}`,
@@ -322,11 +326,60 @@ foundUser.resetPasswordExpiry =  resetTokenExpiry
 // let token = req.params.token
 console.log(`Token is : ${token}`);
 
-//  send it to the mail also 
-    res.status(200).json(new ApiResponse(201 ,"passowrd Reset successfull"))
+
+    res.status(200).json(new ApiResponse(200 ,"Mail sent Successfully"),{
+        
+    })
 
     
 } 
+
+
+const resetPasswordConfirmController = async (req, res, next) => {
+  try {
+    const {token} = req.params;
+const{newPassword} = req.body ;
+    if (!token) {
+      throw new ApiError(400, "Unauthorized.");
+    }
+
+    if(!newPassword)
+        throw new ApiError(400, "All fields are required.");
+        
+    //  hashing the token sent by user and checking if token is in db or not ? 
+
+    const hashedToken = crypto  // as it is determinstic it will perfeclty match if there is a  haashed version is in the db.
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    const user = await User.findOne({
+          resetPasswordToken: hashedToken,
+      resetPasswordExpiry: { $gt: Date.now() }
+    })
+
+     if (!user) {
+        console.log(`reset password token`);
+      throw new ApiError(400, "Invalid  or Expired Token .");
+    }
+
+ 
+    user.password = newPassword
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpiry = undefined;
+
+    await user.save();
+console.log(`password reset successfully`);
+    res.status(200).json(
+      new ApiResponse(200, "Password reset successful")
+    );
+
+  } catch (error) {
+console.log(`${error.message}`);
+    throw new ApiError(500 , "Internal server error")
+
+  }
+};
 
 const userLogOutController = async (req,res) => {
      // first check if the user is logged in or not  ? --> from middleware.
@@ -357,5 +410,6 @@ export {
     verifyUserController,
     userLoginController,
     resetPasswordController,
+    resetPasswordConfirmController,
     userLogOutController
 } 

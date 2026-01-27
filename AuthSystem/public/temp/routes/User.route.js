@@ -1,5 +1,5 @@
 import { Router } from "express";
-import  {registerUserController,  verifyUserController,userLoginController , userLogOutController, resetPasswordController } from "../controllers/registerUser.Controller.js";
+import  {registerUserController,  verifyUserController,userLoginController , userLogOutController, resetPasswordController ,resetPasswordConfirmController } from "../controllers/registerUser.Controller.js";
 import userMiddleware from "../middleware/User.middleware.js"
 import zodvalidateMiddleware from "../middleware/zodvalidate.middleware.js";
 import {zodRegisterSchema , zodLoginSchema} from "../validations/auth.validation.js"
@@ -15,7 +15,10 @@ router.get("/verify/:token",verifyUserController)  // this  token can be access 
 
 router.post("/login",zodvalidateMiddleware(zodLoginSchema),userLoginController)
 
-router.post("/reset/:token" ,userMiddleware,resetPasswordController)
+//  this is for logged out users..
+router.post("/forget-password" ,resetPasswordController)
+router.post("/reset-password/:token" ,resetPasswordConfirmController)
+
 router.post("/logout" ,userMiddleware,userLogOutController)
 
 export default  router 

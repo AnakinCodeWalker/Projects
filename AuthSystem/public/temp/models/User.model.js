@@ -72,7 +72,6 @@ UserSchema.methods.isPasswordCorrect = async function (password) {
 }
 
 
-
 const User = mongoose.model("User", UserSchema)
 
 export  default User 
