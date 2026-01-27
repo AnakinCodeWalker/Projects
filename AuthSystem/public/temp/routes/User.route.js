@@ -15,7 +15,7 @@ router.get("/verify/:token",verifyUserController)  // this  token can be access 
 
 router.post("/login",zodvalidateMiddleware(zodLoginSchema),userLoginController)
 
-router.post("/reset" ,userMiddleware,resetPasswordController)
+router.post("/reset/:token" ,userMiddleware,resetPasswordController)
 router.post("/logout" ,userMiddleware,userLogOutController)
 
 export default  router 

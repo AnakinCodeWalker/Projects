@@ -7,6 +7,7 @@ import ApiResponse from "../utils/ApiResponse.js"
 import nodemailer from "nodemailer"
 import User from '../models/User.model.js'
 import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt"
 
 
 const registerUserController = async (req, res) => {
@@ -21,101 +22,106 @@ const registerUserController = async (req, res) => {
     //  send the token to the user via mail .
     //  return the user object remove the password and refresh token
 
-    const { name, email, password } = req.body;
-
-    if (!name || !email || !password)
-        throw new ApiError(400, "All Fields are required")
-    const findUser = await User.findOne({ email })
-
-    if (findUser)
-        throw new ApiError(400, "User with these credentials already Exists")
-
-    const newUser = await User.create({
-        name,
-        email,
-        password
-    })
-
-    if (!newUser)
-        throw new ApiError(500, "can not create User")
-
-
-
-    const createdUser = await User.findById(newUser._id)
-
-    // create a token.
-    const token = randomBytes(32).toString("hex")
-console.log(`${token}`);
-    // update  /provide in the db 
-    createdUser.verificationToken = token;
-     const updateUser = await createdUser.save()
-
-     console.log(updateUser);
-
-    // send it to the user via mail.
-
-    // creating the transporter.
-    // .env has string only so u have to convert into number 
-    const transporter = nodemailer.createTransport({
-        host: process.env.MAILTRAP_HOST,
-        port: Number(process.env.MAILTRAP_PORT),
-        secure: false, // Use true for port 465, false for port 587
-        auth: {
-            user: process.env.MAILTRAP_USERNAME,
-            pass: process.env.MAILTRAP_PASSWORD,
-        },
-    });
-
-    // link on this route.
-    const verificationLink = `${process.env.BASE_URL}/api/v1/user/verify?token=${token}`;
-
-
-    const mailOption = {
-        from: process.env.MAILTRAP_SENDEREMAIL, //provided by the nodemailer
-        to: createdUser.email,
-        subject: "Verify Your Email",
-        // Plain-text version of the message
-        html: "<b>Confriming your email</b>", // HTML version of the message
-
-        // creating a link.. and sending the token into it.
-        text: `Hi ${createdUser.name}, please verify your email: ${verificationLink}`,
-
-
-    }
-
-    //  transporter is created 
-    //  mailOptions are created 
-    //  now send mail to the user via transporter.sendmail() .
-
-    try {
-        //Sending the mail.
-        await transporter.sendMail(mailOption)
-        console.log(`mail sent successfully`);
-
-    } catch (error) {
-        console.log(`error in sending the mail`);
-        console.log(`${error.message}`);
-        throw new ApiError(500, "can not send mail")
-    }
-
-/*
-sinceis already a document, not a query u can not  use this .
-   createdUser.select("-password -resetPasswordToken")
-*/
-
-/*
-does not work on docs so it will return an error if u dont chain it
-will give an error
-
-it remove the data from the view level not the doc level.
-*/
-  const responseUser = await User.findById(createdUser._id).select("-password -resetPasswordToken")
-
-    res.status(200).json(
-        new ApiResponse(200, "User Created Successfully",{
-            user : responseUser
-        })
-    )
+   try {
+     const { name, email, password } = req.body;
+ 
+     if (!name || !email || !password)
+         throw new ApiError(400, "All Fields are required")
+     const findUser = await User.findOne({ email })
+ 
+     if (findUser)
+         throw new ApiError(400, "User with these credentials already Exists")
+ 
+     const newUser = await User.create({
+         name,
+         email,
+         password
+     })
+ 
+     if (!newUser)
+         throw new ApiError(500, "can not create User")
+ 
+ 
+ 
+     const createdUser = await User.findById(newUser._id)
+ 
+     // create a token.
+     const token = randomBytes(32).toString("hex")
+ console.log(`${token}`);
+     // update  /provide in the db 
+     createdUser.verificationToken = token;
+      const updateUser = await createdUser.save()
+ 
+      console.log(updateUser);
+ 
+     // send it to the user via mail.
+ 
+     // creating the transporter.
+     // .env has string only so u have to convert into number 
+     const transporter = nodemailer.createTransport({
+         host: process.env.MAILTRAP_HOST,
+         port: Number(process.env.MAILTRAP_PORT),
+         secure: false, // Use true for port 465, false for port 587
+         auth: {
+             user: process.env.MAILTRAP_USERNAME,
+             pass: process.env.MAILTRAP_PASSWORD,
+         },
+     });
+ 
+     // link on this route.
+     const verificationLink = `${process.env.BASE_URL}/api/v1/user/verify?token=${token}`;
+ 
+ 
+     const mailOption = {
+         from: process.env.MAILTRAP_SENDEREMAIL, //provided by the nodemailer
+         to: createdUser.email,
+         subject: "Verify Your Email",
+         // Plain-text version of the message
+         html: "<b>Confriming your email</b>", // HTML version of the message
+ 
+         // creating a link.. and sending the token into it.
+         text: `Hi ${createdUser.name}, please verify your email: ${verificationLink}`,
+ 
+ 
+     }
+ 
+     //  transporter is created 
+     //  mailOptions are created 
+     //  now send mail to the user via transporter.sendmail() .
+ 
+     try {
+         //Sending the mail.
+         await transporter.sendMail(mailOption)
+         console.log(`mail sent successfully`);
+ 
+     } catch (error) {
+         console.log(`error in sending the mail`);
+         console.log(`${error.message}`);
+         throw new ApiError(500, "can not send mail")
+     }
+ 
+ /*
+ sinceis already a document, not a query u can not  use this .
+    createdUser.select("-password -resetPasswordToken")
+ */
+ 
+ /*
+ does not work on docs so it will return an error if u dont chain it
+ will give an error
+ 
+ it remove the data from the view level not the doc level.
+ */
+   const responseUser = await User.findById(createdUser._id).select("-password -resetPasswordToken")
+ 
+     res.status(200).json(
+         new ApiResponse(200, "User Created Successfully",{
+             user : responseUser
+         })
+     )
+   } catch (error) {
+    console.log("error in signup");
+    console.log(`${error.message}`);
+   }
 
 }
 
@@ -158,90 +164,164 @@ try {
 }
 
 const userLoginController = async (req,res) => {
-    const{name ,email ,password} =req.body ;
-    
-    if(!name||!email||!password)
-        throw new ApiError(400,"All fields are Required")
-    
+  try {
 
-    const findUser = await User.findOne({email})
-
-    if(!findUser)
-        throw new ApiError(403,"Invalid Credentials")
-    
-    /*
-   await bcrypt.compare(password,findUser.password) or u can create a method and call it.
-*/
-
-// if u call async method put await in it , since isPasswordCorrect is async method put await in it.
-    const isMatch = await findUser.isPasswordCorrect(password)
-
-    if(!isMatch)
-        throw new ApiError(300,"Invalid password")
-
+    //  resolved the zod validation issue , login time pr , zod mai sirf email , password allowed hai 
+      const{email ,password} =req.body ;
+      
+      if(!email||!password)
+          throw new ApiError(400,"All fields are Required")
+      
+  
+      const findUser = await User.findOne({email})
+  
+      if(!findUser)
+          throw new ApiError(403,"Invalid Credentials")
+      
+      /*
+     await bcrypt.compare(password,findUser.password) or u can create a method and call it.
+  */
+  
+  // if u call async method put await in it , since isPasswordCorrect is async method put await in it.
+      const isMatch = await findUser.isPasswordCorrect(password)
+  
+      if(!isMatch)
+          throw new ApiError(403,"Invalid password")
+  
+     
+  //  u could genrate them in model and access it here also.
+  // genrating accessToken.
    
-//  u could genrate them in model and access it here also.
-// genrating accessToken.
- 
-const payload = {
-    id : findUser._id
+  const payload = {
+      id : findUser._id
+  }
+       const token = jwt.sign(payload,
+          process.env.JWT_SECRET_KEY,
+          {
+          expiresIn:process.env.JWT_ACCESS_TOKEN_EXPIRY
+  
+      })
+     
+      
+      // genrating refreshToken.
+      const refreshToken = jwt.sign(payload,
+              process.env.JWT_REFRESH_KEY,
+              {
+              expiresIn:process.env.JWT_REFRESH_KEY_EXPIRY
+          })
+      
+      
+  
+  
+   // using the cookieparser to store the Access_Token and Refresh_Token
+  // u can access them into the req and res
+  const cookieOptions ={
+  httpOnly:true, //now only backend has access of cookie.
+  secure:true,  
+  maxAge:24 * 60 * 60 * 1000 // age of the cookie.
+  }
+  
+  // it store value in the form of key : value
+  // u could provide cookie option as well ki expire cookie wagera.
+  
+  res.cookie("token", token,cookieOptions) //access token 
+  res.cookie("refreshToken",refreshToken,cookieOptions) // refresh token
+  
+  
+  // save refreshtoken into the db also
+  findUser.refreshToken = refreshToken
+  await findUser.save()
+  
+  const  user = await User.findById(findUser._id).select("-password  -resetPasswordToken -resetPasswordExpiry")
+  
+  // sending the user neccessary details after logging in .
+  console.log(`user logged in...`);
+  return res.status(200).json(
+     new ApiResponse(200 , "User logged in...",user))
+  }
+   catch (error) {
+    console.log(`error in login`);
+console.log(`${error.message}`);  
 }
-     const token = jwt.sign(payload,
-        process.env.JWT_SECRET_KEY,
-        {
-        expiresIn:process.env.JWT_ACCESS_TOKEN_EXPIRY
-
-    })
-   
-    
-    // genrating refreshToken.
-    const refreshToken = jwt.sign(payload,
-            process.env.JWT_REFRESH_KEY,
-            {
-            expiresIn:process.env.JWT_REFRESH_KEY_EXPIRY
-        })
-    
-    
-
-
- // using the cookieparser to store the Access_Token and Refresh_Token
-// u can access them into the req and res
-const cookieOptions ={
-httpOnly:true, //now only backend has access of cookie.
-secure:true,  
-maxAge:24 * 60 * 60 * 1000 // age of the cookie.
-}
-
-// it store value in the form of key : value
-// u could provide cookie option as well ki expire cookie wagera.
-
-res.cookie("token", token,cookieOptions) //access token 
-res.cookie("refreshToken",refreshToken,cookieOptions) // refresh token
-
-
-// save refreshtoken into the db also
-findUser.refreshToken = refreshToken
-await findUser.save()
-
-const  user = await User.findById(findUser._id).select("-password  -resetPasswordToken -resetPasswordExpiry")
-
-// sending the user neccessary details after logging in .
-console.log(`user logged in...`);
-return res.status(200).json(
-   new ApiResponse(200 , "User logged in...",user)
-)
 }
 
 
 const resetPasswordController = async (req,res) => {
 
+
+    /*
+    
+       Checks if user exists
+       Generates a secure reset token
+       Hashes the token and stores it in DB
+       Sets token expiry time
+       Sends reset link via email
+    */
     const {email} = req.body ;
     const foundUser = await User.findOne({email})
     if(!foundUser)
         throw new ApiError(400,"unAuthorized")
 
+  const token = await  randomBytes(32).toString("hex")
+  const hashedToken = await bcrypt.hash(token, 10)
+  foundUser.resetPasswordToken = hashedToken
+  
+//   Sets token expiry time
+const resetTokenExpiry = Date.now() + 15 * 60 * 1000;
+foundUser.resetPasswordExpiry =  resetTokenExpiry
+  await foundUser.save()
 
-    res.status(201).json(new ApiResponse(201 ,"passowrd Reset successfull"))
+
+//    send the reset token to the user..
+// https://yourapp.com/reset-password?token=abc123
+
+ // creating the transporter.
+    // .env has string only so u have to convert into number 
+    const transporter = nodemailer.createTransport({
+        host: process.env.MAILTRAP_HOST,
+        port: Number(process.env.MAILTRAP_PORT),
+        secure: false, // Use true for port 465, false for port 587
+        auth: {
+            user: process.env.MAILTRAP_USERNAME,
+            pass: process.env.MAILTRAP_PASSWORD,
+        },
+    });
+
+    // link on this route.
+    const ReserPasswordLink = `${process.env.BASE_URL}/api/v1/user/reset?token=${token}`;
+
+  const mailOption = {
+        from: process.env.MAILTRAP_SENDEREMAIL, //provided by the nodemailer
+        to: foundUser.email,
+        subject: "Verify Your Email",
+        // Plain-text version of the message
+        html: "<b>Confriming your email</b>", // HTML version of the message
+
+        // creating a link.. and sending the token into it.
+        text: `Hi ${foundUser.name}, please verify your email: ${ReserPasswordLink}`,
+
+
+    }
+ //  transporter is created 
+    //  mailOptions are created 
+    //  now send mail to the user via transporter.sendmail() .
+
+    try {
+        //Sending the mail.
+        await transporter.sendMail(mailOption)
+        console.log(`mail sent successfully`);
+
+    } catch (error) {
+        console.log(`error in sending the mail`);
+        console.log(`${error.message}`);
+        throw new ApiError(500, "can not send mail")
+    }
+
+// let token = req.params.token
+console.log(`Token is : ${token}`);
+
+//  send it to the mail also 
+    res.status(200).json(new ApiResponse(201 ,"passowrd Reset successfull"))
 
     
 } 
