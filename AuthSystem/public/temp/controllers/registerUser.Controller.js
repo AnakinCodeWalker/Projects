@@ -191,6 +191,8 @@ const userLoginController = async (req,res) => {
      
   //  u could genrate them in model and access it here also.
   // genrating accessToken.
+   console.log(process.env.JWT_SECRET_KEY_EXPIRY);
+   console.log(process.env.JWT_REFRESH_KEY_EXPIRY);
    
   const payload = {
       id : findUser._id
@@ -198,7 +200,7 @@ const userLoginController = async (req,res) => {
        const token = jwt.sign(payload,
           process.env.JWT_SECRET_KEY,
           {
-          expiresIn:process.env.JWT_ACCESS_TOKEN_EXPIRY
+          expiresIn:process.env.JWT_SECRET_KEY_EXPIRY
   
       })
      
@@ -217,7 +219,7 @@ const userLoginController = async (req,res) => {
   // u can access them into the req and res
   const cookieOptions ={
   httpOnly:true, //now only backend has access of cookie.
-  secure:true,  
+ secure: process.env.NODE_ENV === "production", 
   maxAge:24 * 60 * 60 * 1000 // age of the cookie.
   }
   
