@@ -181,20 +181,20 @@ const signin = async (req: Request, res: Response): Promise<void> => {
 
     // even without it will do the type infrence and work perfectly.
     //  you have to use JwtPayload and  SignOptions
-    interface payLoad extends JwtPayload {
-        id: string
+    // interface payLoad extends JwtPayload {
+    //     id: string
+    // }
+
+     interface payLoad extends JwtPayload {
+         id: string
     }
+
     const payload: payLoad = {
         id: findUser._id.toString(),
     };
 
     const accessSecret = env.JWT_SECRET_KEY;
     const accessExpiry = env.JWT_SECRET_KEY_EXPIRY;
-
-    if (!accessSecret || !accessExpiry) {
-        throw new ApiError(500, "Access token env missing");
-    }
-
 
     const accessOptions: SignOptions = {
         expiresIn: accessExpiry as StringValue,
@@ -213,6 +213,7 @@ const signin = async (req: Request, res: Response): Promise<void> => {
         //  as unknown as string  -- tells first forget about the type and now remember what i am telling.
         expiresIn: refreshExpiry as unknown as StringValue,
     }
+    
     const refreshToken = jwt.sign(payload, refreshSecret, refreshOptions);
 
 
