@@ -12,6 +12,7 @@ dotenv.config()
 
 const env={
 PORT : Number(process.env.PORT),//runtime conversion(converting the String port into a number)
+ORIGIN : process.env.ORIGIN as string,
 MONGO_URL: process.env.MONGO_URL as string ,// compile-time typing(telling ts to trust me as it is a String)
 JWT_SECRET_KEY: process.env.JWT_SECRET_KEY as string,
 JWT_SECRET_KEY_EXPIRY:process.env.JWT_ACCESS_TOKEN_EXPIRY as string,

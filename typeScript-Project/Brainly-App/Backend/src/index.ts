@@ -5,15 +5,11 @@ import {userRoutes ,courseRoutes ,brainRoutes} from "./routes/User.route.js"
 import {env} from './config/env.js'
 // check if there is port present then convert it into a number else make it undefined.
 
-const PORT  = env.PORT?Number(env.PORT):undefined
+const PORT  = env.PORT
 
-// if port is not present or not a number  print the error.
-if(!PORT ||Number.isNaN(PORT)){
-       console.log(`Port is undefined or null`);
-       process.exit(1)
-}
+
 db().
-then((result) => {
+then(() => {
    try {
      app.listen(PORT||8080,()=>{
          console.log(`server Started at port :  ${PORT}`);

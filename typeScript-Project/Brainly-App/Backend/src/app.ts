@@ -1,21 +1,23 @@
 import express, { urlencoded }  from "express";
-import cors from "cors"
-import { CorsOptions } from "cors";
+import cors , { CorsOptions } from "cors";
 import cookieParser from "cookie-parser";
+
 import dotenv from "dotenv"
+import { env } from "./config/env.js";
 dotenv.config()
+
 
 const app =express();
 
 app.use(express.json())
 
- const ORIGIN = process.env.ORIGIN
+ const ORIGIN = env.ORIGIN
 
 //  you have to use the CorsOptions here...
  const corsOptions : CorsOptions={      
-    origin: ORIGIN?ORIGIN: "http://localhost:3000",
+    origin: ORIGIN,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }
 
@@ -26,6 +28,3 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 export {app}
-
-// origin: process.env.ORIGIN ?? "http://localhost:3000"
-// --> only works if the value is null or undefined..
