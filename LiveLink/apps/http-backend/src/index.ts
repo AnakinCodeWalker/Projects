@@ -1,4 +1,12 @@
-import express  from "express";
+import { app } from "./app";
 
-const app = express();
-app.listen(process.env.PORT||8080)
+try {
+
+    app.listen(process.env.PORT||8080)
+                   
+} catch (error) {
+    if(error instanceof Error)
+        console.log();
+        // throw newApiError(,"");
+
+}
