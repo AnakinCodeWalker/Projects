@@ -245,6 +245,10 @@ const signin = async (req: Request, res: Response): Promise<void> => {
 }
 
 
+const forgotPassword = async (req: Request, res: Response): Promise<void> => {
+
+}
+
 const resetPassword = async (req: Request, res: Response): Promise<void> => {
 
 }
@@ -265,6 +269,7 @@ export {
     signup,
     userVerification,
     signin,
+    forgotPassword,
     resetPassword,
     signout
 }

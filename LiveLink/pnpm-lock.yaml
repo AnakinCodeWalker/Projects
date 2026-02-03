@@ -139,6 +139,20 @@ importers:
         specifier: ^8.18.1
         version: 8.18.1
 
+  packages/backend-common:
+    dependencies:
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.15.3
+
+  packages/common:
+    dependencies:
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
+
+  packages/db: {}
+
   packages/eslint-config:
     devDependencies:
       '@eslint/js':

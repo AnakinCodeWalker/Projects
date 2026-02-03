@@ -57,6 +57,15 @@ id:"123"
 const refreshToken = jwt.sign(payload,env.JWT_REFRESH_TOKEN ,refreshOptions)
 }
 
+
+// cookieOptions
+
+
+const roomController = async (req: Request, res: Response): Promise<void> => {
+
+
+}
+
 const logoutController = async (req: Request, res: Response): Promise<void> => {
 
 
@@ -65,5 +74,6 @@ const logoutController = async (req: Request, res: Response): Promise<void> => {
 export {
     signupController,
     signinController,
+    roomController,
     logoutController
 }
