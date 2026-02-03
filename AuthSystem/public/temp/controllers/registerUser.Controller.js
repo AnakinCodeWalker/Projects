@@ -69,7 +69,7 @@ const registerUserController = async (req, res) => {
      });
  
      // link on this route.
-     const verificationLink = `${process.env.BASE_URL}/api/v1/user/verify?token=${token}`;
+     const verificationLink = `${process.env.BASE_URL}/api/v1/user/verify/${token}`;
  
  
      const mailOption = {
@@ -294,7 +294,7 @@ foundUser.resetPasswordExpiry =  resetTokenExpiry
     });
 
     // link on this route.
-    const ReserPasswordLink = `${process.env.BASE_URL}/api/v1/user/reset?token=${token}`;
+const ReserPasswordLink =`${process.env.BASE_URL}/api/v1/user/reset-password/${token}`;
 
   const mailOption = {
         from: process.env.MAILTRAP_SENDEREMAIL, //provided by the nodemailer

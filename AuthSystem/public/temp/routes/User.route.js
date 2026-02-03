@@ -22,3 +22,8 @@ router.post("/reset-password/:token" ,resetPasswordConfirmController)
 router.post("/logout" ,userMiddleware,userLogOutController)
 
 export default  router 
+
+
+//  use params /: when the resource is neccessary bina params kai url ka koi meaning na ho 
+
+//  use query ? when iske bina v kam chl jaye and it is extra information in the url
