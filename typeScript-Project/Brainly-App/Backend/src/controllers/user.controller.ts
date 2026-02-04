@@ -418,9 +418,7 @@ throw new ApiError(304,"Invalid token / expired token")
 
     await findUser.save()
 
-// res.status(200).json(
-//       new ApiResponse(200, "Password reset successful")
-//     );
+
 
 }
 

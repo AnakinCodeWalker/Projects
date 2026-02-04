@@ -32,28 +32,34 @@ const extractToken = (req: Request): string | undefined =>{
 //  in a middleware you dont throw the error u pass it into next .
 const authMiddleware =(req:Request ,res:Response ,next:NextFunction): void =>{   
    
-   
 
-   const token  = extractToken(req);
+   let {token} = req.cookies
+
+   if (!token) {
+    const authHeader = req.headers.authorization;
+
+    if (typeof authHeader === "string" && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    }
+  }
+   // const token  = extractToken(req);
     if(!token){
-        next(new ApiError(304,"Invalid / expried Token"))
+       return next(new ApiError(401,"Invalid / expried Token"))
 }
-    else{    
 
-        type token = string |JwtPayload
+
    
-let decodedToken :token  =  jwt.verify(token,env.JWT_SECRET_KEY)
+let decodedToken  =  jwt.verify(token,env.JWT_SECRET_KEY)
  
+type userid = string | JwtPayload
    // @ts-expect-error
-   const id : string  = decodedToken.id
+   const userId : userid  = decodedToken.id
 
-}
-    // console.log(`${token}`);
-    // const decodetoken = jwt.verify()
- 
-    
-
-
+   if(!userId)
+      return next(new ApiError(401,"Unauthorized"))
+   
+   req.body.userId = userId
+   next()
 
 
 }
