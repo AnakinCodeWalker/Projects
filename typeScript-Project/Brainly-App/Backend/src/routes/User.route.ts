@@ -6,6 +6,7 @@ import { createContent ,getContent ,deleteContent } from "../controllers/course.
 
 import  {authMiddleware}  from  "../middlewares/user.middleare.js"
 import { share, shareLink } from "../controllers/brain.controller.js";
+
 const userRoutes = Router()
 const courseRoutes =Router()
 const brainRoutes=Router()
@@ -26,4 +27,8 @@ courseRoutes.delete("/delete-content",authMiddleware ,deleteContent)
 brainRoutes.post("/share",authMiddleware,share)
 brainRoutes.get("/:shareLink",authMiddleware,shareLink)
 
-export {userRoutes ,courseRoutes,brainRoutes}
+export {
+    userRoutes ,
+    courseRoutes,
+    brainRoutes
+}
