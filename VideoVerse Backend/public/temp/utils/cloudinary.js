@@ -7,8 +7,7 @@ user -> multer -> server -> cloudinary.
 
 after providing file to server it will return a path to access , and after uploading to cloudinary  , remove it from our server.
  */
-import dotenv from 'dotenv'
-dotenv.config()
+
 import { v2 as cloudinary } from 'cloudinary'
 import fs from 'fs'
 
@@ -27,6 +26,7 @@ const uploadOnCloudinary = async (localFilePath) => {
             resource_type: "auto" // will detect whatever type of file it is
         })
         console.log(`file uploaded on cloudinary ${response.url}`);
+        fs.unlinkSync(localFilePath)
         return response
     } catch (error) {
         // if something happpen remove  from  the server
@@ -37,8 +37,8 @@ const uploadOnCloudinary = async (localFilePath) => {
 }
 
 
-const result = await cloudinary.v2.uploader.upload(filePath, {
-    folder: "users",
-});
+// const result = await cloudinary.v2.uploader.upload(filePath, {
+//     folder: "users",
+// });
 
 export { uploadOnCloudinary }

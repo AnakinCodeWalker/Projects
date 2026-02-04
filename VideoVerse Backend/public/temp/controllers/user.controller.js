@@ -85,7 +85,7 @@ const avatarLocalPath = req.files?.avatar[0]?.path // we have to store multer fi
 
 let coverImageLocalPath;
 
-if(req.files && Array.isArray(req.files?.coverImage) && req.files?.coverImage.length > 0 ){
+if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0 ){
     coverImageLocalPath = req.files.coverImage[0].path
 }
 
@@ -98,9 +98,8 @@ if(!avatarLocalPath){
 
 const avatar = await uploadOnCloudinary(avatarLocalPath)
 
-const coverImage =  coverImageLocalPath
-    ? await uploadOnCloudinary(coverImageLocalPath)
-    : null
+  const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+
 
 
 if(!avatar){
@@ -123,25 +122,21 @@ if(!avatar){
         throw new ApiError(500, "User not created")
 
     //sending the user after removing the passowrd and the refreshToken
-    res.status(201).json(new ApiResponse(201, createdUser, "User created Successfully"))
+    return res.status(201).json(new ApiResponse(201, createdUser, "User created Successfully"))
 
 })
 
 
-     //for cookie
-     const options ={
-         httpOnly:true,
-         secure:true
-     } 
+    
 
     const loginUser = asyncHandler(async (req, res) => {
-        const { userName, password } = req.body
+        const {email , userName, password } = req.body
 
-        if (!userName || !password)
+        if (!userName && !email)
             throw new ApiError(400, "All credentails are required")
 
         const user = await User.findOne({
-                userName
+                $or: [{userName},{email}]
         })
 
         if (!user)
@@ -163,7 +158,11 @@ if(!avatar){
 const loggedInUser = await User.findById(user._id)
    .select("-password  -refreshToken")
 
-
+ //for cookie
+     const options ={
+         httpOnly:true,
+         secure:true
+     } 
 
 
 return res.status(200)  //now put the thing u want  to in cookies
@@ -184,12 +183,7 @@ return res.status(200)  //now put the thing u want  to in cookies
 
     const logoutUser = asyncHandler(async (req,res) => {
 
-        //to logut delete the refresh token from db and cookie
-
-
-        //jwt payload then verify then extract from there and put it into request ki body 
-        // yaha pr _id yah .id hoga ?????
-
+        
         await User.findByIdAndUpdate(req.user._id,
             {
                 $set:{
@@ -200,7 +194,11 @@ return res.status(200)  //now put the thing u want  to in cookies
                 }
         )
 
-
+ 
+     const options ={
+         httpOnly:true,
+         secure:true
+     } 
         //now removing from the cookie 
 
         return res.status(200)
