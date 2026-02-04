@@ -32,14 +32,7 @@ const extractToken = (req: Request): string | undefined =>{
 //  in a middleware you dont throw the error u pass it into next .
 const authMiddleware =(req:Request ,res:Response ,next:NextFunction): void =>{   
    
-     /*
-
-     const token : string | undefined = req.cookies?.token ||
-                    req.headers.authorization ||
-                    req.params ||
-                    req.body.token;
-
-                    */
+   
 
    const token  = extractToken(req);
     if(!token){
