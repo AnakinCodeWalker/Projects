@@ -1,16 +1,36 @@
+// make generic iternfaces avoid , type issue in ts  
+
+// Request<Params, ResBody, ReqBody, ReqQuery>  - this is order in which you will put interfaces
+//
+//  Request<
+//   Params,    // req.params
+//   ResBody,   // res.json()
+//   ReqBody,   // req.body
+//   ReqQuery   // req.query
+// >
+//
+//  or if you want ki only  ReqQuery then make others {} empty ts will ignore them..
+
+
+//  if u do select: false then when you return the document , usme se yeh bydefault unselected rhega
+
+
 import { Request, Response } from "express";
 import User from "../models/User.model.js";
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { randomBytes } from "crypto"
 import { transporter } from "../utils/mailSender.js";
+
 import bcrypt from 'bcrypt'
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import { CookieOptions } from "express";
 import type { StringValue } from "ms";
-
-
+import crypto from "crypto"
+import nodemailer from "nodemailer"
 import { env } from '../config/env.js'
+
+
 // add zod validations.
 
 
@@ -185,8 +205,8 @@ const signin = async (req: Request, res: Response): Promise<void> => {
     //     id: string
     // }
 
-     interface payLoad extends JwtPayload {
-         id: string
+    interface payLoad extends JwtPayload {
+        id: string
     }
 
     const payload: payLoad = {
@@ -213,7 +233,7 @@ const signin = async (req: Request, res: Response): Promise<void> => {
         //  as unknown as string  -- tells first forget about the type and now remember what i am telling.
         expiresIn: refreshExpiry as unknown as StringValue,
     }
-    
+
     const refreshToken = jwt.sign(payload, refreshSecret, refreshOptions);
 
 
@@ -246,12 +266,165 @@ const signin = async (req: Request, res: Response): Promise<void> => {
 
 
 const forgotPassword = async (req: Request, res: Response): Promise<void> => {
+    /*
+          Checks if user exists
+          Generates a secure reset token
+          
+          Sets token expiry time
+          Sends reset link via email
+       */
+
+    const { email } = req.body as {
+        email: string
+    }
+    if (!email)
+        throw new ApiError(300, "credentials required")
+
+    const foundUser = await User.findOne({ email })
+
+    if (!foundUser)
+        throw new ApiError(300, "Unauthorized")
+
+    // using crypto for hashing because it is fast and deterministic also 
+    //  crypto is 
+    const token = await randomBytes(32).toString("hex")
+
+
+    // Hashes the token and stores it in DB
+
+    const hashedtoken = crypto
+        .createHash("sha256")
+        .update("token")
+        .digest("hex")
+
+    //  store into db
+
+    foundUser.resetPasswordToken = hashedtoken
+
+    //  iska type ko convert krna hoga , as NativeDate or date.
+
+    const resetTokenExpiry = new Date(Date.now() + 15 * 60 * 1000)
+    foundUser.resetPasswordExpiry = resetTokenExpiry
+    await foundUser.save({ validateBeforeSave: false })
+
+
+    // send the hashed token to user
+
+    const transporter = nodemailer.createTransport({
+        host: process.env.MAILTRAP_HOST,
+        port: Number(process.env.MAILTRAP_PORT),
+        secure: false, // Use true for port 465, false for port 587
+        auth: {
+            user: process.env.MAILTRAP_USERNAME,
+            pass: process.env.MAILTRAP_PASSWORD,
+        },
+    });
+
+    // link on this route.
+    const ReserPasswordLink = `${process.env.BASE_URL}/api/v1/user/reset-password/${token}`;
+
+    const mailOption = {
+        from: process.env.MAILTRAP_SENDEREMAIL, //provided by the nodemailer
+        to: foundUser.email,
+        subject: "Reset Your Password",
+        // Plain-text version of the message
+        html: "<b>Click below to reset your password</b>", // HTML version of the message
+
+        // creating a link.. and sending the token into it.
+        text: `Hi ${foundUser. userName}, please verify your email: ${ReserPasswordLink}`,
+
+
+    }
+    //  transporter is created 
+    //  mailOptions are created 
+    //  now send mail to the user via transporter.sendmail() .
+
+    try {
+        //Sending the mail.
+        await transporter.sendMail(mailOption)
+        console.log(`mail sent successfully`);
+
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(`error in sending the mail`);
+            console.log(`${error.message}`);
+            throw new ApiError(500, "can not send mail")
+        }
+    }
+
+
+    // res.status(200).json(new ApiResponse(200, "Mail sent Successfully"), {
+    //     user: responseUser
+    // })
+
 
 }
 
-const resetPassword = async (req: Request, res: Response): Promise<void> => {
+interface ResetPasswordParams {
+  token: string;
+}
+
+interface ResetPasswordBody {
+  newPassword: string;
+}
+
+const resetPassword = async (
+  req: Request<ResetPasswordParams, {}, ResetPasswordBody>,
+  res: Response
+): Promise<void> => {
+
+// get the token 
+//  check the token
+ // get the password 
+//   find the password and update it 
+//return success.. 
+
+
+ //    how do i extract token from the params..
+      
+const {token} = req.params
+
+const {newPassword} = req.body 
+
+if(!newPassword)
+    throw new ApiError( 304,"please provide new password")
+
+// hashing the token to match if the user token and db token matches or not ?
+
+const hashedToken = crypto.createHash("sha256")
+                           .update(token)
+                           .digest("hex");
+
+
+const findUser =  await User.findOne({
+     resetPasswordToken: hashedToken, 
+     resetPasswordExpiry:{
+        $gt :Date.now()   // checking jiska ki date ho expire na ho woh  hi token...[expired token]
+     }
+})
+
+
+if(!findUser)
+throw new ApiError(304,"Invalid token / expired token")
+
+    findUser.password = newPassword
+
+
+    //  fix this later on.............. add interface in model  and extednthe object
+   // @ts-expect-error
+    findUser.resetPasswordToken = undefined;
+       // @ts-expect-error
+    findUser.resetPasswordExpiry = undefined;
+
+    await findUser.save()
+
+// res.status(200).json(
+//       new ApiResponse(200, "Password reset successful")
+//     );
 
 }
+
+    
 
 const signout = async (req: Request, res: Response): Promise<void> => {
 
@@ -259,7 +432,6 @@ const signout = async (req: Request, res: Response): Promise<void> => {
     //  user hit a logout page 
     // remove the refresh token from db and user cookie.
     // userId  which is inserted into the body in the middleware.
-
 
 
 
