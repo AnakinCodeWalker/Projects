@@ -4,6 +4,7 @@ interface ButtonProps{  // this is used as type of props means , props jo pass k
 
     variants : 'primary'|'secondary',
     size : 'sm'|'md' | 'lg',
+    color:string,
     text : string,
     onClick? : ()=> void
     startIcon? : ReactElement     // another button element that we can send it
@@ -13,7 +14,7 @@ interface ButtonProps{  // this is used as type of props means , props jo pass k
 
 const Button = (props:ButtonProps) => {
   return (
-    <div>{props.variants}</div>
+    <div>{props.variants}{props.text}</div>
   )
 }
 
