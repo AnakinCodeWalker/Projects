@@ -6,8 +6,8 @@ import Button from './components/ui/Button'
 function App() {
   <>
   {/* while passing a fucntion you have to pass it inside { } */}
-<Button  variants="primary" size="sm" text="hello" onClick={()=>console.log("hi")}></Button>
-<Button  variants="primary" size="sm" text="hello"></Button>
+<Button  variants="primary" size="sm" color ="#000" text="hello" onClick={()=>console.log("hi")}></Button>
+<Button  variants="secondary" size="sm" color ="#000" text="hello"></Button>
   </>
 
 
