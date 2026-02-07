@@ -1,13 +1,15 @@
 import './App.css'
-import Button from './components/ui/Button'
-
-
+import Buttons from './components/ui/Buttons'
+import PlusIcon from './icons/PlusIcon'
+import { ShareIcon } from './icons/ShareIcon'
 //  in components you pass the props 
 function App() {
-  <>
+return   <>
+
+  <Buttons variants="primary" startItem= {<PlusIcon/>} text= "Add content"></Buttons>
+  <Buttons variants="secondary" startItem={<ShareIcon/>} text= "Add content"></Buttons>
+
   {/* while passing a fucntion you have to pass it inside { } */}
-<Button  variants="primary" size="sm" color ="#000" text="hello" onClick={()=>console.log("hi")}></Button>
-<Button  variants="secondary" size="sm" color ="#000" text="hello"></Button>
   </>
 
 
