@@ -52,13 +52,15 @@ const authMiddleware =(req:Request ,res:Response ,next:NextFunction): void =>{
 let decodedToken  =  jwt.verify(token,env.JWT_SECRET_KEY)
  
 type userid = string | JwtPayload
-   // @ts-expect-error
-   const userId : userid  = decodedToken.id
+   
+// @ts-expect-error
+const userId : userid  = decodedToken.id
 
    if(!userId)
       return next(new ApiError(401,"Unauthorized"))
-   
-   req.body.userId = userId
+
+   // @ts-expect-error
+   req.userId = userId
    next()
 
 
