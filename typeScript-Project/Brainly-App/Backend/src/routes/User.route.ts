@@ -25,7 +25,7 @@ courseRoutes.delete("/delete-content",authMiddleware ,deleteContent)
 
 
 brainRoutes.post("/share",authMiddleware,share)
-brainRoutes.get("/:shareLink",authMiddleware,shareLink)
+brainRoutes.get("/:shareLink",shareLink) // anyone can come and see so no , authmiddleware here.
 
 export {
     userRoutes ,
