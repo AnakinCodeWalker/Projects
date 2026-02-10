@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const signupInput = z.object({
+export const  signupInput = z.object({
     
     name: z
     .string()
@@ -12,6 +12,11 @@ export const signupInput = z.object({
     })
     .optional(),
 });
+
+//  jo v signupInput ka type hai infer kro usko or signuptype mai daal do 
+// will update , accordingly agar schema mai change karoge to..
+export type signupType = z.infer<typeof signupInput>
+
 
 
 export const signinInput = z.object({
@@ -40,6 +45,11 @@ export const signinInput = z.object({
   })
   .strict();
 
+  export type signinType = z.infer<typeof signinInput>
+
+
+
+
 export const createPostInput = z.object({
     title: z
     .string()
@@ -53,6 +63,10 @@ export const createPostInput = z.object({
     .min(1, { message: "Content cannot be empty" })
     .max(10_000, { message: "Content is too long" }),
 });
+
+export type createPostType = z.infer<typeof createPostInput>
+
+
 
 export const updatePostInput = z.object({
     title: z
@@ -70,6 +84,10 @@ export const updatePostInput = z.object({
     .optional(),
 });
 
+export type updatePostType = z.infer<typeof updatePostInput>
+
 
 //  strict -- no thing extra allowed.
 //  passthorugh  -- extra fields allowed.
+//optional makes fields optional
+
