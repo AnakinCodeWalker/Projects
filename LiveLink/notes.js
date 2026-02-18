@@ -19,3 +19,82 @@
 9. update the tsconfig into both the projects
 10. initialize a http server  , and a websocker server
 */
+
+
+/*
+if any folder in the common package is spitting something that you want in the apps or somewhere else to use just 
+add 
+"main": "dist/index.js",
+  "types": "dist/index.d.ts", 
+
+*/
+
+/*
+
+in creating a relationship in prisma 
+//  1 - 1
+in the referncing table the refrencing key should be unique
+
+// 1 - m
+In the referncing table the refrencing key should  not be unique
+
+//  m - n
+In case of many to many create a composite unique key.
+//    @@unique([userId, roomId]) // composite unique
+*/
+
+
+
+/*
+look for the refreshtokens somethings fishy over there
+
+*/
+
+
+/*
+
+model User {
+  id String @id @default(uuid())
+
+  userName String @unique
+  email    String @unique
+  password String
+
+  name String
+
+  // refreshToken       String?
+  // refreshTokenExpiry DateTime?
+
+  // 1 to many 
+  chat Chat[]
+  room Room[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Room {
+  id Int @id @default(autoincrement())
+
+  name String
+  slug String @unique // so no two rooms can have the same name
+
+  adminId String
+  user    User   @relation(fields: [adminId], references: [id])
+  chat    Chat[]
+  createdAt DateTime @default(now())
+}
+
+model Chat {
+  id Int @id @default(autoincrement())
+
+  message String
+ 
+  userId  String
+  roomId  Int
+  user User @relation(fields: [userId], references: [id])
+  room Room @relation(fields: [roomId] , references: [id])
+
+}
+
+*/

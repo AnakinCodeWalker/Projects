@@ -1,6 +1,12 @@
 {
- "compilerOptions": {
+  "extends": "../../packages/typescript-config/base.json",
+  "compilerOptions": {
     "rootDir": "./src",
-    "outDir": "./dist"
- }   
+    "outDir": "./dist",
+  },"references": [
+    { "path": "../../packages/db" }
+  ]
 }
+
+//     "@repo/typescript-config":"workspace:*",
+//  means i need the package.json from my current directory , not from npm 

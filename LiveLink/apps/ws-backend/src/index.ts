@@ -1,5 +1,9 @@
-import { WebSocketServer } from "ws";
 
+
+// a slightly better approach to extract the params from the request object.
+
+import { WebSocketServer } from "ws";
+import  {JWT_ACCESS_TOKEN} from "@repo/backend-common"
 const wss = new WebSocketServer({ port: 3000 })
 // as websocker start from http , they have access to request object
 wss.on("connection", (ws ,request) => {
@@ -24,7 +28,7 @@ if(!token){
 }
 
     ws.send("you are connected to server")
-
+    
     ws.on("message", (message) => {
         console.log("received from client", message.toString());
         ws.send(`You said: ${message}`);

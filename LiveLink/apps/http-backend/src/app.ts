@@ -1,10 +1,10 @@
-import  express, { urlencoded }  from "express";
+import  express, {Express, urlencoded }  from "express";
 
 import cors , { CorsOptions } from "cors";
 import cookieParser from "cookie-parser";
-import { env } from "./config/env";
+import { env } from "./config/env.js";
 
-const app = express()
+const app : Express = express()
 
 
 const corsOptions:CorsOptions ={
