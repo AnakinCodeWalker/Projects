@@ -14,6 +14,7 @@ import {
 } from "../controllers/user.controller.js";
 
 import authMiddleware from "../middleware/auth.middleware.js"
+import { emailParams ,userNameParams } from "../types/auth.types.js";
 
 const userRouter = Router()
 
@@ -21,23 +22,23 @@ const userRouter = Router()
 userRouter.route("/signup").post(signup)
 userRouter.route("/signin").post(signin)
 
-// user verification route
-userRouter.route("/verify-email").get(verifyEmail)
 
 //  access token refreshing route
-userRouter.post("/refresh-token", refreshAccessToken)
+userRouter.post("/refresh-token", authMiddleware ,refreshAccessToken)
 
-userRouter.route("/forget-password").post(forgetPassword)
-userRouter.post("/reset-password", resetPassword)
+userRouter.route("/forget-password").post(authMiddleware,forgetPassword)
+userRouter.post("/reset-password", authMiddleware ,resetPassword)
 
-userRouter.get("/me", getCurrentUser)
-userRouter.route("/profile").post(updateDetails)
+userRouter.get("/me",authMiddleware, getCurrentUser)
+userRouter.route("/profile").post(authMiddleware,updateDetails)
 
-userRouter.route("/logout").post(logout)
+userRouter.route("/logout").post(authMiddleware,logout)
 
+// user verification route //when ever you passdata from params you have to pass the generic here as well
+userRouter.route("/verify-email/:token").get(verifyEmail)
 
 // dynamic route get user via username
-userRouter.get("/:username", getUserProfile)
+userRouter.route("/:username").get<userNameParams>(getUserProfile)
 
 export default userRouter
 

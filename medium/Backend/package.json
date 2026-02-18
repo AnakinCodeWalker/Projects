@@ -13,17 +13,28 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@anakincodewalker/common": "^1.0.1",
+    "@anakincodewalker/common": "^1.0.10",
+    "@prisma/client": "^7.4.0",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3"
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "ms": "^2.1.3",
+    "nodemailer": "^8.0.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
-    "cookie-parser": "^1.4.7"
+    "@types/node": "^25.2.3",
+    "@types/nodemailer": "^7.0.9",
+    "cookie-parser": "^1.4.7",
+    "prisma": "^7.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

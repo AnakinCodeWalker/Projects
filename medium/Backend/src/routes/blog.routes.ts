@@ -1,5 +1,6 @@
 import { Router } from "express";
-
+import authMiddleware from "../middleware/auth.middleware.js";
+import {blogParams} from "../types/auth.types.js"
 import {
   createBlog,
   searchBlogs,
@@ -12,12 +13,12 @@ import {
 const blogRouter = Router()
 
 blogRouter.route("/")
-  .post(createBlog)
+  .post(authMiddleware, createBlog)
 
 blogRouter.route("/search")
-  .get(searchBlogs)
+  .get(searchBlogs)  // by userName
 
-// all blogs 
+// all blogs   // paginataiton logic
 blogRouter.route("/bulk")
   .get(getBulkBlogs)
 
@@ -25,8 +26,8 @@ blogRouter.route("/bulk")
 blogRouter
   .route("/:id")
   .get(getBlogById)
-  .put(updateBlogById)
-  .delete(deleteBlogById)
+  .put(authMiddleware,updateBlogById)
+  .delete(authMiddleware,deleteBlogById)
 
 
 export default blogRouter

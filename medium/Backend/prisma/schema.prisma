@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+//  if you dont write anything by default they are required fields
+model User {
+  id           String  @id @default(uuid())
+  userName     String  @unique
+  passwordHash String
+  email        String  @unique
+  firstName    String
+  lastName     String
+  isVerified   Boolean @default(false)
+
+  emailTokens   EmailVerificationToken[] // 1 - n
+  refreshTokens RefreshToken[] // 1 - n
+  blog          Blog[]
+  createdAt     DateTime                 @default(now())
+  updatedAt     DateTime                 @updatedAt
+}
+
+//  because one user can have multiple tokens
+model EmailVerificationToken {
+  // you can not do autoincrement onthe string type 
+
+  id String @id @default(uuid())
+
+  token     String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  expiresAt DateTime
+}
+
+// related to user model
+//  allows multiple login
+
+model RefreshToken {
+  id String @id @default(uuid())
+   token     String   @unique
+  userId String
+  // delete the parent and child as well.
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([userId])
+}
+
+model Blog {
+  id        String  @id @default(uuid())
+  title     String
+  content   Json //changed from string to json
+  published Boolean @default(false)
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  coverImageUrl String? // to upload on cloudinary.. optional
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([published])   // if want to search on the basis of publisehed hai ki nhi .
+}
+
+//  one to many  - array
+//  many to one  - single object
+
+// ondelete cascade deletes data from the child tableif you delete it from the parent table.
+
+// include and  select when you want to extract data from diffrent tables
+//  select kai liye you have to pass  model relation ka vairable name not the acutal name of the model but the variable via which we will be referring to.
+
+
+// Use a nested select to include specific fields from a related record.
+//  You can also nest select inside an include. but vice-versa is not true.
+//  you cannot use select and include on the same level.
+
+// top level pr select then niche v select hi hoga include khi nhi
+
+
+
+// create many
+
+//Not available in the context of a many-to-many relation — for example, you cannot prisma.post.create(...) a post and use a nested createMany to create categories (many posts have many categories).
+
+// u  can not do deeep nesting in create many
