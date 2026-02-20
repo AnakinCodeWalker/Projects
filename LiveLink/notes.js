@@ -98,3 +98,12 @@ model Chat {
 }
 
 */
+
+/*
+if the db already contains data and i add a new constriant ,(@unique or required field) the migration can fail if existing rows voilate that constraint.
+instead  , i have to clean the data before migrating the db.
+*/
+
+/*
+if i add a field after putting some data into my db , then i have to provide a default value for it that is going to be applied to that field or make the field optional otherwise prisma migration will fail.
+*/

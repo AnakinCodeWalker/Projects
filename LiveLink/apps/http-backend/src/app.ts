@@ -9,6 +9,7 @@ const app : Express = express()
 
 const corsOptions:CorsOptions ={
     origin:env.ORIGIN,
+    //  is this going to be authorization
     allowedHeaders: ['Content-Type', 'Authorization'],
     methods:["GET","PUT","POST","PATCH","DELETE","OPTIONS"],
     credentials:true,

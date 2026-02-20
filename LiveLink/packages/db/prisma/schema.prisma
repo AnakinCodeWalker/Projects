@@ -35,8 +35,8 @@ model User {
 model Room {
   id Int @id @default(autoincrement())
 
-  name String
-  slug String @unique // so no two rooms can have the same name
+  
+  slug String @unique // so no two rooms can have the same name  author will provide a slug
 
   adminId String
   user    User   @relation(fields: [adminId], references: [id])

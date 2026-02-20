@@ -12,21 +12,22 @@ const userAuthMiddleware =  ( req : Request,res:Response , next : NextFunction) 
 
 
         // extract the token from the , header , if the token is not there fall to an empty string.
-        const token = req.headers["authorization"]
-                       ??  req.cookies?.accessToken 
+        const token = req.headers["Authorization"]
+                       ??  req.cookies?.accessToken // create a cookie put accesstoken in it.
                        ?? ""
 
 if(token=="")
     return next(new ApiError(402,"Invalid token"))
 
 const decoded = jwt.verify(token,env.JWT_ACCESS_TOKEN)
+ // return the jwt payload
 
 if(!decoded)
     return next(new ApiError(402,"Invalid token"))
 
-//@ts-ignore
+//@ts-ignore // extract the userId  // object.id
 req.userId = decoded.userId
-
+next()
     } catch (error) {
         if(error instanceof Error)
         console.log(`error in middleware${error.message}`);

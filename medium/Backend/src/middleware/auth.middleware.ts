@@ -8,33 +8,26 @@ import { Request, Response,NextFunction } from "express";
 import ApiError from "../utils/ApiError.js";
 import  jwt from "jsonwebtoken";
 import env from "../config/env.config.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
-interface jwtPayloadType  {
-    id : number
-   }
-   
+
   
-const authMiddleware = async (req:Request,res:Response,next:NextFunction) => {
+const authMiddleware = asyncHandler ((req:Request,res:Response,next:NextFunction) => {
 
-    const token  = req.headers["authorization"]  ?? req.cookies?.accessToken ?? ""
+    const token  = req.headers["Authorization"]  ?? req.cookies?.accessToken ?? ""
    
     if(!token)
-    return next(new ApiError(401,"No token provided"))
+    return next(new ApiError(401,"Invalid token"))
 
    
-    const decode =  jwt.verify(token,env.JWT_ACCESS_SECRET) as jwtPayloadType
+    const decoded =  jwt.verify(token,env.JWT_ACCESS_SECRET) 
 
-    if(!decode)
+    if(!decoded)
        return next(new ApiError(401,"No token provided"))
    
-   const id = decode.id 
-
-   if(!id)
-      return next(new ApiError(401, "unauthorized"))
-///////////////////////
-   req.body.id =  decode.id 
-        
+   //@ts-ignore // add global types  -- todo..
+   req.userId =  decoded?.id 
         next()
-}
+})
 
 export default authMiddleware

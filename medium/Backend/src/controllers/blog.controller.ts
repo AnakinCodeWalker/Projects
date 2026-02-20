@@ -7,9 +7,11 @@ import prisma from "../lib/prisma.js";
 import { searchBlogsInterface, blogParams } from "../types/auth.types.js";
 
 
+// add coverImage as optional field.
 //skipping pagination logic for now rest are done.
 
-//  express 5 mai globalr error handler kai passs direct chla jyega so dont worry to wrap around ,trycatch
+
+//  express 5 mai global error handler kai passs direct chla jyega so dont worry to wrap around ,trycatch
 //  to  fir asynhandler use krte hai kyuki , industry standard hai 
 // safeparse returns an object
 // {  success: true ; data: signupType;}
@@ -26,7 +28,9 @@ const createBlog = asyncHandler(async (req: Request<{}, {}, createPostType, {}>,
     const result = createPostInput.safeParse(req.body)
 
     // if left side exists krti hai tb hi , aage badho.
-    const userId = req.user?.id   // jwt id
+    
+    //@ts-ignore
+    const userId = req.userId   // jwt id
 
     if (!userId)
         throw new ApiError(401, "unauthorized")
@@ -51,7 +55,8 @@ const createBlog = asyncHandler(async (req: Request<{}, {}, createPostType, {}>,
     })
     res.status(201).json(
         new ApiResponse(201, "blog created", {
-            blog: newBlog
+            blog: newBlog,
+            blogId : newBlog.id
         }))
 
 })
@@ -72,6 +77,8 @@ const searchBlogs = asyncHandler(async (req: Request<{}, {}, {}, searchBlogsInte
                     published: true
                 },
                 select: {
+                    id : true,
+                    userId : true,
                     title: true,
                     content: true,
                     coverImageUrl: true
@@ -86,7 +93,8 @@ const searchBlogs = asyncHandler(async (req: Request<{}, {}, {}, searchBlogsInte
         throw new ApiError(404, "user name : does not exists ! ")
 
     res.status(200).json(new ApiResponse(200, `Blog of username : : ${userName} `, {
-        blog: searchByUsername.blog
+        blog: searchByUsername.blog,
+
     }))
 
 
@@ -94,11 +102,12 @@ const searchBlogs = asyncHandler(async (req: Request<{}, {}, {}, searchBlogsInte
 
 
 
+
 //  either you can make a request<generic type for params which i was doing earlier but then you have to fix for global asynchandler as well>
 const updateBlogById = asyncHandler(async (req: Request<{}, {}, updatePostType, {}>, res: Response): Promise<void> => {
 
     // or you can use this slightly cleaner approach.
-   
+//    getting the  blogId by params
     const url  = req.url
 
     if(!url){
@@ -106,11 +115,11 @@ const updateBlogById = asyncHandler(async (req: Request<{}, {}, updatePostType, 
     }  
     // utility methods to work with the query string of a URL.
     const queryParams  = new URLSearchParams(url.split('?')[1])
-    const blogId = queryParams.get('blogId')
+    const blogId = queryParams.get('id')
 
     
-    
-    const userId = req.body?.id
+    //@ts-ignore   // kis specific user ki blog ko edit krna hai
+    const userId = req.userId
 
     const result = updatePostInput.safeParse(req.body)
 
@@ -128,7 +137,8 @@ const updateBlogById = asyncHandler(async (req: Request<{}, {}, updatePostType, 
     const updatedBlogCount = await prisma.blog.updateMany({
         where: {
             userId: userId, //jwt
-            id: blogId     // params
+            id: blogId     // params  //  kis specific blog ko edit krna hai 
+
         }, data: {
             title: result.data.title,
             content: result.data.content,
@@ -139,8 +149,9 @@ const updateBlogById = asyncHandler(async (req: Request<{}, {}, updatePostType, 
     if (updatedBlogCount.count == 0)
         throw new ApiError(403, "can not update")
 
-    res.status(200).json(new ApiResponse(200, "blog updated", {
+    res.status(200).json(new ApiResponse(200, "Number of blog updated : ", {
      updatedBlogCount : updatedBlogCount.count
+
     }))
 
 })
@@ -152,19 +163,26 @@ const updateBlogById = asyncHandler(async (req: Request<{}, {}, updatePostType, 
 
 
 
-//  skipping pagination logic for now 
+//  todo :  Add pagination logic  
+//  add pagination logic ,limit=10 instead of laoding all the blog at once  we will load 10 blogs at a time.
+
+//  you can tweak a little bit and only then , user will be able to see the blogs.
 
 const getBulkBlogs = asyncHandler(async (req: Request, res: Response): Promise<void> => {
 
-const userId = req.user?.id
+ /*
 
-if (!userId)
+    //@ts-ignore
+    const userId = req.userId
+
+ if (!userId)
         throw new ApiError(403, "unauthorized user")
 
+ */
     const allBlogs = await prisma.blog.findMany(
         {
             where: {
-                 userId: userId,
+                                               //  userId: userId, 
                 published: true
             }, select: {
                 title: true,
@@ -179,7 +197,6 @@ if (!userId)
     res.status(200).json(new ApiResponse(200, "All blogs", {
         blogs: allBlogs
     }))
-    //  add pagination logic ,limit=10 instead of laoding all the blog at once  we will load 10 blogs at a time.
 
 })
 
@@ -188,10 +205,15 @@ if (!userId)
 
 
 
-const getBlogById = async (req: Request<blogParams>, res: Response): Promise<void> => {
+const getBlogById = asyncHandler(async (req: Request<{},{},{},{}> ,res: Response): Promise<void> => {
     
-        // get blogId from params
-        const blogId = req.params.id
+    // get the url from req object
+    const url = req.url
+
+    const searchUrl  =  new URLSearchParams(url.split('?')[1]) 
+   
+    // get blogId from params
+           const blogId =  searchUrl.get('id')     
 
     if (!blogId)
         throw new ApiError(400, "Invalid blog id")
@@ -216,15 +238,24 @@ const getBlogById = async (req: Request<blogParams>, res: Response): Promise<voi
         }))
 
 
-}
+})
 
-const deleteBlogById = async (req: Request<blogParams,{} ,{} ,{}>, res: Response): Promise<void> => {
+const deleteBlogById =asyncHandler (async (req: Request<{},{} ,{} ,{}>, res: Response): Promise<void> => {
 
         
-        const userId = req.user?.id  // user model id
+    const url = req.url
 
-        const blogId = req.params.id
+       if(!url)
+    throw new ApiError(403, "unauthorized user")
+     
+       const searchUrl = new URLSearchParams(url.split("?")[1])
 
+       const blogId = searchUrl.get('id')
+
+    //@ts-ignore    
+    const userId = req.userId  // user model id
+
+      
         if (!userId)
             throw new ApiError(403, "unauthorized user")
 
@@ -238,13 +269,13 @@ const deleteBlogById = async (req: Request<blogParams,{} ,{} ,{}>, res: Response
             }
         })
         if (deletedBlog.count === 0) {  //delete many return  0 if no user has been deleted.
-            throw new ApiError(403, "not allowed")
+            throw new ApiError(403, "can not delete")
         }
         res.status(200).json(new ApiResponse(200, "blog deleted Successfully"))
 
 
 
-}
+})
 
 
 

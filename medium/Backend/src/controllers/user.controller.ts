@@ -1,3 +1,5 @@
+// write forgot , reset , refresh ,update  controller
+
 import { CookieOptions, Request, Response } from "express";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
@@ -10,7 +12,6 @@ import { randomBytes } from "node:crypto";
 import env from "../config/env.config.js";
 import nodemailer from "nodemailer"
 import crypto from "crypto"
-import { emailParams, userNameParams } from "../types/auth.types.js";
 
 //  you have to add global d.ts for  middlewares
 
@@ -81,6 +82,7 @@ const signup = asyncHandler(async (req: Request<{}, {}, signupType>, res: Respon
     if (!newUser)
         throw new ApiError(400, "Internal server error")
 
+    //  for email
     const token = randomBytes(32).toString("hex")
     const hashedToken = crypto
         .createHash("sha256")
@@ -151,7 +153,7 @@ const signup = asyncHandler(async (req: Request<{}, {}, signupType>, res: Respon
 
 })
 
-const verifyEmail = async (req: Request<emailParams, {}, {}>, res: Response): Promise<void> => {
+const verifyEmail =asyncHandler( async (req: Request<{}, {}, {}>, res: Response): Promise<void> => {
     // get the token from the url
     // find the user from the token
     // user has normal token db has hashed token
@@ -162,9 +164,13 @@ const verifyEmail = async (req: Request<emailParams, {}, {}>, res: Response): Pr
 
 
     //  to access data from the url use req.params
-    try {
-        const { token } = req.params
-        console.log(`Token is : ${token}`);
+    const url = req.url
+
+    const urlParams = new  URLSearchParams(url.split("?")[1])
+    
+    const token = urlParams.get('token')
+
+    console.log(`Token is : ${token}`);
 
         if (!token)
             throw new ApiError(400, "Can not Find Token")
@@ -214,15 +220,7 @@ const verifyEmail = async (req: Request<emailParams, {}, {}>, res: Response): Pr
         console.log(`successfully verified.`);
         res.status(200).json(new ApiResponse(200, "Verified Successfully"))
 
-    } catch (error) {
-        if (error instanceof Error) {
-            console.log("Error in verification", error.message)
-            throw new ApiError(403, "Please verify your email first");
-        }
-
-    }
-
-}
+})
 
 
 
@@ -266,6 +264,7 @@ const signin = asyncHandler(async (req: Request<{}, signinType, {}, {}>, res: Re
     const refreshTokenExpiry = new Date(
         Date.now() + Number(env.JWT_REFRESH_EXPIRES)
     );
+
     await prisma.refreshToken.create({
         data: {
             token: refreshToken,
@@ -298,6 +297,8 @@ const signin = asyncHandler(async (req: Request<{}, signinType, {}, {}>, res: Re
         maxAge: Number(env.JWT_REFRESH_EXPIRES)
     }
 
+    //  set cookies and accesstoken.
+
     res.status(200)
         .cookie("accessToken", accessToken, accessTokenCookieOptions)
         .cookie("refreshToken", refreshToken, refreshTokenCookieOptions)
@@ -317,7 +318,8 @@ const refreshAccessToken = asyncHandler(async (req: Request, res: Response): Pro
 
 const updateDetails = asyncHandler(async (req: Request<{},{},updateDetailsType,{}>, res: Response): Promise<void> => {
 
-    const userId = req.body?.id ?? ""
+    // @ts-ignore
+    const userId = req.userId ?? ""
 
     const result = updateDetailsInput.safeParse(req.body)
 
@@ -366,7 +368,9 @@ const resetPassword = asyncHandler(async (req: Request, res: Response): Promise<
 
 
 const getCurrentUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-    const id = req.user?.id
+    
+    // @ts-ignore
+    const id = req.userId
 
     const user = await prisma.user.findFirst({
         where: {
@@ -414,11 +418,13 @@ const logout = asyncHandler(async (req: Request, res: Response): Promise<void> =
 
 
 
-const getUserProfile = async (req: Request<userNameParams, {}, {}, {}>, res: Response): Promise<void> => {
+const getUserProfile = asyncHandler(async (req: Request<{}, {}, {}, {}>, res: Response): Promise<void> => {
 
 
+const url = req.url 
+const urlParams = new URLSearchParams(url.split("?")[1])
+    const userName = urlParams.get('userName')
 
-    const userName = req.params.userName
     const finduser = await prisma.user.findUnique({
         where: {
             userName: userName,
@@ -447,7 +453,8 @@ const getUserProfile = async (req: Request<userNameParams, {}, {}, {}>, res: Res
     res.status(200).json(new ApiResponse(200, "user Details", {
         userDetail: finduser
     }))
-}
+})
+
 
 
 export {
