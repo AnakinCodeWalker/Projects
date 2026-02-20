@@ -1,5 +1,7 @@
 //  make coverimage and profile picture optional..
-
+// migrate the db also
+//  add resetPasswordToken ,resetPasswordTokenExpiry
+// add likes and comment model in here with relationship
 
 
 // This is your Prisma schema file,

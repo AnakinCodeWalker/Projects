@@ -1,9 +1,10 @@
 // write forgot , reset , refresh ,update  controller
+//  crate a send mail utility function.
 
 import { CookieOptions, Request, Response } from "express";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
-import { signupInput, signupType, signinInput, signinType ,updateDetailsInput,updateDetailsType} from "@anakincodewalker/common";
+import { signupInput, signupType, signinInput, signinType, updateDetailsInput, updateDetailsType } from "@anakincodewalker/common";
 import jwt from "jsonwebtoken";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import bcrypt from "bcrypt"
@@ -153,7 +154,7 @@ const signup = asyncHandler(async (req: Request<{}, {}, signupType>, res: Respon
 
 })
 
-const verifyEmail =asyncHandler( async (req: Request<{}, {}, {}>, res: Response): Promise<void> => {
+const verifyEmail = asyncHandler(async (req: Request<{}, {}, {}>, res: Response): Promise<void> => {
     // get the token from the url
     // find the user from the token
     // user has normal token db has hashed token
@@ -166,59 +167,59 @@ const verifyEmail =asyncHandler( async (req: Request<{}, {}, {}>, res: Response)
     //  to access data from the url use req.params
     const url = req.url
 
-    const urlParams = new  URLSearchParams(url.split("?")[1])
-    
+    const urlParams = new URLSearchParams(url.split("?")[1])
+
     const token = urlParams.get('token')
 
     console.log(`Token is : ${token}`);
 
-        if (!token)
-            throw new ApiError(400, "Can not Find Token")
+    if (!token)
+        throw new ApiError(400, "Can not Find Token")
 
-        // hashing the normal token the user has
-        const hashedUserToken = await crypto
-            .createHash("sha256")
-            .update(token)
-            .digest("hex")
+    // hashing the normal token the user has
+    const hashedUserToken = await crypto
+        .createHash("sha256")
+        .update(token)
+        .digest("hex")
 
 
-        // find the user provided token with the db token
-        const userWithToken = await prisma.EmailVerificationToken.findFirst({
+    // find the user provided token with the db token
+    const userWithToken = await prisma.EmailVerificationToken.findFirst({
+        where: {
+            token: hashedUserToken
+        }
+    })  // will return an object
+
+    if (!userWithToken)
+        throw new ApiError(403, "Invalid or expired token");
+
+    // check token expired...
+    if (userWithToken.expiresAt < new Date())
+        throw new ApiError(403, "Token expired")
+
+    //  added transaction to avoid race codition..
+
+    await prisma.$transaction([
+        prisma.user.update({
+            //  userWithToken iska userId extract karo then user model mai add kro is verified true. 
             where: {
-                token: hashedUserToken
+                id: userWithToken.userId,  //user table ki id ,specific user ki jiski token hai
+            }, data: {
+                isVerified: true,
+            },
+        }),
+
+        // delete the token after verification.
+
+        prisma.EmailVerificationToken.delete({
+            where: {
+                id: userWithToken.id  // iski apni id 
             }
-        })  // will return an object
+        })
+    ])
 
-        if (!userWithToken)
-            throw new ApiError(403, "Invalid or expired token");
-
-        // check token expired...
-        if (userWithToken.expiresAt < new Date())
-            throw new ApiError(403, "Token expired")
-
-        //  added transaction to avoid race codition..
-
-        await prisma.$transaction([
-            prisma.user.update({
-                //  userWithToken iska userId extract karo then user model mai add kro is verified true. 
-                where: {
-                    id: userWithToken.userId,  //user table ki id ,specific user ki jiski token hai
-                }, data: {
-                    isVerified: true,
-                },
-            }),
-
-            // delete the token after verification.
-
-            prisma.EmailVerificationToken.delete({
-                where: {
-                    id: userWithToken.id  // iski apni id 
-                }
-            })
-        ])
-
-        console.log(`successfully verified.`);
-        res.status(200).json(new ApiResponse(200, "Verified Successfully"))
+    console.log(`successfully verified.`);
+    res.status(200).json(new ApiResponse(200, "Verified Successfully"))
 
 })
 
@@ -316,45 +317,99 @@ const refreshAccessToken = asyncHandler(async (req: Request, res: Response): Pro
 })
 
 
-const updateDetails = asyncHandler(async (req: Request<{},{},updateDetailsType,{}>, res: Response): Promise<void> => {
+const updateDetails = asyncHandler(async (req: Request<{}, {}, updateDetailsType, {}>, res: Response): Promise<void> => {
 
     // @ts-ignore
     const userId = req.userId ?? ""
 
     const result = updateDetailsInput.safeParse(req.body)
 
-    if(result.success==false)
-        throw new ApiError(400 ,"Validation error")
+    if (result.success == false)
+        throw new ApiError(400, "Validation error")
 
- const { userName, firstName, lastName, email, password } = result.data;
+    const { userName, firstName, lastName, email, password } = result.data;
 
     const updatedUser = await prisma.user.update({
-        where:{
-            id:userId
-        },data:{  //on code directory check object.js
-//username hai to dalo nhi to req.data.userName update krdo agar aya hai to
-            ...(userName&&{userName})  // --> short-circuit if , 1st false then second true. vice versa 
-            ...
+        where: {
+            id: userId
+        }, data: {  //on code directory check object.js
+            //username hai to dalo nhi to req.data.userName update krdo agar aya hai to
+            ...(userName && { userName })  // --> short-circuit if , 1st false then second true. vice versa 
 
         }, select: {
-        id: true,
-        userName: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        isVerified: true
-      }
+            id: true,
+            userName: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            isVerified: true
+        }
     })
-   
+
     res.status(200)
-            .json(new ApiResponse(200, "user updated",{
-                user: updatedUser
-            }))
+        .json(new ApiResponse(200, "user updated", {
+            user: updatedUser
+        }))
 
 
 })
 
 const forgetPassword = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+    /*
+      
+         Checks if user exists
+         Generates a secure reset token
+         Hashes the token and stores it in DB
+         Sets token expiry time
+         Sends reset link via email
+      */
+
+    const { email } = req.body as {
+        email: string
+    }
+
+    const foundUser = await prisma.findUnique({
+        where: {
+            email
+        }
+    })
+    if (!foundUser)
+        throw new ApiError(403, "Incorrect Inputs")
+
+    const token = await crypto
+        .randomBytes(32)
+        .toString("hex")
+
+    const hashedresetPasswordToken = crypto
+        .createHash("sha256")
+        .update(token)
+        .digest("hex");
+
+    console.log(`checking if both are same or not`);
+    //@ts-ignore
+    console.log(`userId from middleware ${req.userId}`);
+
+    console.log(`userId from found record in db : ${foundUser.id}`);
+
+    await prisma.user.update({
+        where: {
+            id: foundUser.id,
+            //or
+            //@ts-ignore
+            id: req.userId   // just to prove my point i am doing this .
+
+        }, data: {
+            resetPasswordToken: hashedresetPasswordToken,
+            resetPasswordTokenExpiry: new Date(Date.now() + 15 * 60 * 1000)
+        }
+    })
+
+
+    res.status(200)
+        .json(new ApiResponse(200, "token sent successfully", {
+                resetPasswordToken: token
+            })
+        )
 
 })
 
@@ -368,7 +423,7 @@ const resetPassword = asyncHandler(async (req: Request, res: Response): Promise<
 
 
 const getCurrentUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-    
+
     // @ts-ignore
     const id = req.userId
 
@@ -421,8 +476,8 @@ const logout = asyncHandler(async (req: Request, res: Response): Promise<void> =
 const getUserProfile = asyncHandler(async (req: Request<{}, {}, {}, {}>, res: Response): Promise<void> => {
 
 
-const url = req.url 
-const urlParams = new URLSearchParams(url.split("?")[1])
+    const url = req.url
+    const urlParams = new URLSearchParams(url.split("?")[1])
     const userName = urlParams.get('userName')
 
     const finduser = await prisma.user.findUnique({

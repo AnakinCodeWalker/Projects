@@ -15,11 +15,22 @@ const env = {
     MAILTRAP_PASSWORD: process.env.MAILTRAP_PASSWORD as string,
     MAILTRAP_SENDEREMAIL: process.env.MAILTRAP_SENDEREMAIL as string,
 
+    //  tokens
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET as string,
     JWT_ACCESS_EXPIRES: Number(process.env.JWT_ACCESS_EXPIRES_IN),
 
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET as string,
     JWT_REFRESH_EXPIRES: Number(process.env.JWT_REFRESH_EXPIRES_IN),
+
+
+    //cloudinary configuration
+
+    cloud_name: process.env.CLOUD_NAME as string,
+    api_key: process.env.API_KEY as string,
+    api_secret: process.env.API_SECRET as string,
+
+
+
 
     NODE_ENV: "TESTING"
 

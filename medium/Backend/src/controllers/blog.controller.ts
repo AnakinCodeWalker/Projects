@@ -4,10 +4,10 @@ import ApiResponse from "../utils/ApiResponse.js";
 import { createPostInput, createPostType, updatePostInput, updatePostType } from "@anakincodewalker/common"
 import { asyncHandler } from "../utils/asyncHandler.js";
 import prisma from "../lib/prisma.js";
-import { searchBlogsInterface, blogParams } from "../types/auth.types.js";
+import { searchBlogsInterface } from "../types/auth.types.js";
 
 
-// add coverImage as optional field.
+// add coverImage as optional field. in required controllers
 //skipping pagination logic for now rest are done.
 
 
@@ -181,8 +181,8 @@ const getBulkBlogs = asyncHandler(async (req: Request, res: Response): Promise<v
  */
     const allBlogs = await prisma.blog.findMany(
         {
-            where: {
-                                               //  userId: userId, 
+            where: {   
+                                     //  userId: userId, 
                 published: true
             }, select: {
                 title: true,

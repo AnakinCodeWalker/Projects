@@ -1,6 +1,6 @@
 
 /*
-The NODE_ENV environment variable specifies the environment in which an application is running (usually, development or production). 
+The NODE_ENV environment variable specifies the environment in which an application is running (usually, development or production).
 
 
 One of the simplest things you can do to improve performance is to set NODE_ENV to production.
@@ -14,10 +14,10 @@ Cache CSS files generated from CSS extensions.
 Generate less verbose error messages.
 */
 /*
-  to deal with multiple related tables queries u could use 
+  to deal with multiple related tables queries u could use
 include and select
 
---   user and that users post 
+--   user and that users post
   */
 
 /*
@@ -44,7 +44,7 @@ const user = await prisma.user.findFirst({
   },
 })
 
-"user -- post --- categories" 
+"user -- post --- categories"
 
 */
 
@@ -52,7 +52,7 @@ const user = await prisma.user.findFirst({
 // and for other thigns we use custom generic interfaces.
 
 
-// jiksa route hoga id v uska hi extract hoga 
+// jiksa route hoga id v uska hi extract hoga
 // user/:id - user ki id
 //  blog/:id -- blog ki id
 
@@ -64,12 +64,7 @@ const user = await prisma.user.findFirst({
 
 /*
 
-Reference to understand 
-how to extract something from params instead of making a request generic
-
-
-
-// a slightly better approach to extract the params from the request object.
+//Done --  a slightly better approach to extract the params from the request object.
 
 import { WebSocketServer } from "ws";
 
@@ -114,5 +109,31 @@ if(!token){
 //  ? -> extra infromation
 
 //  /: -> params necessary information
+
+*/
+
+/*
+
+multer - ARRAY VS FIELDS:
+
+--req.files.name
+ fields lets you upload multiple files of diffrent types.
+  req.files.name
+
+  Multeruploader.fields[
+  {
+  name : "coverImage" , 
+  maxCount : 10
+  }, {
+  name : "profile",
+  maxCount : 1
+  }]
+
+--accessible in files
+  array lets you upload multple files of same type.
+  req.files
+
+
+  Multeruploader.array("filename", number of files)
 
 */

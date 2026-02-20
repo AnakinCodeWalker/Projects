@@ -14,12 +14,11 @@ import {
 } from "../controllers/user.controller.js";
 
 import authMiddleware from "../middleware/auth.middleware.js"
-import { emailParams ,userNameParams } from "../types/auth.types.js";
-
+import { upload } from "../middleware/multer.middleware.js";
 const userRouter = Router()
 
 
-userRouter.route("/signup").post(signup)
+userRouter.route("/signup").post(upload.single('avatar'),signup)
 userRouter.route("/signin").post(signin)
 
 
@@ -30,7 +29,7 @@ userRouter.route("/forget-password").post(authMiddleware,forgetPassword)
 userRouter.post("/reset-password", authMiddleware ,resetPassword)
 
 userRouter.get("/me",authMiddleware, getCurrentUser)
-userRouter.route("/profile").post(authMiddleware,updateDetails)
+userRouter.route("/profile").post(authMiddleware,upload.single('avatar'),updateDetails)
 
 userRouter.route("/logout").post(authMiddleware,logout)
 
@@ -38,7 +37,7 @@ userRouter.route("/logout").post(authMiddleware,logout)
 userRouter.route("/verify-email/:token").get(verifyEmail)
 
 // dynamic route get user via username
-userRouter.route("/:username").get<userNameParams>(getUserProfile)
+userRouter.route("/:username").get(getUserProfile)
 
 export default userRouter
 

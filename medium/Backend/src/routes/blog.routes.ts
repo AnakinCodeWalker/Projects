@@ -1,6 +1,8 @@
 import { Router } from "express";
+
 import authMiddleware from "../middleware/auth.middleware.js";
-import {blogParams} from "../types/auth.types.js"
+import { upload } from "../middleware/multer.middleware.js";
+
 import {
   createBlog,
   searchBlogs,
@@ -13,7 +15,7 @@ import {
 const blogRouter = Router()
 
 blogRouter.route("/")
-  .post(authMiddleware, createBlog)
+  .post(authMiddleware, upload.array("coverImage",10),createBlog)
 
 blogRouter.route("/search")
   .get(searchBlogs)  // by userName
@@ -26,7 +28,7 @@ blogRouter.route("/bulk")
 blogRouter
   .route("/:id")
   .get(getBlogById)
-  .put(authMiddleware,updateBlogById)
+  .put(authMiddleware,upload.array("coverImage",10),   updateBlogById)
   .delete(authMiddleware,deleteBlogById)
 
 
