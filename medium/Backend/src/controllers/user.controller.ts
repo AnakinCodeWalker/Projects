@@ -13,6 +13,7 @@ import { randomBytes } from "node:crypto";
 import env from "../config/env.config.js";
 import nodemailer from "nodemailer"
 import crypto from "crypto"
+import { blob } from "node:stream/consumers";
 
 //  you have to add global d.ts for  middlewares
 
@@ -332,17 +333,28 @@ const updateDetails = asyncHandler(async (req: Request<{}, {}, updateDetailsType
     const updatedUser = await prisma.user.update({
         where: {
             id: userId
-        }, data: {  //on code directory check object.js
-            //username hai to dalo nhi to req.data.userName update krdo agar aya hai to
-            ...(userName && { userName })  // --> short-circuit if , 1st false then second true. vice versa 
+            //  how spread operator work ?? 
+            /*
 
+            */
+           
+            // DYNAMIC SPREAD...
+
+        }, data: {  //on code directory check object.js
+            // if user has given some input then update else dont update it.
+            ...(userName && { userName : userName }) ,  // --> if first is ture then second will execute.
+            ...(firstName && {firstName}),    // user provided  value && {key : value  } in db..
+            ...(lastName && {lastName:lastName}),
+            ...(email && {email : email}),
+            ...(password && {password : password})
         }, select: {
             id: true,
             userName: true,
             firstName: true,
             lastName: true,
             email: true,
-            isVerified: true
+            isVerified: true,
+            blog : true
         }
     })
 
@@ -412,6 +424,9 @@ const forgetPassword = asyncHandler(async (req: Request, res: Response): Promise
         )
 
 })
+
+
+
 
 const resetPassword = asyncHandler(async (req: Request, res: Response): Promise<void> => {
 
