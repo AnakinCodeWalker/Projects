@@ -29,7 +29,7 @@ userRouter.route("/forget-password").post(authMiddleware,forgetPassword)
 userRouter.post("/reset-password", authMiddleware ,resetPassword)
 
 userRouter.get("/me",authMiddleware, getCurrentUser)
-userRouter.route("/profile").post(authMiddleware,upload.single('avatar'),updateDetails)
+userRouter.route("/profile").patch(authMiddleware,upload.single('avatar'),updateDetails)
 
 userRouter.route("/logout").post(authMiddleware,logout)
 

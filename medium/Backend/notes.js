@@ -137,3 +137,20 @@ multer - ARRAY VS FIELDS:
   Multeruploader.array("filename", number of files)
 
 */
+
+/*
+
+DYNAMIC SPREAD ..
+
+...(userProvidedvalue && {key : value in db to be updated}) --> if user provide krega to hi update hoga elese condition false.
+
+...(email && {  email : email }) 
+
+*/
+
+/*  PUT VS PATCH ..
+
+put  -- full update   [ userName and email hai ] -- [ if only userName given hai to email null ho jyega. ]
+
+patch -- partial update [ userName  diya to sirf userName hi update hoga. ]
+*/
