@@ -6,23 +6,36 @@ import bcrypt from  "bcrypt"
 
 
 const UserSchema = new mongoose.Schema({
-    name: {
+    userName :{
         type: String,
         required: true,
+        unique: true,
+    },
+    firstName: {
+        type: String,
         lowercase: true,
         trim: true,
         index: true
     },
+    lastName :{
+        type: String,
+        lowercase: true,
+        trim: true,
+        index: true
+    },
+
     email: {
         type: String,
         required: true,
         unique: true,
         lowercase: true,
-        trim: true
+        trim: true,
+        index : true
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        select: false
     },
     role: {
         type: String,
@@ -35,6 +48,7 @@ const UserSchema = new mongoose.Schema({
     },
     verificationToken: {
         type: String,
+        
     },
     resetPasswordToken: {
         type: String,
@@ -43,8 +57,13 @@ const UserSchema = new mongoose.Schema({
         type: Date
     },
     refreshToken:{
-        type:String
-    }
+        type:String,
+        select: false
+    },
+    refreshTokenExpiry: {
+    type: Date,
+    select: false
+}
 
 }, {
     timestamps: true

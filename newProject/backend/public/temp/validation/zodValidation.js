@@ -3,7 +3,7 @@ import { z } from "zod"
 export const signupInput = z.object({
 
     firstName: z
-        .String()
+        .string()
         .min(3, { message: "Name must be at least 3 characters long" })
         .max(30, { message: "Name must be at most 30 characters long" }),
 
