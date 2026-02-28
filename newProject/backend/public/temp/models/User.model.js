@@ -1,23 +1,17 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv"
-dotenv.config()
 
-import bcrypt from  "bcrypt"
+import bcrypt from "bcrypt"
 
 
 const UserSchema = new mongoose.Schema({
-    userName :{
-        type: String,
-        required: true,
-        unique: true,
-    },
+
     firstName: {
         type: String,
         lowercase: true,
         trim: true,
         index: true
     },
-    lastName :{
+    lastName: {
         type: String,
         lowercase: true,
         trim: true,
@@ -30,40 +24,62 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
         trim: true,
-        index : true
+        index: true
     },
     password: {
         type: String,
         required: true,
         select: false
     },
-    role: {
-        type: String,
-        enum: ["user", "admin"],
-        default: "user"
+    otp: {
+        type: Number,
+        required: true
     },
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
-    verificationToken: {
-        type: String,
+    contactNumber: {
+        type: Number,
         
     },
+    accountType: {
+        type: String,
+        enum: ["Student", "Admin", "Instructor"],
+        default : "Student",
+        required: true,
+    },
+
+    additionalDetails: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Profile"
+    },
+    courses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Course"
+    }],
+    image: {
+        type: string,
+        required: true,
+    },
+    courseProgress: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "CourseProgress"
+    }],
+
     resetPasswordToken: {
         type: String,
     },
     resetPasswordExpiry: {
         type: Date
     },
-    refreshToken:{
-        type:String,
+    refreshToken: {
+        type: String,
         select: false
     },
     refreshTokenExpiry: {
-    type: Date,
-    select: false
-}
+        type: Date,
+        select: false
+    }
 
 }, {
     timestamps: true
@@ -71,15 +87,15 @@ const UserSchema = new mongoose.Schema({
 
 // before saving the password to the db 
 //     --->       the async hook does not need next
-UserSchema.pre("save",async function(){
-//    if password not modified then return immedieatly
-    if (!this.isModified("password")) 
-     return 
+UserSchema.pre("save", async function () {
+    //    if password not modified then return immedieatly
+    if (!this.isModified("password"))
+        return
 
-// if modfied then hash. 
-   this.password = await bcrypt.hash(this.password,10)
-      
-  
+    // if modfied then hash. 
+    this.password = await bcrypt.hash(this.password, 10)
+
+
 })
 
 // to check for the user given password 
@@ -87,10 +103,10 @@ UserSchema.pre("save",async function(){
 
 
 UserSchema.methods.isPasswordCorrect = async function (password) {
-   return await bcrypt.compare(password,this.password)
+    return await bcrypt.compare(password, this.password)
 }
 
 
 const User = mongoose.model("User", UserSchema)
 
-export  default User 
+export default User 
