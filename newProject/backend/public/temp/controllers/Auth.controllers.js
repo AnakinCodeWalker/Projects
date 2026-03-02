@@ -46,7 +46,12 @@ const sendOtp = asyncHandler(async (req, res) => {
       throw new ApiError(500, "can not create otp")
 
 
-   return res.status(200).json(new ApiResponse(200, "Opt sent successfully", { sentOtp }))
+   return res.status(200)
+      .json(new ApiResponse(200,
+         "Opt sent successfully",
+         {
+            sentOtp
+         }))
 
 })
 
@@ -57,7 +62,7 @@ const signupController = asyncHandler(async (req, res) => {
    const { otp, contactNumber } = req.body
 
    if (!result.success)
-      throw new ApiError(400, "Validation failed")
+      throw new ApiError(403, "Validation failed")
 
 
    if (password !== confirmPassword) {
@@ -79,6 +84,8 @@ const signupController = asyncHandler(async (req, res) => {
    if (!recentOtp || otp !== recentOtp.otp)
       throw new ApiError(403, "Invalid otp")
 
+   //  password hashing kai liye pre hook likha hua hai 
+
    const additionalDetails = await Profile.create({
       gender: null,
       dateOfBirth: null,
@@ -92,9 +99,9 @@ const signupController = asyncHandler(async (req, res) => {
       email: result.email,
       password: result.password,
       contactNumber,
-      accountType,
+      role,
       additionalDetails: additionalDetails._id, // object id
-      image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName}${lastName}`// providing default image to every user
+      image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName}${lastName}` // providing default image to every user
    })
 
    if (!newUser) {
@@ -104,9 +111,13 @@ const signupController = asyncHandler(async (req, res) => {
 
    }
 
-   return res.status(201).json(new ApiResponse(201, "user signup succesfully", {
-      user: newUser
-   }))
+   return res.status(201)
+      .json(
+         new ApiResponse(201,
+            "user signup succesfully",
+            {
+               user: newUser
+            }))
 
 })
 
@@ -116,7 +127,7 @@ const signinController = asyncHandler(async (req, res) => {
    const result = signinInput.safeParse(req.body)
 
    if (!result.success)
-      throw new ApiError(400, "Validation failed")
+      throw new ApiError(403, "Validation failed")
 
    const existingUser = await User.findOne({
 
@@ -127,7 +138,7 @@ const signinController = asyncHandler(async (req, res) => {
    if (!existingUser)
       throw new ApiError(304, "signup first ..")
 
-   /*
+   
    
    // do the password check
    
@@ -135,25 +146,67 @@ const signinController = asyncHandler(async (req, res) => {
          throw new ApiError(304, "Invalid password ..")
    
    const payload = {
-      id : existingUser._id
+      id : existingUser._id,
+      role : existingUser.role,
+      email : existingUser.email
    }
    
    const accessToken = jwt.sign(payload,env.JWT_ACCESS_SECRET,{
-      expiresIn :
+      expiresIn : env.JWT_ACCESS_EXPIRES
    })
     
    const refreshToken = jwt.sign(payload,env.JWT_REFRESH_SECRET,{
-      expiresIn : 
+      expiresIn : env.JWT_REFRESH_EXPIRES
    })
+
+ //  saving token in db
+
+existingUser.refreshToken = refreshToken;
+existingUser.refreshTokenExpiry = new Date(
+  Date.now() + 7 * 24 * 60 * 60 * 1000
+);
+
+await foundUser.save({ validateBeforeSave: false });
+
+// cookies  is the box which contains accesstoken and refresh token
+
+const accessTokenCookieOptions ={
+  httpOnly : true,
+ secure: env.NODE_ENV === "production", // https in prod
+   sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+  maxAge :  15 * 60 * 1000
+}
+
+//  check cookie 
+
+// //////// frontend mai 
+//  axios.post(url, data, { withCredentials: true });
+
+const refreshTokenCookieOptions={
+   httpOnly : true,
+   secure: env.NODE_ENV === "production", // https in prod
+   sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+  maxAge :   7 * 24 * 60 * 60 * 1000
+}
+
+res.status(200)
+.cookie("accessToken",accessToken,accessTokenCookieOptions)
+.cookie("refreshToken",refreshToken,refreshTokenCookieOptions)
+.json(new ApiResponse(200,"user logged in"))
+
+})
+
+const changePassword = asyncHandler(async (req,res) => {
    
-   */
 
+})
 
-   return res.status(200).json(new ApiResponse(200, "user signin succesfully", {
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      user
-   }))
+const resetpasswordToken = asyncHandler(async (req,res) => {
+   
+})
+
+const resetpassword = asyncHandler(async (req,res) => {
+   
 })
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -167,6 +220,9 @@ export {
    sendOtp,
    signupController,
    signinController,
+   changePassword,
+   resetpasswordToken,
+   resetpassword,
    logoutUser
 }
 
