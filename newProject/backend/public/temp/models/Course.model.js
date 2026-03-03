@@ -1,6 +1,7 @@
 import mongoose, { model, Schema } from " mongoose"
 
 const CourseSchema = new Schema({
+   
     courseName: {
         type: String
     },
