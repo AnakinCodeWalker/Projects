@@ -3,7 +3,6 @@
 //  add resetPasswordToken ,resetPasswordTokenExpiry
 // add likes and comment model in here with relationship
 
-
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -29,11 +28,14 @@ model User {
   lastName     String
   isVerified   Boolean @default(false)
 
+  //relations
   emailTokens   EmailVerificationToken[] // 1 - n
   refreshTokens RefreshToken[] // 1 - n
-  blog          Blog[]
-  createdAt     DateTime                 @default(now())
-  updatedAt     DateTime                 @updatedAt
+  blogs         Blog[] // 1 - n
+  comments      Comment[] // 1 - n
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 //  because one user can have multiple tokens
@@ -54,8 +56,8 @@ model EmailVerificationToken {
 //  allows multiple login
 
 model RefreshToken {
-  id String @id @default(uuid())
-   token     String   @unique
+  id     String @id @default(uuid())
+  token  String @unique
   userId String
   // delete the parent and child as well.
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -75,10 +77,38 @@ model Blog {
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   coverImageUrl String? // to upload on cloudinary.. optional
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
 
-  @@index([published])   // if want to search on the basis of publisehed hai ki nhi .
+  comments Comment[] // 1 - n
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published]) // if want to search on the basis of publisehed hai ki nhi .
+  @@index([userId])
+}
+
+//  blog se relation 
+// user se relation 
+
+model Comment {
+  id String @id @default(uuid())
+
+  // what user commented.
+  content String
+
+  userId String
+  blogId String
+
+  //user and blog
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blog Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // adding index.
+  @@index([userId])
+  @@index([blogId])
 }
 
 //  one to many  - array
@@ -89,14 +119,11 @@ model Blog {
 // include and  select when you want to extract data from diffrent tables
 //  select kai liye you have to pass  model relation ka vairable name not the acutal name of the model but the variable via which we will be referring to.
 
-
 // Use a nested select to include specific fields from a related record.
 //  You can also nest select inside an include. but vice-versa is not true.
 //  you cannot use select and include on the same level.
 
 // top level pr select then niche v select hi hoga include khi nhi
-
-
 
 // create many
 
