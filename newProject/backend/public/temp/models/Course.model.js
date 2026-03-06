@@ -1,7 +1,7 @@
 import mongoose, { model, Schema } from " mongoose"
 
 const CourseSchema = new Schema({
-   
+
     courseName: {
         type: String
     },
@@ -24,23 +24,23 @@ const CourseSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "RatingAndReviews"
     }],
-    price : {
-        type : String,
+    price: {
+        type: String,
     },
-    thumbnail :{
-type : String
+    thumbnail: {
+        type: String
     },
-    tag :{
-                type: mongoose.Schema.Types.ObjectId,
-ref : "Tag"
-    },
-    studentsEnrolled : [{
+    tag: {
         type: mongoose.Schema.Types.ObjectId,
-ref  : "User",
-required : true
+        ref: "Tag"
+    },
+    studentsEnrolled: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     }]
-}, { 
-    timestamps: true 
+}, {
+    timestamps: true
 })
 
 const Course = model("Course", CourseSchema)
