@@ -316,10 +316,16 @@ const logoutUser = asyncHandler(async (req, res) => {
    //  find in db and remove
 
    // clear the cookies 
-
+ 
+   // cookies set krte time or clear krte time same option is good nhi to kbhi kbhi clear nhi hota hai 
+   const options = {
+   httpOnly: true,
+   secure: env.NODE_ENV === "production",
+   sameSite: env.NODE_ENV === "production" ? "none" : "lax"
+}
    return res
-      .clearCookie("accessToken")
-      .clearCookie("refreshToken")
+      .clearCookie("accessToken",options)
+      .clearCookie("refreshToken",options)
       .status(200).json(new ApiResponse(200, "user logged out succesfully", {
          user
       }))

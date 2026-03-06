@@ -7,8 +7,8 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
 
     // get the token .
     const token = req.cookies?.accessToken
-        ?? req.headers["Authorization"].replace("Bearer ", "")
-        ?? req.body
+        ?? req.headers["authorization"]?.replace("Bearer ", "")
+        ?? req.body?.accessToken
     if (!token)
         return next(new ApiError(401, "Invalid token"))
 
@@ -17,8 +17,6 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
     // decode has 3 thigns id  ,email and role 
     req.user = decode
 
-    if (decode)
-        return next(new ApiError(401, "Invalid token"))
     next()
 })
 
