@@ -47,7 +47,9 @@ export const signupInput = z.object({
         })
         .regex(/[@$!%*?&#]/, {
             message: "Password must contain at least one special character",
-        })
+        }),
+
+        otp: z.string()
 })
 
 export const signinInput = z.object({
