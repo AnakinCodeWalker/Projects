@@ -13,6 +13,8 @@ import jwt from "jsonwebtoken"
 import cookieParser from "cookie-parser"
 
 import env from "../config/env.config.js"
+import mailsender from "../utils/mailSender.js"
+import { tr } from "zod/locales"
 
 
 const sendOtp = asyncHandler(async (req, res) => {
@@ -56,10 +58,12 @@ const sendOtp = asyncHandler(async (req, res) => {
 })
 
 
+
+
 const signupController = asyncHandler(async (req, res) => {
 
    const result = signupInput.safeParse(req.body)
-   const { otp, contactNumber } = req.body
+   const { otp, contactNumber } = req.body // user ko otp jo bheje in the mail
 
    if (!result.success)
       throw new ApiError(403, "Validation failed")
@@ -75,13 +79,15 @@ const signupController = asyncHandler(async (req, res) => {
    })
 
    if (existingUser)
-      throw new ApiError(304, "user already exists ..")
+      throw new ApiError(400, "user already exists ..")
 
+
+   // find most recent otp based on email
    const recentOtp = await Otp.find({ email })
       .sort({ createdAt: -1 })
       .limit(1)
 
-   if (!recentOtp || otp !== recentOtp.otp)
+   if (!recentOtp || (otp !== recentOtp.otp))
       throw new ApiError(403, "Invalid otp")
 
    //  password hashing kai liye pre hook likha hua hai 
@@ -122,6 +128,10 @@ const signupController = asyncHandler(async (req, res) => {
 })
 
 
+
+
+
+
 const signinController = asyncHandler(async (req, res) => {
 
    const result = signinInput.safeParse(req.body)
@@ -136,84 +146,183 @@ const signinController = asyncHandler(async (req, res) => {
    })
 
    if (!existingUser)
-      throw new ApiError(304, "signup first ..")
+      throw new ApiError(401, "signup first ..")
 
-   
-   
-   // do the password check
-   
-    if (!existingUser)
-         throw new ApiError(304, "Invalid password ..")
-   
+
+
+   // do the password check //////////////////
+
+   if (!existingUser)
+      throw new ApiError(401, "Invalid password ..")
+
    const payload = {
-      id : existingUser._id,
-      role : existingUser.role,
-      email : existingUser.email
+      id: existingUser._id,
+      role: existingUser.role,
+      email: existingUser.email
    }
-   
-   const accessToken = jwt.sign(payload,env.JWT_ACCESS_SECRET,{
-      expiresIn : env.JWT_ACCESS_EXPIRES
-   })
-    
-   const refreshToken = jwt.sign(payload,env.JWT_REFRESH_SECRET,{
-      expiresIn : env.JWT_REFRESH_EXPIRES
+
+   const accessToken = jwt.sign(payload, env.JWT_ACCESS_SECRET, {
+      expiresIn: env.JWT_ACCESS_EXPIRES
    })
 
- //  saving token in db
+   const refreshToken = jwt.sign(payload, env.JWT_REFRESH_SECRET, {
+      expiresIn: env.JWT_REFRESH_EXPIRES
+   })
 
-existingUser.refreshToken = refreshToken;
-existingUser.refreshTokenExpiry = new Date(
-  Date.now() + 7 * 24 * 60 * 60 * 1000
-);
+   //  saving token in db
 
-await foundUser.save({ validateBeforeSave: false });
+   existingUser.refreshToken = refreshToken;
+   existingUser.refreshTokenExpiry = new Date(
+      Date.now() + env.JWT_REFRESH_EXPIRES
+   );
 
-// cookies  is the box which contains accesstoken and refresh token
+   await existingUser.save({ validateBeforeSave: false });
 
-const accessTokenCookieOptions ={
-  httpOnly : true,
- secure: env.NODE_ENV === "production", // https in prod
-   sameSite: env.NODE_ENV === "production" ? "none" : "lax",
-  maxAge :  15 * 60 * 1000
-}
+   // cookies  is the box which contains accesstoken and refresh token
 
-//  check cookie 
+   const accessTokenCookieOptions = {
+      httpOnly: true,
+      secure: env.NODE_ENV === "production", // https in prod
+      sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 15 * 60 * 1000
+   }
 
-// //////// frontend mai 
-//  axios.post(url, data, { withCredentials: true });
+   //  check cookie 
 
-const refreshTokenCookieOptions={
-   httpOnly : true,
-   secure: env.NODE_ENV === "production", // https in prod
-   sameSite: env.NODE_ENV === "production" ? "none" : "lax",
-  maxAge :   7 * 24 * 60 * 60 * 1000
-}
+   // //////// frontend mai 
+   //  axios.post(url, data, { withCredentials: true });
 
-res.status(200)
-.cookie("accessToken",accessToken,accessTokenCookieOptions)
-.cookie("refreshToken",refreshToken,refreshTokenCookieOptions)
-.json(new ApiResponse(200,"user logged in"))
+   const refreshTokenCookieOptions = {
+      httpOnly: true,
+      secure: env.NODE_ENV === "production", // https in prod
+      sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000
+   }
+
+   res.status(200)
+      .cookie("accessToken", accessToken, accessTokenCookieOptions)
+      .cookie("refreshToken", refreshToken, refreshTokenCookieOptions)
+      .json(new ApiResponse(200, "user logged in"))
 
 })
 
-const changePassword = asyncHandler(async (req,res) => {
-   
+const changePassword = asyncHandler(async (req, res) => {
+   /*
+   get data from req body
+   get old password newPassword  confirmNewPassword 
+   validation
+
+   update pwd in the db 
+   send email password is updated 
+   return response 
+   */
 
 })
 
-const resetpasswordToken = asyncHandler(async (req,res) => {
-   
+const resetpasswordToken = asyncHandler(async (req, res) => {
+   //  fetch email 
+   //  check user for this email 
+   // genrate token and expiration time save to db  
+   // genrate link
+   // send this to email
+
+   const { email } = req.body
+   const existingUser = await User.findOne({ email })
+
+   if (!existingUser)
+      throw new ApiError(403, "Invalid email")
+
+   //genrate random token
+
+   const token = crypto.randomUUID()
+   const hashedToken = crypto.createHash("sha256").update(token).digest("hex")
+   //save the token and expiry into db
+
+   existingUser.resetPasswordToken = hashedToken;
+   existingUser.resetPasswordTokenExpiry = new Date(Date.now() + 5 * 60 * 1000)
+   await existingUser.save({ validateBeforeSave: false })
+
+   // send this to the frontend mail 
+
+   const url = `http://localhost:5173/update-password/${token}`
+   try {
+      await mailsender(email, "Reset password link", url)
+      console.log(`mail sent successfully`);
+   } catch (error) {
+      console.log(error.message);
+      console.log(`Error in sending mail for reset password`);
+      throw new ApiError(500, "Something went wrong")
+   }
+
+   res.status(200).json(new ApiResponse(200, "email sent successfully", {
+      "emailLink": `${token}`
+   }))
 })
 
-const resetpassword = asyncHandler(async (req,res) => {
-   
+const resetpassword = asyncHandler(async (req, res) => {
+
+   //  we can take the token from the params as well
+   const { token, password, confirmPassword } = req.body
+
+   if (!token || !password || !confirmPassword)
+      throw new ApiError(400, "All fields are required")
+
+   if (password !== confirmPassword)
+      throw new ApiError(400, "password and confirmPassword does not match")
+
+   const hashedToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex")
+
+   const findUser = await User.findOne({
+      resetPasswordToken: hashedToken
+   })
+
+   if (!findUser)
+      throw new ApiError(400, "Invalid token")
+
+   //  current time se jyada hoga to expire hoga
+   if (Date.now() > findUser.resetPasswordTokenExpiry) {
+
+      findUser.resetPasswordToken = null
+      findUser.resetPasswordTokenExpiry = null
+      await findUser.save({ validateBeforeSave: false })
+
+      throw new ApiError(401, "Token is expired")
+
+   }
+
+   // dont skip validation while password hashing ..
+   findUser.password = password
+   findUser.resetPasswordToken = null
+   findUser.resetPasswordTokenExpiry = null
+   await findUser.save()
+
+   res.status(200).json(new ApiResponse(200, "Password updated Successfully", {
+      "user": findUser
+   }))
+
 })
 
 const logoutUser = asyncHandler(async (req, res) => {
 
-   return res.status(200).json(new ApiResponse(200, "user logged out succesfully", {
-      user
-   }))
+   const userId = req.user.id
+
+   const user = await findByIdAndUpdate(userId, {
+      accessToken: null,
+      refreshToken: null
+   })
+   //  find in db and remove
+
+   // clear the cookies 
+
+   return res
+      .clearCookie("accessToken")
+      .clearCookie("refreshToken")
+      .status(200).json(new ApiResponse(200, "user logged out succesfully", {
+         user
+      }))
 })
 
 export {
