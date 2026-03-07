@@ -10,11 +10,9 @@ import ApiResponse from "../utils/ApiResponse.js"
 
 import otpGenerator from "otp-generator"
 import jwt from "jsonwebtoken"
-import cookieParser from "cookie-parser"
 
 import env from "../config/env.config.js"
 import mailsender from "../utils/mailSender.js"
-import { tr } from "zod/locales"
 
 
 const sendOtp = asyncHandler(async (req, res) => {
@@ -206,6 +204,14 @@ const signinController = asyncHandler(async (req, res) => {
 
 })
 
+
+
+const refreshAccessToken = asyncHandler(async (req,res) => {
+   
+})
+
+
+
 const changePassword = asyncHandler(async (req, res) => {
    /*
    get data from req body
@@ -218,6 +224,7 @@ const changePassword = asyncHandler(async (req, res) => {
    */
 
 })
+
 
 const resetpasswordToken = asyncHandler(async (req, res) => {
    //  fetch email 
@@ -258,6 +265,8 @@ const resetpasswordToken = asyncHandler(async (req, res) => {
       "emailLink": `${token}`
    }))
 })
+
+
 
 const resetpassword = asyncHandler(async (req, res) => {
 
@@ -305,6 +314,8 @@ const resetpassword = asyncHandler(async (req, res) => {
 
 })
 
+
+
 const logoutUser = asyncHandler(async (req, res) => {
 
    const userId = req.user.id
@@ -331,10 +342,13 @@ const logoutUser = asyncHandler(async (req, res) => {
       }))
 })
 
+
+
 export {
    sendOtp,
    signupController,
    signinController,
+   refreshAccessToken,
    changePassword,
    resetpasswordToken,
    resetpassword,
