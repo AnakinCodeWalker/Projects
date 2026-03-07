@@ -1,9 +1,8 @@
 import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
-import Tags from "../models/tags.model.js"
+import Section from "../models/Section.model.js"
 import asyncHandler from "../utils/asyncHandler.js"
 import Course from "../models/Course.model.js"
-import Section from "../models/Section.model.js"
 
 const createSection = asyncHandler(async (req, res) => {
 
@@ -22,6 +21,8 @@ const createSection = asyncHandler(async (req, res) => {
     }, {
         new: true
     }).populate("courseContent")  // model mai jo fieldname hai woh wala
+
+
     if (!updatedCourseDetails)
         throw new ApiError(304, "can not create a section")
 
@@ -32,13 +33,15 @@ const createSection = asyncHandler(async (req, res) => {
     }))
 })
 
+
+
 const updateSection = asyncHandler(async (req, res) => {
-    
+
     const { sectionName, sectionId } = req.body
-    
+
     if (!sectionName || !sectionId)
         throw new ApiError(400, "Invalid Inputs")
-    
+
     const updatedSection = await Section.findByIdAndUpdate(sectionId, {
         $set: {
             sectionName
@@ -48,24 +51,33 @@ const updateSection = asyncHandler(async (req, res) => {
 
     })
     if (!updatedSection)
-   throw new ApiError(404, "Section not found")
+        throw new ApiError(404, "Section not found")
 
-        res.status(200).json(new ApiResponse(200,
-            "Section updated SuccessFully", {
-            updatedSection
-        }))
-    })
-
-const deleteSection = asyncHandler(async (req, res) => {
-//  delete from the course yah jaha v yeh section stroe  kr rha hai .
-    const {sectionId} = req.params
-
-if(!sectionId)
-    throw new ApiError(400,"Invalid Inputs")
-await Section.findByIdAndDelete(sectionId)
-
-res.status(200).json(new ApiResponse(200,"section deleted successfully"))
+    res.status(200).json(new ApiResponse(200,
+        "Section updated SuccessFully", {
+        updatedSection
+    }))
 })
+
+
+// iska course  mai id store kr rhe hai to course se v remove krna hoga yah automatically remove hoga  
+const deleteSection = asyncHandler(async (req, res) => {
+    //  delete from the course yah jaha v yeh section store  kr rha hai .
+    const { sectionId } = req.params
+
+    if (!sectionId)
+        throw new ApiError(400, "Invalid Inputs")
+    await Section.findByIdAndDelete(sectionId) // delete from the section
+
+    // delete refrence of section from the user   
+    //check syntax in notes.
+    await Course.updateMany({ courseContent: sectionId }, {
+        $pull: {
+            courseContent: sectionId
+        }
+    }, { new: true })
+})
+
 
 export {
     createSection,
