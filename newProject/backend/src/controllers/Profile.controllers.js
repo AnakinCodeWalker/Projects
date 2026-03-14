@@ -1,3 +1,5 @@
+// done
+
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
@@ -27,15 +29,23 @@ const getProfileDetails = asyncHandler(async (req, res) => {
 const updateProfile = asyncHandler(async (req, res) => {
 
     const {
+        firstName="",
+        lastName="",
         dateOfBirth = "",
         about = "",
-        contactNumber,
-        gender
+        contactNumber ="",
+        gender =""
     } = req.body
 
     const userId = req.user.id
 
-    const userDetail = await User.findById(userId)
+    //update firstName ,lastName from user model
+    const userDetail = await User.findByIdAndUpdate(userId,{
+firstName,
+lastName
+    },{new:true})
+
+    //find us specfic user ki profile , u will get the Profileid from user model ,kyuki usme refnrece hai.
     const profileDetails = await Profile.findById(userDetail.additionalDetails) // this contains the id
 
     profileDetails.dateOfBirth = dateOfBirth,
@@ -46,7 +56,8 @@ const updateProfile = asyncHandler(async (req, res) => {
     await profileDetails.save()
 
     res.status(200).json(new ApiResponse(200, "profile updated successfully", {
-        profileDetails
+        "user" :userDetail,
+        "profile": profileDetails
     }))
 })
 
