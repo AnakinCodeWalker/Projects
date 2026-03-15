@@ -1,5 +1,5 @@
 // done
-
+// syntax change hogya hai from new : true to returnDocument: "after"
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
@@ -10,9 +10,10 @@ import User from "../models/User.model.js";
 const getProfileDetails = asyncHandler(async (req, res) => {
 
     // will provie the user details as well as profile details as well.
-    
-    const userId = req.body.id
-    const foundUser = await User.findById(userId) 
+
+    const userId = req.user.id
+
+    const foundUser = await User.findById(userId)
         .populate("additionalDetails")
         .exec()
 
@@ -29,34 +30,42 @@ const getProfileDetails = asyncHandler(async (req, res) => {
 const updateProfile = asyncHandler(async (req, res) => {
 
     const {
-        firstName="",
-        lastName="",
-        dateOfBirth = "",
-        about = "",
-        contactNumber ="",
-        gender =""
+        firstName,
+        lastName,
+        dateOfBirth,
+        about,
+        contactNumber,
+        gender,
+        image
     } = req.body
 
     const userId = req.user.id
 
     //update firstName ,lastName from user model
-    const userDetail = await User.findByIdAndUpdate(userId,{
-firstName,
-lastName
-    },{new:true})
+    const userDetail = await User.findByIdAndUpdate(
+        userId,
+        {
+            ...(firstName && { firstName }),
+            ...(lastName && { lastName })
+        },
+        { returnDocument: "after" }
+    )
 
     //find us specfic user ki profile , u will get the Profileid from user model ,kyuki usme refnrece hai.
-    const profileDetails = await Profile.findById(userDetail.additionalDetails) // this contains the id
-
-    profileDetails.dateOfBirth = dateOfBirth,
-        profileDetails.about = about,
-        profileDetails.contactNumber = contactNumber,
-        profileDetails.gender = gender
-
-    await profileDetails.save()
+    const profileDetails = await Profile.findByIdAndUpdate(
+        userDetail.additionalDetails,
+        {
+            ...(dateOfBirth && { dateOfBirth }),
+            ...(about && { about }),
+            ...(contactNumber && { contactNumber }),
+            ...(gender && { gender }),
+            ...(image && { image })
+        },
+        { returnDocument: "after" }
+    )
 
     res.status(200).json(new ApiResponse(200, "profile updated successfully", {
-        "user" :userDetail,
+        "user": userDetail,
         "profile": profileDetails
     }))
 })
