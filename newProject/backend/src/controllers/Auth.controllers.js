@@ -7,7 +7,7 @@ import User from "../models/User.model.js"
 import Profile from "../models/Profile.model.js"
 import asyncHandler from "../utils/asyncHandler.js"
 
-import { signupInput, signinInput, changePasswordInput } from "../validation/zodValidation.js"
+import { signupInput, signinInput, changePasswordInput } from "../validation/User.ZodValidation.js"
 
 import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"

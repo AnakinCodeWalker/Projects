@@ -24,7 +24,7 @@ async function sendVerificationMail(email, otp) {
     
     try {
 
-        const mailResponse = mailsender(email,"verfication email",otp)
+        const mailResponse = await mailsender(email,"verfication email",otp)
 console.log("mail sent successfully.. " + mailResponse);
     } catch (error) {
         console.log(`${error.message}`);
@@ -32,9 +32,9 @@ console.log("mail sent successfully.. " + mailResponse);
     }
 }
 
-otpSchema.pre("save",async function (next) {
-    await sendVerificationMail(this.mail,this.otp)
-    next()
+otpSchema.pre("save",async function () {
+    await sendVerificationMail(this.email,this.otp)
+    
 })
 const Otp = model("Otp", otpSchema)
 export default Otp
