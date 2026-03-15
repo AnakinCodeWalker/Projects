@@ -23,31 +23,36 @@ const CourseSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "RatingAndReviews"
     }],
-    price: {
-        type: String,
-    },
+    
+   price: {
+   type: Number,
+   required: true
+},
     thumbnail: {
         type: String
     },
     tag: {
-      type : [String],  // array of string..
-      required : true
+        type: [String],  // array of string..
+        required: true
     },
-    category : {
+    category: {
         type: mongoose.Schema.Types.ObjectId,
-ref : "Category"
+        ref: "Category"
     },
+
+    //  koi course purcahse krega tb milega yeh 
     studentsEnrolled: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true
+        
     }],
-    instructons :{
-        type : [String]
+    instructions: {
+        type: [String]
     },
-    status:{
-        type : String,
-        enum : ["Draft","Published"]
+    status: {
+        type: String,
+        enum: ["Draft", "Published"],
+        default : "Draft"
     }
 }, {
     timestamps: true
