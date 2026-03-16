@@ -1,4 +1,4 @@
-// 2 controller baki 
+// 1 controller baki 
 
 //studentsEnrolled: { $elemMatch: { $eq: userId } }  // to find if this user is enrolled or not ? 
 
@@ -46,7 +46,7 @@ const createRating = asyncHandler(async (req, res) => {
         user: userId
     })
 
-    await Course.findByIdAndUpdate({
+     const updatedCourseDetails = await Course.findByIdAndUpdate({
         _id: courseId
     }, {
         $push: {
@@ -55,11 +55,14 @@ const createRating = asyncHandler(async (req, res) => {
         }
     },
         {
-            new: true
+            returnDocument: "After"
         })
 
 
- res.status(200).json(new ApiResponse(200,"Rating and Review created successfully"))
+    res.status(200).json(new ApiResponse(200, "Rating and Review created successfully"),{
+        ratingReview,
+        updatedCourseDetails
+    })
 
 })
 
@@ -72,9 +75,9 @@ const getAverageRating = asyncHandler(async (req, res) => {
     const courseId = req.body.userId
 
     //  aggreagate call
-    const result = 
+    const result =
 
-    res.status().json(new ApiResponse())
+        res.status().json(new ApiResponse())
 
 
 })
@@ -83,6 +86,24 @@ const getAverageRating = asyncHandler(async (req, res) => {
 // getAllRating
 const getAllRating = asyncHandler(async (req, res) => {
 
+    const allRatings = await RatingAndReviews.find({})
+    .sort({rating:"desc"})
+    .populate({
+        path:"user",
+        select:"firstName lastName email image"
+    })
+    .populate({
+        path : "course",
+        select : "courseName",
+    })
+    .exec()
+
+    if(!allRatings)
+        throw new ApiError(500,"can not fetch rating and reviews")
+    
+    res.status(200).json(new ApiResponse(200,"All ratings :"),{
+allRatings
+    })
 })
 
 

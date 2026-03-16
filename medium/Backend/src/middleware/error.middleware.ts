@@ -1,5 +1,5 @@
 
-// src/middlewares/error.middleware.ts
+
 
 import { Request, Response, NextFunction } from "express"
 import ApiError   from  "../utils/ApiError.js"

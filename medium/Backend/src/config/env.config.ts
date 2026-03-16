@@ -25,9 +25,9 @@ const env = {
 
     //cloudinary configuration
 
-    cloud_name: process.env.CLOUD_NAME as string,
-    api_key: process.env.API_KEY as string,
-    api_secret: process.env.API_SECRET as string,
+    CLOUD_NAME: process.env.CLOUD_NAME as string,
+    API_KEY: process.env.API_KEY as string,
+    API_SECRET: process.env.API_SECRET as string,
 
 
 

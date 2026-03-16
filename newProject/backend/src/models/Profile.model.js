@@ -17,6 +17,9 @@ const ProfileScehma = new mongoose.Schema({
     contactNumber: {
         type: Number,
         trim: true
+    },
+    avatar:{
+        type:String
     }
 }, {
     timestamps: true,

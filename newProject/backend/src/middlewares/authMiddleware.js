@@ -21,6 +21,8 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
 })
 
 
+//  role wise middleware
+
 export const isStudentMiddleware = asyncHandler(async (req, res, next) => {
     if (req.user.role !== "Student")
         return next(new ApiError(401, "Student protected route only"))

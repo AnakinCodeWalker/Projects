@@ -28,21 +28,22 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        select: false
+        
     },
     otp: {
-        type: Number,
+        type: String,
         required: true
     },
     contactNumber: {
-        type: Number,
+        type: String,
+        trim : true,
         
     },
     role: {
         type: String,
         enum: ["Student", "Admin", "Instructor"],
         default : "Student",
-        required: true,
+        // required: true,  reuqired and default sath mai ho skta hai but need nhi hai yaha pr.
     },
 
     additionalDetails: {
@@ -52,16 +53,14 @@ const UserSchema = new mongoose.Schema({
     },
     courses: [{
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
         ref: "Course"
     }],
     image: {
         type: String,
-        required: true,
+        
     },
     courseProgress: [{
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
         ref: "CourseProgress"
     }],
 

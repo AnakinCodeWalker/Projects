@@ -8,9 +8,9 @@ import fs from "fs"
 
 cloudinary.config({
 
-    cloud_name: env.cloud_name,
-    api_key: env.api_key,
-    api_secret: env.api_secret
+    cloud_name: env.CLOUD_NAME,
+    api_key: env.API_KEY,
+    api_secret: env.API_SECRET
 
 })
 
@@ -26,7 +26,7 @@ const cloudinaryUploader = async (localFilePath: any) => {
 
         fs.unlinkSync(localFilePath)
 
-        return uploadedResponse.url  // returning the url to the user. -- save it in db..
+        return uploadedResponse.secure_url  // returning the url to the user. -- save it in db..
 
 
     } catch (error) {

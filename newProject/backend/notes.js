@@ -9,7 +9,7 @@
 // updateSubSection ,deleteSubSection baki 
 // cloudinary config baki  
 
-import { populate } from "dotenv";
+// import { populate } from "dotenv";
 
 
 //  set vs push in mongoose
@@ -52,5 +52,38 @@ populate({
 })
 
 populate("RefrenceModelFieldName")
+
+*/
+
+
+/*
+localfilePath -- public/temp/my-uploads/image-123.png
+
+req.file:{
+ fieldname: "image",
+ originalname: "photo.png",
+ destination: "public/temp/my-uploads",
+ filename: "image-1710000000.png",
+ path: "public/temp/my-uploads/image-1710000000.png",
+ size: 34523
+}
+ in controller 
+ const localFilePath = req.file.path
+ --localfilepath goes into cloudinary yeh ata hai multer se then isko dala jata hai inside cloudinary.
+
+ 
+*/
+
+/*
+
+remaining controller
+
+// refreshtoken controller remaining. -- Auth controller
+ // last controller remaining   -- category controller
+//   last controller remaining  -- course controller
+// all remaining                -- courseProgress controller
+// all remaining                -- payment controller
+// getAverageRating             -- ratingAndReviews controller 
+
 
 */

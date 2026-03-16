@@ -1,5 +1,5 @@
-import db from "../public/temp/db/index.js"
-import env from "../public/temp/config/env.config.js";
+import db from "./db/index.js"
+import env from "./config/env.config.js";
 import app from "./app.js"
 
 db().then(() => {

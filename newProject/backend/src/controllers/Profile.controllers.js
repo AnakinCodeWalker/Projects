@@ -5,8 +5,7 @@ import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import Profile from "../models/Profile.model.js";
 import User from "../models/User.model.js";
-
-
+import uploadOnCloudinary from "../utils/imageUploader.js"
 const getProfileDetails = asyncHandler(async (req, res) => {
 
     // will provie the user details as well as profile details as well.
@@ -36,11 +35,19 @@ const updateProfile = asyncHandler(async (req, res) => {
         about,
         contactNumber,
         gender,
-        image
+       
     } = req.body
 
     const userId = req.user.id
 
+    const localFilePath = req.file?.path
+    
+    console.log("multer file path",req.file)
+
+    let uploadResult = ""
+    if(localFilePath){
+     uploadResult = await uploadOnCloudinary(localFilePath)
+}
     //update firstName ,lastName from user model
     const userDetail = await User.findByIdAndUpdate(
         userId,
@@ -59,7 +66,7 @@ const updateProfile = asyncHandler(async (req, res) => {
             ...(about && { about }),
             ...(contactNumber && { contactNumber }),
             ...(gender && { gender }),
-            ...(image && { image })
+            ...(uploadResult && { avatar :uploadResult.secure_url })
         },
         { returnDocument: "after" }
     )

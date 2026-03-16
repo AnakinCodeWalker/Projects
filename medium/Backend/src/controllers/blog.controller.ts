@@ -1,3 +1,6 @@
+// add one more controller publish blog and unpublish them .
+
+
 import { Request, Response } from "express";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
@@ -32,19 +35,19 @@ const createBlog = asyncHandler(async (req: Request<{}, {}, createPostType, {}>,
     //@ts-ignore
     const userId = req.userId   // jwt id
 
-    if (!userId)
-        throw new ApiError(401, "unauthorized")
-    if (!result.success)
-        throw new ApiError(400, "validation failed")
+  if (!result.success)
+   throw new ApiError(400,"validation failed")
 
+if (!userId)
+   throw new ApiError(401,"unauthorized")
 
     const newBlog = await prisma.blog.create({
         data: {
             title: result.data.title,
             content: result.data.content,
             userId,
-            published: result.data.published,
-            coverImageUrl: result.data.coverImageUrl,
+            published: result.data.published ?? false,
+...(result.data.coverImageUrl && { coverImageUrl: result.data.coverImageUrl }) // as this field is optional
         }, select: {
             id: true,  // model ki id 
             title: true,
@@ -63,47 +66,54 @@ const createBlog = asyncHandler(async (req: Request<{}, {}, createPostType, {}>,
 
 
 
-const searchBlogs = asyncHandler(async (req: Request<{}, {}, {}, searchBlogsInterface>, res: Response): Promise<void> => {
+const searchBlogs = asyncHandler(async (
+  req: Request<{}, {}, {}, searchBlogsInterface>,
+  res: Response
+): Promise<void> => {
 
     const { userName } = req.query
-    if (!userName) throw new ApiError(400, "username required")
+
+    if (!userName)
+        throw new ApiError(400, "username required")
 
     const searchByUsername = await prisma.user.findUnique({
         where: {
             userName
-        }, select: {
-            blog: {
+        },
+        select: {
+            blogs: {
                 where: {
                     published: true
                 },
                 select: {
-                    id : true,
-                    userId : true,
+                    id: true,
+                    userId: true,
                     title: true,
                     content: true,
                     coverImageUrl: true
-                }, orderBy: {
+                },
+                orderBy: {
                     createdAt: "desc"
                 }
             }
-        },
+        }
     })
 
     if (!searchByUsername)
-        throw new ApiError(404, "user name : does not exists ! ")
+        throw new ApiError(404, "username does not exist")
 
-    res.status(200).json(new ApiResponse(200, `Blog of username : : ${userName} `, {
-        blog: searchByUsername.blog,
-
-    }))
-
-
+    res.status(200).json(
+        new ApiResponse(200, `Blogs of user ${userName}`, {
+            blogs: searchByUsername.blogs
+        })
+    )
 })
 
 
 
-
 //  either you can make a request<generic type for params which i was doing earlier but then you have to fix for global asynchandler as well>
+
+
 const updateBlogById = asyncHandler(async (req: Request<{}, {}, updatePostType, {}>, res: Response): Promise<void> => {
 
     // or you can use this slightly cleaner approach.

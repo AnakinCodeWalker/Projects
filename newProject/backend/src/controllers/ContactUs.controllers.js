@@ -13,7 +13,7 @@ const contactUsController = asyncHandler(async (req, res) => {
 
    
 
-        await mailsender(email, "your data sent successfully", userDetails)
+        await mailsender(email, "your data sent successfully", JSON.stringify(userDetails))
         res.status(200).json(new ApiResponse(200, " mail sent Successfully", {
             email,
             userDetails

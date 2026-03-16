@@ -1,5 +1,15 @@
-// write forgot , reset , refresh ,update  controller
+
 //  crate a send mail utility function.
+//  update the name of the model emailVerification 
+//   maxAge: Number(env.JWT_ACCESS_EXPIRES) 
+/*
+const refreshTokenExpiry = new Date(
+  Date.now() + Number(env.JWT_REFRESH_EXPIRES)
+);
+*/
+// updateDetails isme mai profile image ka option
+// 2 chote controller refreshtoken and passwordupdate wala
+
 
 import { CookieOptions, Request, Response } from "express";
 import ApiError from "../utils/ApiError.js";
@@ -13,10 +23,12 @@ import { randomBytes } from "node:crypto";
 import env from "../config/env.config.js";
 import nodemailer from "nodemailer"
 import crypto from "crypto"
-import { blob } from "node:stream/consumers";
+
+
 
 //  you have to add global d.ts for  middlewares
 
+//  imporvement for later 1 profile image for user.
 
 const signup = asyncHandler(async (req: Request<{}, {}, signupType>, res: Response): Promise<void> => {
     // get data from the user
@@ -58,17 +70,17 @@ const signup = asyncHandler(async (req: Request<{}, {}, signupType>, res: Respon
     }
 
     const { email, firstName, lastName, userName, password } = result.data
+
     // hashed the password  then create a user..
 
-    const hashedPassowrd = await bcrypt.hash(password, 10)
-
+    const hashedPassword = await bcrypt.hash(password, 10)
     const newUser = await prisma.user.create({
         data: {
             userName,
             firstName,
             lastName,
             email,
-            passwordHash: hashedPassowrd
+            passwordHash: hashedPassword
         },
         select: {
             id: true,
@@ -86,6 +98,7 @@ const signup = asyncHandler(async (req: Request<{}, {}, signupType>, res: Respon
 
     //  for email
     const token = randomBytes(32).toString("hex")
+
     const hashedToken = crypto
         .createHash("sha256")
         .update(token)
@@ -107,7 +120,7 @@ const signup = asyncHandler(async (req: Request<{}, {}, signupType>, res: Respon
 
     const transporter = nodemailer.createTransport({
         host: env.MAILTRAP_HOST,
-        port: Number(process.env.MAILTRAP_PORT),
+        port: Number(env.MAILTRAP_PORT),
         secure: false, // Use true for port 465, false for port 587
         auth: {
             user: env.MAILTRAP_USERNAME,
@@ -120,15 +133,16 @@ const signup = asyncHandler(async (req: Request<{}, {}, signupType>, res: Respon
     const verificationLink = `${env.BASE_URL}/api/v1/users/verify-email/${token}`
 
     const mailOption = {
-        from: process.env.MAILTRAP_SENDEREMAIL, //provided by the nodemailer
+        from: env.MAILTRAP_SENDEREMAIL, //provided by the nodemailer
         to: newUser.email,
         subject: "Verify Your Email",
         // Plain-text version of the message
-        html: "<b>Confriming your email</b>", // HTML version of the message
-
-        // creating a link.. and sending the token into it.
-        text: `Hi ${newUser.firstName}, please verify your email: ${verificationLink}`,
-
+        html: `
+<h2>Email Verification</h2>
+<p>Hi ${newUser.firstName}</p>
+<p>Please verify your email by clicking below:</p>
+<a href="${verificationLink}">Verify Email</a>
+`,
 
     }
 
@@ -145,7 +159,7 @@ const signup = asyncHandler(async (req: Request<{}, {}, signupType>, res: Respon
         if (error instanceof Error) {
             console.log(`error in sending the mail`);
             console.log(`${error.message}`);
-            throw new ApiError(500, "can not send mail")
+            throw new ApiError(500, "User created but email could not be sent")
         }
 
     }
@@ -178,7 +192,7 @@ const verifyEmail = asyncHandler(async (req: Request<{}, {}, {}>, res: Response)
         throw new ApiError(400, "Can not Find Token")
 
     // hashing the normal token the user has
-    const hashedUserToken = await crypto
+    const hashedUserToken = crypto
         .createHash("sha256")
         .update(token)
         .digest("hex")
@@ -195,7 +209,7 @@ const verifyEmail = asyncHandler(async (req: Request<{}, {}, {}>, res: Response)
         throw new ApiError(403, "Invalid or expired token");
 
     // check token expired...
-    if (userWithToken.expiresAt < new Date())
+    if (new Date() > userWithToken.expiresAt)
         throw new ApiError(403, "Token expired")
 
     //  added transaction to avoid race codition..
@@ -220,13 +234,13 @@ const verifyEmail = asyncHandler(async (req: Request<{}, {}, {}>, res: Response)
     ])
 
     console.log(`successfully verified.`);
-    res.status(200).json(new ApiResponse(200, "Verified Successfully"))
+    res.status(200).json(new ApiResponse(200, "Email verified successfully. You can now login."))
 
 })
 
 
 
-const signin = asyncHandler(async (req: Request<{}, signinType, {}, {}>, res: Response): Promise<void> => {
+const signin = asyncHandler(async (req: Request<{}, {}, signinType, {}>, res: Response): Promise<void> => {
 
 
     const result = signinInput.safeParse(req.body)
@@ -247,8 +261,13 @@ const signin = asyncHandler(async (req: Request<{}, signinType, {}, {}>, res: Re
 
     const isPasswordCorrect = await bcrypt.compare(result.data.password, foundUser.passwordHash)
     if (!isPasswordCorrect)
-        throw new ApiError(304, "Invalid Password")
+        throw new ApiError(401, "Invalid Password")
 
+
+    // if not verified then can not login 
+    if (!foundUser.isVerified) {
+        throw new ApiError(403, "Please verify your email first")
+    }
     const payload = {
         id: foundUser.id
     }
@@ -304,7 +323,7 @@ const signin = asyncHandler(async (req: Request<{}, signinType, {}, {}>, res: Re
     res.status(200)
         .cookie("accessToken", accessToken, accessTokenCookieOptions)
         .cookie("refreshToken", refreshToken, refreshTokenCookieOptions)
-        .json(new ApiResponse(200, "user logged in"))
+        .json(new ApiResponse(200, "Login successful"))
 
 })
 
@@ -321,7 +340,11 @@ const refreshAccessToken = asyncHandler(async (req: Request, res: Response): Pro
 const updateDetails = asyncHandler(async (req: Request<{}, {}, updateDetailsType, {}>, res: Response): Promise<void> => {
 
     // @ts-ignore
-    const userId = req.userId ?? ""
+    const userId = req.userId
+
+    if (!userId)
+        throw new ApiError(401, "Unauthorized")
+
 
     const result = updateDetailsInput.safeParse(req.body)
 
@@ -329,7 +352,15 @@ const updateDetails = asyncHandler(async (req: Request<{}, {}, updateDetailsType
         throw new ApiError(400, "Validation error")
 
     const { userName, firstName, lastName, email, password } = result.data;
+    if (email) {
+        const existingEmail = await prisma.user.findUnique({
+            where: { email }
+        })
 
+        if (existingEmail && existingEmail.id !== userId)
+            throw new ApiError(409, "Email already in use")
+
+    }
     const updatedUser = await prisma.user.update({
         where: {
             id: userId
@@ -337,16 +368,16 @@ const updateDetails = asyncHandler(async (req: Request<{}, {}, updateDetailsType
             /*
 
             */
-           
+
             // DYNAMIC SPREAD...
 
         }, data: {  //on code directory check object.js
             // if user has given some input then update else dont update it.
-            ...(userName && { userName : userName }) ,  // --> if first is ture then second will execute.
-            ...(firstName && {firstName}),    // user provided  value && {key : value  } in db..
-            ...(lastName && {lastName:lastName}),
-            ...(email && {email : email}),
-            ...(password && {password : password})
+            ...(userName && { userName: userName }),  // --> if first is ture then second will execute.
+            ...(firstName && { firstName }),    // user provided  value && {key : value  } in db..
+            ...(lastName && { lastName: lastName }),
+            ...(email && { email: email }),
+            ...(password && { passwordHash: await bcrypt.hash(password, 10) })
         }, select: {
             id: true,
             userName: true,
@@ -354,12 +385,12 @@ const updateDetails = asyncHandler(async (req: Request<{}, {}, updateDetailsType
             lastName: true,
             email: true,
             isVerified: true,
-            blog : true
+            blogs: true
         }
     })
 
     res.status(200)
-        .json(new ApiResponse(200, "user updated", {
+        .json(new ApiResponse(200, "User details updated successfully", {
             user: updatedUser
         }))
 
@@ -380,19 +411,19 @@ const forgetPassword = asyncHandler(async (req: Request, res: Response): Promise
         email: string
     }
 
-    const foundUser = await prisma.findUnique({
+    const foundUser = await prisma.user.findUnique({
         where: {
             email
         }
     })
     if (!foundUser)
-        throw new ApiError(403, "Incorrect Inputs")
+        throw new ApiError(404, "User not found")
 
-    const token = await crypto
+    const token = crypto
         .randomBytes(32)
         .toString("hex")
 
-    const hashedresetPasswordToken = crypto
+    const hashedResetPasswordToken = crypto
         .createHash("sha256")
         .update(token)
         .digest("hex");
@@ -403,24 +434,66 @@ const forgetPassword = asyncHandler(async (req: Request, res: Response): Promise
 
     console.log(`userId from found record in db : ${foundUser.id}`);
 
-    await prisma.user.update({
+    const updatedUser = await prisma.user.update({
         where: {
             id: foundUser.id,
             //or
-            //@ts-ignore
-            id: req.userId   // just to prove my point i am doing this .
 
         }, data: {
-            resetPasswordToken: hashedresetPasswordToken,
+            resetPasswordToken: hashedResetPasswordToken,
             resetPasswordTokenExpiry: new Date(Date.now() + 15 * 60 * 1000)
         }
     })
+    const transporter = nodemailer.createTransport({
+        host: env.MAILTRAP_HOST,
+        port: Number(env.MAILTRAP_PORT),
+        secure: false, // Use true for port 465, false for port 587
+        auth: {
+            user: env.MAILTRAP_USERNAME,
+            pass: env.MAILTRAP_PASSWORD,
+        },
+    });
+    //  send the token to the user via mail .
 
+    // normal token to the user
+    const verificationLink = `${env.BASE_URL}/api/v1/users/reset-password/${token}`
+
+    const mailOption = {
+        from: env.MAILTRAP_SENDEREMAIL, //provided by the nodemailer
+        to: foundUser.email,
+        subject: "Reset Your Password",
+        // Plain-text version of the message
+        html: `
+<h2>Email Verification</h2>
+<p>Hi ${foundUser.firstName}</p>
+<p>Reset your password by clicking on this link:</p>
+<a href="${verificationLink}">Reset Password</a>
+`,
+
+    }
+
+    //  transporter is created 
+    //  mailOptions are created 
+    //  now send mail to the user via transporter.sendmail() .
+
+    try {
+        //Sending the mail.
+        await transporter.sendMail(mailOption)
+        console.log(`mail sent successfully`);
+
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(`error in sending the mail`);
+            console.log(`${error.message}`);
+            throw new ApiError(500, "email could not be sent")
+        }
+
+    }
 
     res.status(200)
-        .json(new ApiResponse(200, "token sent successfully", {
-                resetPasswordToken: token
-            })
+        .json(new ApiResponse(200, "Password reset link sent to email", {
+            resetPasswordToken: token
+        })
         )
 
 })
@@ -439,14 +512,17 @@ const resetPassword = asyncHandler(async (req: Request, res: Response): Promise<
 
 const getCurrentUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
 
-    // @ts-ignore
-    const id = req.userId
+     // @ts-ignore
+    const userId = req.userId
 
-    const user = await prisma.user.findFirst({
+    if (!userId)
+        throw new ApiError(401, "Unauthorized")
+
+    const user = await prisma.user.findUnique({
         where: {
-            id: id
+            id: userId
         }, include: {
-            blog: {
+            blogs: {
                 where: {
                     published: true
                 }
@@ -455,7 +531,7 @@ const getCurrentUser = asyncHandler(async (req: Request, res: Response): Promise
     })
 
     if (!user)
-        throw new ApiError(304, "User does not exist")
+throw new ApiError(404, "User does not exist")
 
     res.status(200).json(new ApiResponse(200, "user Details", {
         userDetail: user
@@ -478,8 +554,21 @@ const logout = asyncHandler(async (req: Request, res: Response): Promise<void> =
             token: refreshTokenFromCookie
         }
     })
-    res.clearCookie("accessToken")
-    res.clearCookie("refreshToken")
+
+    //clear the cookie with same options 
+    
+    res.clearCookie("accessToken", {
+  httpOnly: true,
+  secure: env.NODE_ENV === "production",
+  sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+})
+
+res.clearCookie("refreshToken", {
+  httpOnly: true,
+  secure: env.NODE_ENV === "production",
+  sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+})
+    
 
     res.status(200).json(new ApiResponse(200, "Logged out successfully"));
 
@@ -495,30 +584,22 @@ const getUserProfile = asyncHandler(async (req: Request<{}, {}, {}, {}>, res: Re
     const urlParams = new URLSearchParams(url.split("?")[1])
     const userName = urlParams.get('userName')
 
-    const finduser = await prisma.user.findUnique({
-        where: {
-            userName: userName,
-            include: {
-                blog: {
-                    where: {
-                        published: true,
-                    }
+   const finduser = await prisma.user.findUnique({
+    where: {
+        userName: userName
+    },
+    include: {
+        blogs: {
+            where: {
+                published: true
+            },orderBy: {
+                    createdAt: "desc"
                 }
-            }
-        },
-        select: {
-            userName: true,
-            firstName: true,
-            lastName: true,
-        }, orderBy: {
-            createdAt: `desc`
         }
-
-
-    })
-
+    }
+})
     if (!finduser)
-        throw new ApiError(304, "User does not exist")
+        throw new ApiError(404, "User does not exist")
 
     res.status(200).json(new ApiResponse(200, "user Details", {
         userDetail: finduser
