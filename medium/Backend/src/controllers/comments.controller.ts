@@ -4,7 +4,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import ApiError from "../utils/ApiError.js";
 import prisma from "../lib/prisma.js";
-import { create } from "node:domain";
 
 const createComment = asyncHandler(async (req: Request<{}, {}, { content: string }>, res: Response): Promise<void> => {
 
@@ -54,12 +53,12 @@ const getAllCommentByBlog = asyncHandler(async (req: Request<{}, {}, {}, {}>, re
     const queryParams = new URLSearchParams(url.split('?')[1])
     const blogId = queryParams.get('blogId')
 
-const allComments = await prisma.comment.findMany({
-    where:{
-        id :blogId
-    },
-    /////////////// yaha se code krle 
-})
+// const allComments = await prisma.comment.findMany({
+//     where:{
+//         id :blogId
+//     },
+//     /////////////// yaha se code krle 
+// })
     
 })
 

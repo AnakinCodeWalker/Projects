@@ -1,14 +1,19 @@
 import express, { urlencoded } from "express";
 import env from "./config/env.config.js";
 import cookieParser from "cookie-parser"
+
 import userRouter from "./routes/user.routes.js";
 import blogRouter from "./routes/blog.routes.js";
+import profileRouter from "./routes/profile.routes.js"
+import commentRouter from "./routes/comment.routes.js";
 
 import cors from "cors"
-
 import { CorsOptions } from "cors";
+
 import helmet from "helmet";
 import {errorHandler} from "./middleware/error.middleware.js";
+
+
 const app = express()
 
 app.use(express.static("public"))
@@ -38,6 +43,8 @@ app.use(cors(corsOptions))
 
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/blog",blogRouter)
+app.use("/api/v1/profile",profileRouter)
+app.use("/api/v1/comment",commentRouter)
 
 app.use(errorHandler)
 export default app

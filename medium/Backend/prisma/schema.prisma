@@ -1,6 +1,6 @@
 //  make coverimage and profile picture optional..
 // migrate the db also
-//  add resetPasswordToken ,resetPasswordTokenExpiry
+//  add 
 // add likes and comment model in here with relationship
 
 // This is your Prisma schema file,
@@ -10,69 +10,61 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-//  if you dont write anything by default they are required fields
+enum Role {
+  User
+  Creator
+}
+
 model User {
-  id           String  @id @default(uuid())
-  userName     String  @unique
-  passwordHash String
-  email        String  @unique
-  firstName    String
-  lastName     String
-  isVerified   Boolean @default(false)
+  id            String @id @default(uuid())
+  firstName     String
+  lastName      String
+  email         String @unique
+  password      String
+  contactNumber BigInt
 
-  //relations
-  emailTokens   EmailVerificationToken[] // 1 - n
-  refreshTokens RefreshToken[] // 1 - n
-  blogs         Blog[] // 1 - n
-  comments      Comment[] // 1 - n
+  role                     Role     @default(User) // enum: ["Student", "Admin", "Instructor"],
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  image                    String?
+  resetPasswordToken       String?
+  resetPasswordTokenExpiry DateTime?
+  refreshToken             String?
+  refreshTokenExpiry       DateTime?
+  createdAt                DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  blogs   Blog[] //refer to  blog model 
+  comment Comment[]
+  profile Profile? @relation("UserProfile") // provided a name to relation issey nested query likhne mai easy hota hai.
 }
 
-//  because one user can have multiple tokens
-model EmailVerificationToken {
-  // you can not do autoincrement onthe string type 
 
-  id String @id @default(uuid())
-
-  token     String
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-
-  expiresAt DateTime
-}
-
-// related to user model
-//  allows multiple login
-
-model RefreshToken {
-  id     String @id @default(uuid())
-  token  String @unique
-  userId String
-  // delete the parent and child as well.
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  expiresAt DateTime
-
-  @@index([userId])
+// Profile.userId = User.id  prisma will automatically now do this.
+model Profile {
+  id            String   @id @default(uuid())
+  userId        String   @unique
+  user          User     @relation("UserProfile",fields: [userId], references: [id], onDelete: Cascade)
+  gender        String?
+  dateOfBirth   String?
+  about         String?
+  contactNumber BigInt?
+  avatar        String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Blog {
   id        String  @id @default(uuid())
   title     String
-  content   Json //changed from string to json
-  published Boolean @default(false)
+  content   String
+  published Boolean? @default(false)
   userId    String
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 

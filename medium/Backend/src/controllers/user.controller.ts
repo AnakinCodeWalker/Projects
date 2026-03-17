@@ -14,15 +14,15 @@ const refreshTokenExpiry = new Date(
 import { CookieOptions, Request, Response } from "express";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
-import { signupInput, signupType, signinInput, signinType, updateDetailsInput, updateDetailsType } from "@anakincodewalker/common";
+import { signupInput, signupType, signinInput, signinType } from "../validation/User.validation.js";
 import jwt from "jsonwebtoken";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import bcrypt from "bcrypt"
 import prisma from "../lib/prisma.js"
-import { randomBytes } from "node:crypto";
 import env from "../config/env.config.js";
 import nodemailer from "nodemailer"
 import crypto from "crypto"
+
 
 
 
@@ -46,198 +46,86 @@ const signup = asyncHandler(async (req: Request<{}, {}, signupType>, res: Respon
     // safeparse returns an object 
     // {  success: true ; data: signupType;}
     // { success: false, error: ... } -- if fails
-
     if (!result.success)
         throw new ApiError(400, "validation failed")
 
+
+    const { firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+        contactNumber,
+        role,
+        image
+    } = result.data
+
     // id user exists return an error..
-    const existingUser = await prisma.user.findFirst({
+    const existingUser = await prisma.user.findUnique({
         where: {
-            OR: [
-                { email: result.data.email },
-                {
-                    userName: result.data.userName
-                },
-            ]
+            email: email
         }
     })
 
-    if (existingUser) {
-        if (existingUser.email == result.data.email)
-            throw new ApiError(409, "email already exists")
-        if (existingUser.userName == result.data.userName)
-            throw new ApiError(409, "username already taken")
-    }
+    if (password !== confirmPassword)
+        throw new ApiError(400, "password and confirm password does not match")
 
-    const { email, firstName, lastName, userName, password } = result.data
+    if (existingUser)
+        throw new ApiError(400, "user already exists ..")
+
 
     // hashed the password  then create a user..
 
     const hashedPassword = await bcrypt.hash(password, 10)
+
+
     const newUser = await prisma.user.create({
         data: {
-            userName,
+
             firstName,
             lastName,
             email,
-            passwordHash: hashedPassword
-        },
-        select: {
-            id: true,
-            userName: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-        }
-
-
-    })
-
-    if (!newUser)
-        throw new ApiError(400, "Internal server error")
-
-    //  for email
-    const token = randomBytes(32).toString("hex")
-
-    const hashedToken = crypto
-        .createHash("sha256")
-        .update(token)
-        .digest("hex");
-
-    console.log(`${token}`);
-
-    // save the token into db and send it to the uer via mail.
-    //  tokens could be multiple kyuki , user can hit again and agian for the otps..
-
-    // saving haashed token  in the  db
-    await prisma.EmailVerificationToken.create({
-        data: {
-            userId: newUser.id,
-            token: hashedToken,
-            expiresAt: new Date(Date.now() + 1000 * 60 * 60) // token expiry time setting up
-        }
-    })
-
-    const transporter = nodemailer.createTransport({
-        host: env.MAILTRAP_HOST,
-        port: Number(env.MAILTRAP_PORT),
-        secure: false, // Use true for port 465, false for port 587
-        auth: {
-            user: env.MAILTRAP_USERNAME,
-            pass: env.MAILTRAP_PASSWORD,
-        },
-    });
-    //  send the token to the user via mail .
-
-    // normal token to the user
-    const verificationLink = `${env.BASE_URL}/api/v1/users/verify-email/${token}`
-
-    const mailOption = {
-        from: env.MAILTRAP_SENDEREMAIL, //provided by the nodemailer
-        to: newUser.email,
-        subject: "Verify Your Email",
-        // Plain-text version of the message
-        html: `
-<h2>Email Verification</h2>
-<p>Hi ${newUser.firstName}</p>
-<p>Please verify your email by clicking below:</p>
-<a href="${verificationLink}">Verify Email</a>
-`,
-
-    }
-
-    //  transporter is created 
-    //  mailOptions are created 
-    //  now send mail to the user via transporter.sendmail() .
-
-    try {
-        //Sending the mail.
-        await transporter.sendMail(mailOption)
-        console.log(`mail sent successfully`);
-
-    } catch (error) {
-        if (error instanceof Error) {
-            console.log(`error in sending the mail`);
-            console.log(`${error.message}`);
-            throw new ApiError(500, "User created but email could not be sent")
-        }
-
-    }
-    res.status(201).json(new ApiResponse(201, "user created successfully", {
-        newUser
-    }))
-
-})
-
-const verifyEmail = asyncHandler(async (req: Request<{}, {}, {}>, res: Response): Promise<void> => {
-    // get the token from the url
-    // find the user from the token
-    // user has normal token db has hashed token
-    //  verify the token
-    // in model set isVerified = true .
-    // remove the token from the user side.
-    //    return response.
-
-
-    //  to access data from the url use req.params
-    const url = req.url
-
-    const urlParams = new URLSearchParams(url.split("?")[1])
-
-    const token = urlParams.get('token')
-
-    console.log(`Token is : ${token}`);
-
-    if (!token)
-        throw new ApiError(400, "Can not Find Token")
-
-    // hashing the normal token the user has
-    const hashedUserToken = crypto
-        .createHash("sha256")
-        .update(token)
-        .digest("hex")
-
-
-    // find the user provided token with the db token
-    const userWithToken = await prisma.EmailVerificationToken.findFirst({
-        where: {
-            token: hashedUserToken
-        }
-    })  // will return an object
-
-    if (!userWithToken)
-        throw new ApiError(403, "Invalid or expired token");
-
-    // check token expired...
-    if (new Date() > userWithToken.expiresAt)
-        throw new ApiError(403, "Token expired")
-
-    //  added transaction to avoid race codition..
-
-    await prisma.$transaction([
-        prisma.user.update({
-            //  userWithToken iska userId extract karo then user model mai add kro is verified true. 
-            where: {
-                id: userWithToken.userId,  //user table ki id ,specific user ki jiski token hai
-            }, data: {
-                isVerified: true,
+            password: hashedPassword,
+            contactNumber,
+            profile: {
+                create: {
+                    gender: null,
+                    dateOfBirth: null,
+                    contactNumber,
+                    about: null
+                }
             },
-        }),
+            role,
+            image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName}${lastName}`, // providing default image to every user
 
-        // delete the token after verification.
+        },
+        include: {  //will return the parent and included table details
+            profile: true
+        }
 
-        prisma.EmailVerificationToken.delete({
-            where: {
-                id: userWithToken.id  // iski apni id 
-            }
-        })
-    ])
 
-    console.log(`successfully verified.`);
-    res.status(200).json(new ApiResponse(200, "Email verified successfully. You can now login."))
+    })
+
+
+    if (!newUser) {
+
+        console.log(` error in userSignup`);
+        throw new ApiError(403, "can not create user")
+
+    }
+
+    console.log("user sign up successfully");
+
+
+    res.status(201)
+        .json(
+            new ApiResponse(201,
+                "user signup succesfully",
+                {
+                    user: newUser
+                }))
 
 })
-
 
 
 const signin = asyncHandler(async (req: Request<{}, {}, signinType, {}>, res: Response): Promise<void> => {
@@ -249,28 +137,31 @@ const signin = asyncHandler(async (req: Request<{}, {}, signinType, {}>, res: Re
     if (!result.success)
         throw new ApiError(400, "validation failed")
 
+    const { email, password } = result.data
     //  check if user signup or not..
     const foundUser = await prisma.user.findUnique({
         where: {
-            email: result.data.email
+            email: email
         }
+
+
     })
 
     if (!foundUser)
         throw new ApiError(400, "singup first")
 
-    const isPasswordCorrect = await bcrypt.compare(result.data.password, foundUser.passwordHash)
+    const isPasswordCorrect = await bcrypt.compare(password, foundUser.password)
     if (!isPasswordCorrect)
         throw new ApiError(401, "Invalid Password")
 
 
-    // if not verified then can not login 
-    if (!foundUser.isVerified) {
-        throw new ApiError(403, "Please verify your email first")
-    }
+
     const payload = {
-        id: foundUser.id
+        id: foundUser.id,
+        role: foundUser.role
     }
+
+    console.log(payload);
 
     const accessToken = jwt.sign(payload, env.JWT_ACCESS_SECRET, {
         expiresIn: env.JWT_ACCESS_EXPIRES
@@ -283,14 +174,15 @@ const signin = asyncHandler(async (req: Request<{}, {}, signinType, {}>, res: Re
 
     //  saving token in db
     const refreshTokenExpiry = new Date(
-        Date.now() + Number(env.JWT_REFRESH_EXPIRES)
-    );
-
-    await prisma.refreshToken.create({
+        Date.now() + Number(process.env.JWT_REFRESH_EXPIRES_IN)
+    )
+    await prisma.user.update({
+        where: {
+            id: foundUser.id
+        },
         data: {
-            token: refreshToken,
-            userId: foundUser.id,
-            expiresAt: refreshTokenExpiry
+            refreshToken: refreshToken,
+            refreshTokenExpiry
         }
     })
 
@@ -330,14 +222,7 @@ const signin = asyncHandler(async (req: Request<{}, {}, signinType, {}>, res: Re
 
 
 
-
-
-const refreshAccessToken = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-
-})
-
-
-const updateDetails = asyncHandler(async (req: Request<{}, {}, updateDetailsType, {}>, res: Response): Promise<void> => {
+const getCurrentUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
 
     // @ts-ignore
     const userId = req.userId
@@ -345,57 +230,36 @@ const updateDetails = asyncHandler(async (req: Request<{}, {}, updateDetailsType
     if (!userId)
         throw new ApiError(401, "Unauthorized")
 
-
-    const result = updateDetailsInput.safeParse(req.body)
-
-    if (result.success == false)
-        throw new ApiError(400, "Validation error")
-
-    const { userName, firstName, lastName, email, password } = result.data;
-    if (email) {
-        const existingEmail = await prisma.user.findUnique({
-            where: { email }
-        })
-
-        if (existingEmail && existingEmail.id !== userId)
-            throw new ApiError(409, "Email already in use")
-
-    }
-    const updatedUser = await prisma.user.update({
+    const user = await prisma.user.findUnique({
         where: {
             id: userId
-            //  how spread operator work ?? 
-            /*
-
-            */
-
-            // DYNAMIC SPREAD...
-
-        }, data: {  //on code directory check object.js
-            // if user has given some input then update else dont update it.
-            ...(userName && { userName: userName }),  // --> if first is ture then second will execute.
-            ...(firstName && { firstName }),    // user provided  value && {key : value  } in db..
-            ...(lastName && { lastName: lastName }),
-            ...(email && { email: email }),
-            ...(password && { passwordHash: await bcrypt.hash(password, 10) })
-        }, select: {
-            id: true,
-            userName: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-            isVerified: true,
-            blogs: true
+        }, include: {
+            blogs: {
+                where: {
+                    published: true,
+                    sort: "asc"
+                },
+            },
+            profile: true
         }
     })
 
-    res.status(200)
-        .json(new ApiResponse(200, "User details updated successfully", {
-            user: updatedUser
-        }))
+    if (!user)
+        throw new ApiError(404, "User does not exist")
 
+    res.status(200).json(new ApiResponse(200, "user Details", {
+        userDetail: user
+    }))
+})
+
+
+
+const refreshAccessToken = asyncHandler(async (req: Request, res: Response): Promise<void> => {
 
 })
+
+
+
 
 const forgetPassword = asyncHandler(async (req: Request, res: Response): Promise<void> => {
     /*
@@ -440,6 +304,7 @@ const forgetPassword = asyncHandler(async (req: Request, res: Response): Promise
             //or
 
         }, data: {
+            // this does not exists in zod
             resetPasswordToken: hashedResetPasswordToken,
             resetPasswordTokenExpiry: new Date(Date.now() + 15 * 60 * 1000)
         }
@@ -510,65 +375,43 @@ const resetPassword = asyncHandler(async (req: Request, res: Response): Promise<
 
 
 
-const getCurrentUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
 
-     // @ts-ignore
+const logout = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+
+
+
+    // delete the refresh token from the cookie and db
+
+    //@ts-ignore
     const userId = req.userId
 
     if (!userId)
         throw new ApiError(401, "Unauthorized")
 
-    const user = await prisma.user.findUnique({
+
+    await prisma.user.update({
         where: {
             id: userId
-        }, include: {
-            blogs: {
-                where: {
-                    published: true
-                }
-            }
-        }
-    })
-
-    if (!user)
-throw new ApiError(404, "User does not exist")
-
-    res.status(200).json(new ApiResponse(200, "user Details", {
-        userDetail: user
-    }))
-})
-
-
-const logout = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-
-
-    // delete the refresh token from the model , and clear cookies..
-    const refreshTokenFromCookie = req.cookies.refreshToken
-
-    if (!refreshTokenFromCookie)
-        throw new ApiError(400, "No refresh token");
-    // delete the refresh token from the cookie and db
-
-    await prisma.refreshToken.delete({
-        where: {
-            token: refreshTokenFromCookie
+        }, data: {
+            refreshToken: null,
+            refreshTokenExpiry: null
         }
     })
 
     //clear the cookie with same options 
-    
-    res.clearCookie("accessToken", {
-  httpOnly: true,
-  secure: env.NODE_ENV === "production",
-  sameSite: env.NODE_ENV === "production" ? "none" : "lax",
-})
 
-res.clearCookie("refreshToken", {
-  httpOnly: true,
-  secure: env.NODE_ENV === "production",
-  sameSite: env.NODE_ENV === "production" ? "none" : "lax",
-})
-    
+    res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: env.NODE_ENV === "production",
+        sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+    })
+
+    res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: env.NODE_ENV === "production",
+        sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+    })
+
 
     res.status(200).json(new ApiResponse(200, "Logged out successfully"));
 
@@ -577,48 +420,19 @@ res.clearCookie("refreshToken", {
 
 
 
-const getUserProfile = asyncHandler(async (req: Request<{}, {}, {}, {}>, res: Response): Promise<void> => {
 
-
-    const url = req.url
-    const urlParams = new URLSearchParams(url.split("?")[1])
-    const userName = urlParams.get('userName')
-
-   const finduser = await prisma.user.findUnique({
-    where: {
-        userName: userName
-    },
-    include: {
-        blogs: {
-            where: {
-                published: true
-            },orderBy: {
-                    createdAt: "desc"
-                }
-        }
-    }
-})
-    if (!finduser)
-        throw new ApiError(404, "User does not exist")
-
-    res.status(200).json(new ApiResponse(200, "user Details", {
-        userDetail: finduser
-    }))
-})
 
 
 
 export {
     signup,
     signin,
-    verifyEmail,
     refreshAccessToken,
-    updateDetails,
     forgetPassword,
     resetPassword,
     getCurrentUser,
     logout,
-    getUserProfile
+    
 }
 
 /*

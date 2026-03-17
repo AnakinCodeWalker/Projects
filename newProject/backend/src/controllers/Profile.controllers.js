@@ -6,6 +6,7 @@ import ApiResponse from "../utils/ApiResponse.js";
 import Profile from "../models/Profile.model.js";
 import User from "../models/User.model.js";
 import uploadOnCloudinary from "../utils/imageUploader.js"
+
 const getProfileDetails = asyncHandler(async (req, res) => {
 
     // will provie the user details as well as profile details as well.

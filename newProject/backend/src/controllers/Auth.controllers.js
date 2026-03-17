@@ -127,13 +127,13 @@ const signupController = asyncHandler(async (req, res) => {
    if (!newUser) {
 
       console.log(` error in userSignup`);
-      throw new ApiError(403, "can not created user")
+      throw new ApiError(403, "can not create user")
 
    }
 
    console.log("user sign up successfully");
 
-   return res.status(201)
+   res.status(201)
       .json(
          new ApiResponse(201,
             "user signup succesfully",

@@ -4,7 +4,7 @@
 import { Request, Response } from "express";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
-import { createPostInput, createPostType, updatePostInput, updatePostType } from "@anakincodewalker/common"
+import { createPostInput, createPostType, updatePostInput, updatePostType } from "../validation/Post.validation.js"
 import { asyncHandler } from "../utils/asyncHandler.js";
 import prisma from "../lib/prisma.js";
 import { searchBlogsInterface } from "../types/auth.types.js";
@@ -28,38 +28,52 @@ const createBlog = asyncHandler(async (req: Request<{}, {}, createPostType, {}>,
 // extract userId from req.user (JWT middleware)
 
 
-    const result = createPostInput.safeParse(req.body)
-
     // if left side exists krti hai tb hi , aage badho.
     
     //@ts-ignore
     const userId = req.userId   // jwt id
 
+    if (!userId)
+   throw new ApiError(401,"unauthorized")
+
+    
+    const result = createPostInput.safeParse(req.body)
+
+
   if (!result.success)
    throw new ApiError(400,"validation failed")
 
-if (!userId)
-   throw new ApiError(401,"unauthorized")
+  const {title,content,coverImageUrl,published} = result.data
 
-    const newBlog = await prisma.blog.create({
-        data: {
-            title: result.data.title,
-            content: result.data.content,
-            userId,
-            published: result.data.published ?? false,
-...(result.data.coverImageUrl && { coverImageUrl: result.data.coverImageUrl }) // as this field is optional
-        }, select: {
-            id: true,  // model ki id 
-            title: true,
-            content: true,
-            published: true,
-            coverImageUrl: true
-        }
-    })
+
+  /*
+  {
+  "title": "Understanding Node.js",
+  "content": "Long markdown content...",
+  "coverImage": "url"
+}
+  */
+
+
+ const newBlog = await prisma.blog.create({
+  data: {
+    title,
+    content,
+    published,
+    ...(coverImageUrl && { coverImageUrl }),
+    user: {
+      connect: {
+        id: userId as string
+      }
+    }
+  },
+  include: {
+    user: true
+  }
+})
     res.status(201).json(
         new ApiResponse(201, "blog created", {
             blog: newBlog,
-            blogId : newBlog.id
         }))
 
 })
