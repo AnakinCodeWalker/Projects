@@ -53,3 +53,15 @@ export const signinInput = z.object({
             message: "Password must contain at least one special character",
         }),
 })
+
+export const onboardInput = z.object({
+    fullName: z
+        .string()
+        .min(3, { message: "Name must be at least 3 characters long" })
+        .max(30, { message: "Name must be at most 30 characters long" }),
+    
+        bio: z.string(),
+    nativeLanguage: z.string(),
+    learningLanguage: z.string(),
+    location: z.string()
+})
