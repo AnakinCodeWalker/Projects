@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "helmet": "^8.1.0",
     "stream-chat": "^9.38.0"
   }
 }
