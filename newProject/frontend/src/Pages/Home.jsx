@@ -38,57 +38,92 @@ const Home = () => {
       </div>
 
       <div className="mt-4 text-2xl w-[70%] text-center font-bold text-slate-200">
-        My name is Prince and  I created this Website so any one can come and enhance their skills
+        My name is   <a
+          href="https://www.linkedin.com/in/princekumar3111"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {
+            <HighlightText text={"Prince"} />
+          } </a>
+        and  I created this Website so any one can come and enhance their skills
       </div>
 
       {/*  generic button component */}
       <div className="flex flex-row m-8 gap-7">
+     
         <CTABUTTON linkto={"/signup"} active={true}>Learn More{/* children*/} </CTABUTTON>
         <CTABUTTON linkto={"/login"} active={false}>Book a demo</CTABUTTON>
+     
       </div>
 
       {/* adding the  video */}
-    
-    <div className="shadow-blue-200 mt-12 mx-10 w-3/4 aspect-video">
-      <video muted loop autoPlay>
-<source src={banner}type="video/mp4"/>
-      </video>
-    </div>
 
-{/*  */}
-<div>
-  <CodeBlocks className=" max-w-full " position={"lg:flex-row"}
-  
-  heading={
-    <div className="text-4xl font-semibold">
-      Unlock your <HighlightText text={"coding Potential"}/>
-     {" "} with our online courses
-    </div>
+      <div className="shadow-blue-200 mt-12 mx-10 w-3/4 aspect-video">
+        <video muted loop autoPlay>
+          <source src={banner} type="video/mp4" />
+        </video>
+      </div>
 
-  }
+      {/* code section 1 */}
+      <div className="max-w-full">
+        <CodeBlocks className=" max-w-full " position={"lg:flex-row"}
 
-  subheading={
-    "we Provide courses so , that you could learn and reshape your entire future , A bright future is waiting ahead for you"
-  }
+          heading={
+            <div className="text-4xl font-semibold">
+              Unlock your <HighlightText text={"coding Potential"} />
+              {" "} with our online courses
+            </div>
 
-  ctabtn1={{
-    btnText : "try it your self",
-    linkto  : "/signup",
-    active  : true
-  }}
-   ctabtn2={{
-    btnText : "Learn more",
-    linkto  : "/login",
-    active  : false
-  }}
+          }
 
-  
+          ctabtn1={{
+            btnText: "try it your self",
+            linkto: "/signup",
+            active: true
+          }}
+          ctabtn2={{
+            btnText: "Learn more",
+            linkto: "/login",
+            active: false
+          }}
 
-  ></CodeBlocks>
-</div>
+
+
+        ></CodeBlocks>
+      </div>
+
+      {/* code Section 2
+       <div className="max-w-full">
+        <CodeBlocks className=" max-w-full " position={"lg:flex-row-reverse"}
+
+          heading={
+            <div className="text-4xl font-semibold">
+              Start <HighlightText text={"Coding"} />
+              {" "} in Seconds — Build Skills That Actually Matter
+            </div>
+
+          }
+
+          ctabtn1={{
+            btnText: "try it your self",
+            linkto: "/signup",
+            active: true
+          }}
+          ctabtn2={{
+            btnText: "Learn more",
+            linkto: "/login",
+            active: false
+          }}
+
+
+
+        ></CodeBlocks>
+      </div> */}
+
     </div>
   </div>
 
-  }
+}
 
 export default Home

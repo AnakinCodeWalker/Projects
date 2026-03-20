@@ -5,21 +5,18 @@ import { FaArrowRight } from "react-icons/fa"
 const CodeBlocks = ({
   position ,  //flex-row-reverse or normal order 
   heading,
-  subheading,
   ctabtn1,
   ctabtn2,
   
 }) => {
   return <>
 
-<div className={`flex ${position} my-20 justify-between gap-10`}>
+<div className={`flex ${position} my-20  max-w-full justify-evenly gap-10`}>
 
 <div className="w-[50%] flex flex-col gap-8">
   {heading}
 
-  <div className="text-white font-bold">
-    {subheading}
-  </div>
+  
 </div>
 
 {/* <HighlightText text={""}/> */}
