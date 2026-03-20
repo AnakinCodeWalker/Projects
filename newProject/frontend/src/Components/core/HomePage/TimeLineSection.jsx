@@ -2,7 +2,7 @@ import Logo1 from "../../../assets/TimeLineLogo/Logo1.svg"
 import Logo2 from "../../../assets/TimeLineLogo/Logo2.svg"
 import Logo3 from "../../../assets/TimeLineLogo/Logo3.svg"
 import Logo4 from "../../../assets/TimeLineLogo/Logo4.svg"
-
+import timelineImage from "../../../assets/Images/TimeLineImage.png"
 const TimeLineSection = () => {
 
     return <>
@@ -21,9 +21,23 @@ const TimeLineSection = () => {
             </div>
 
 
+            {/* shadow blue to left right side  */}
             {/* inner right div */}
-            <div className="w-[50%]">
+            <div className="realtive w-[48%] shadow shadow-blue-500/30">
+                <img src={timelineImage} alt="timelineImage" />
 
+                <div className="absolute translate-x-[10%]  translate-y-[-50%] flex flex-row  text-white py-8 uppercase bg-green-700">
+
+                    <div className="flex flex-row gap-5 items-center border border-green-300 px-7">
+                        <p className="text-3xl font-bold">10</p>
+                        <p className="text-green-300 text-sm">years of Experience</p>
+                    </div>
+
+                    <div className="flex gap-5 items-center px-7">
+                        <p className="text-3xl font-bold">250</p>
+                        <p className="text-green-300 text-sm">Types of Courses</p>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -32,6 +46,12 @@ const TimeLineSection = () => {
 }
 
 export default TimeLineSection
+
+
+
+
+
+
 
 
 const TimeLineSectionInput = ({ image, text, p }) => {
@@ -49,7 +69,7 @@ const TimeLineSectionInput = ({ image, text, p }) => {
                 {text}
                 <p>{p}</p>
             </div>
-           
+
         </div>
     </>
 

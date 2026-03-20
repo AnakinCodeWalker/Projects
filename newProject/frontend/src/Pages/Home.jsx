@@ -144,12 +144,20 @@ const Home = () => {
         </div>
       </div>
 
-<div className="mt-9 mb-9">
+<div className="mt-9 ">
         <TimeLineSection ></TimeLineSection>
 
 </div>
       <LearningLanguageSection></LearningLanguageSection>
     </div>
+
+
+
+{/* section 3 */}
+    <div></div>
+
+
+
   </div>
 
 }
