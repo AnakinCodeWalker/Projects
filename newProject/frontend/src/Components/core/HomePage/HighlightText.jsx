@@ -1,7 +1,7 @@
 
 const HighlightText = ({text}) => {
   return (
-    <span className="font-bold text-blue-100">{text}</span>
+    <span className="font-bold text-blue-500">{""}{text}</span>
   )
 }
 
