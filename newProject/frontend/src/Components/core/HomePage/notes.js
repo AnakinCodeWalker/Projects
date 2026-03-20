@@ -7,3 +7,5 @@
 
 //  a  -- external link 
 // Link -- website internal links 
+
+//   / = either fraction OR opacity (depends on context)

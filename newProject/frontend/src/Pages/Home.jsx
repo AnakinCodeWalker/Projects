@@ -6,9 +6,11 @@ import { FaArrowRight } from "react-icons/fa";
 import HighlightText from "../Components/core/HomePage/HighlightText"
 import CTABUTTON from "../Components/core/HomePage/CtaButton"
 import CodeBlocks from "../Components/core/HomePage/CodeBlocks"
-
+import LearningLanguageSection from "../Components/core/HomePage/LearningLanguageSection";
+import TimeLineSection from "../Components/core/HomePage/TimeLineSection";
 // assests
 import banner from "../assets/Images/banner.mp4"
+import CtaButton from "../Components/core/HomePage/CtaButton";
 const Home = () => {
   return <div>
 
@@ -51,21 +53,21 @@ const Home = () => {
 
       {/*  generic button component */}
       <div className="flex flex-row m-8 gap-7">
-     
+
         <CTABUTTON linkto={"/signup"} active={true}>Learn More{/* children*/} </CTABUTTON>
         <CTABUTTON linkto={"/login"} active={false}>Book a demo</CTABUTTON>
-     
+
       </div>
 
       {/* adding the  video */}
 
-      <div className="shadow-blue-200 mt-12 mx-10 w-3/4 aspect-video">
-        <video muted loop autoPlay>
+      <div className=" rounded-xl shadow-2xl shadow-blue-500/30  mt-12 mx-10 w-3/4 aspect-video">
+        <video className="rounded-xl" muted loop autoPlay>
           <source src={banner} type="video/mp4" />
         </video>
       </div>
 
-      {/* code section 1 */}
+      {/* review generic CodeBlock componnent */}
       <div className="max-w-full">
         <CodeBlocks className=" max-w-full " position={"lg:flex-row"}
 
@@ -93,34 +95,60 @@ const Home = () => {
         ></CodeBlocks>
       </div>
 
-      {/* code Section 2
-       <div className="max-w-full">
-        <CodeBlocks className=" max-w-full " position={"lg:flex-row-reverse"}
+    </div>
 
-          heading={
-            <div className="text-4xl font-semibold">
-              Start <HighlightText text={"Coding"} />
-              {" "} in Seconds — Build Skills That Actually Matter
+
+
+    {/* Section 2 */}
+    <div className="bg-white text-black-700">
+
+      {/* button secton - 2  */}
+      <div className="homepage_bg h-[320px]">
+        {/* Explore Full Catagory Section */}
+        <div className="mx-auto flex w-11/12 max-w-[1200px] flex-col items-center justify-between gap-8">
+          <div className="lg:h-[150px]"></div>
+          <div className="flex flex-row gap-7 text-white lg:mt-8">
+            <CTABUTTON active={true} linkto={"/signup"}>
+              <div className="flex items-center gap-2">
+                Explore Full Catalog
+                <FaArrowRight />
+              </div>
+            </CTABUTTON>
+            <CTABUTTON active={false} linkto={"/login"}>
+              Learn More
+            </CTABUTTON>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div className="mx-auto w-11/12 max-w-[1200px]  flex flex-col items-center justify-between gap-7">
+
+        <div className="mt-[95px] flex flex-row w-full gap-5">
+
+          <div className="w-1/2 font-semibold text-4xl">Get the skills you  need for a <HighlightText text={"job that is in demand "} />
+          </div>
+
+          <div className=" gap-5 w-1/2 flex flex-col justify-center">
+            <p className="font-semibold text-[16px]">
+              The modern Study Website dictates its own term today to be a comptetive specialist requires more than profesional skills  </p>
+
+
+            <div className="mt-8 max-w-[200px]">
+              <CTABUTTON active={true} linkto={"/singup"}> Learn More </CTABUTTON>
             </div>
 
-          }
+          </div>
+        </div>
+      </div>
 
-          ctabtn1={{
-            btnText: "try it your self",
-            linkto: "/signup",
-            active: true
-          }}
-          ctabtn2={{
-            btnText: "Learn more",
-            linkto: "/login",
-            active: false
-          }}
+<div className="mt-9 mb-9">
+        <TimeLineSection ></TimeLineSection>
 
-
-
-        ></CodeBlocks>
-      </div> */}
-
+</div>
+      <LearningLanguageSection></LearningLanguageSection>
     </div>
   </div>
 
