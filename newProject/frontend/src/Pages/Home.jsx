@@ -8,6 +8,8 @@ import CTABUTTON from "../Components/core/HomePage/CtaButton"
 import CodeBlocks from "../Components/core/HomePage/CodeBlocks"
 import LearningLanguageSection from "../Components/core/HomePage/LearningLanguageSection";
 import TimeLineSection from "../Components/core/HomePage/TimeLineSection";
+import Footer from "../Components/Common/Footer";
+
 // assests
 import banner from "../assets/Images/banner.mp4"
 import InstructorSection from "../Components/core/HomePage/InstructorSection";
@@ -105,6 +107,8 @@ const Home = () => {
 
       {/* button secton - 2  */}
       <div className="homepage_bg h-[320px]">
+       
+    
         {/* Explore Full Catagory Section */}
         <div className="mx-auto flex w-11/12 max-w-[1200px] flex-col items-center justify-between gap-8">
           <div className="lg:h-[150px]"></div>
@@ -115,11 +119,11 @@ const Home = () => {
                 <FaArrowRight />
               </div>
             </CTABUTTON>
-           <div className="w-fit">
-             <CTABUTTON active={false} linkto={"/login"}>
-              Learn More
-            </CTABUTTON>
-           </div>
+            <div className="w-fit">
+              <CTABUTTON active={false} linkto={"/login"}>
+                Learn More
+              </CTABUTTON>
+            </div>
           </div>
         </div>
       </div>
@@ -147,28 +151,29 @@ const Home = () => {
         </div>
       </div>
 
-<div className="mt-9 ">
+      <div className="mt-9 ">
         <TimeLineSection ></TimeLineSection>
 
-</div>
+      </div>
       <LearningLanguageSection></LearningLanguageSection>
     </div>
 
 
 
-{/* section 3 */}
-{/* main div */}
+    {/* section 3 */}
+    {/* main div */}
     <div className=" gap-8 flex flex-col items-center text-white bg-black w-11/12 max-w-[1200px]">
 
-<InstructorSection/>
-<h2 className="text-center text-4xl font-semibold mt-10"> review from other learners</h2>
+      <InstructorSection />
+      <h2 className="text-center text-4xl font-semibold mt-10"> review from other learners</h2>
 
-{/* review slider here */}
+      {/* review slider here */}
 
     </div>
 
+    {/* footer */}
 
-
+    <Footer />
   </div>
 
 }
