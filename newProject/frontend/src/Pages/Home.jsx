@@ -10,7 +10,8 @@ import LearningLanguageSection from "../Components/core/HomePage/LearningLanguag
 import TimeLineSection from "../Components/core/HomePage/TimeLineSection";
 // assests
 import banner from "../assets/Images/banner.mp4"
-import CtaButton from "../Components/core/HomePage/CtaButton";
+import InstructorSection from "../Components/core/HomePage/InstructorSection";
+
 const Home = () => {
   return <div>
 
@@ -154,7 +155,12 @@ const Home = () => {
 
 
 {/* section 3 */}
-    <div></div>
+{/* main div */}
+    <div className=" gap-8 flex flex-col items-center text-white bg-black w-11/12 max-w-[1200px]">
+
+<InstructorSection></InstructorSection>
+
+    </div>
 
 
 
