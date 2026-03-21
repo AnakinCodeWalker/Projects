@@ -5,7 +5,7 @@ import plan_your_lessons from "../../../assets/Images/plan_your_lessons.png"
 import CtaButton  from "./CtaButton"
 const LearningLanguageSection = () => {
   return (
-    <div className="flex flex-col justify-center items-center gap-5  bg-white mt-30">
+    <div className="mt-[130px] mb-[32px] flex flex-col justify-center items-center gap-5  bg-white mt-30">
 
       <div className="max-w-[50%]  text-center ">
 

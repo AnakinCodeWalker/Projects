@@ -115,9 +115,11 @@ const Home = () => {
                 <FaArrowRight />
               </div>
             </CTABUTTON>
-            <CTABUTTON active={false} linkto={"/login"}>
+           <div className="w-fit">
+             <CTABUTTON active={false} linkto={"/login"}>
               Learn More
             </CTABUTTON>
+           </div>
           </div>
         </div>
       </div>
@@ -137,7 +139,7 @@ const Home = () => {
               The modern Study Website dictates its own term today to be a comptetive specialist requires more than profesional skills  </p>
 
 
-            <div className="mt-8 max-w-[200px]">
+            <div className="mt-8 max-w-[200px] w-fit">
               <CTABUTTON active={true} linkto={"/singup"}> Learn More </CTABUTTON>
             </div>
 
@@ -158,7 +160,10 @@ const Home = () => {
 {/* main div */}
     <div className=" gap-8 flex flex-col items-center text-white bg-black w-11/12 max-w-[1200px]">
 
-<InstructorSection></InstructorSection>
+<InstructorSection/>
+<h2 className="text-center text-4xl font-semibold mt-10"> review from other learners</h2>
+
+{/* review slider here */}
 
     </div>
 
