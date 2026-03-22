@@ -26,17 +26,17 @@ const SignupForm = ({ setIsLoggedIn }) => {
 
         const result = signupInput.safeParse(formData);
 
-        if (!result.success) {
+        if (!result.success) {  //zod validation
 
             const firstError = result.error.issues[0];
-            toast.error(firstError.message);
+            toast.error(firstError.message);  //toast error
             return;
         }
 
 
 
         setIsLoggedIn(true)
-        toast.success("signup successful")
+        toast.success("signup successful") 
         navigate("/dashboard")  // change it later on 
     }
     return (
@@ -56,7 +56,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
                         <input
                             type="text"
                             name='firstName'
-                            required
+                            
                             value={formData.firstName}
                             onChange={changeHandler}
                             placeholder='Enter your first Name'
@@ -68,7 +68,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
                         <input
                             type="text"
                             name='lastName'
-                            required
+                            
                             value={formData.lastName}
                             onChange={changeHandler}
                             placeholder='Enter your last Name'
@@ -83,7 +83,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
                     <input
                         type="email"
                         name='email' // if i  made this required , browser will thow its own error ..
-                        required
+                        
                         value={formData.email}
                         onChange={changeHandler}
                         placeholder='Enter your email'
@@ -96,7 +96,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
                     <input
                         type="password"
                         name='password'
-                        required
+                        
                         value={formData.password}
                         onChange={changeHandler}
                         placeholder='Enter your password'
@@ -109,7 +109,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
                     <input
                         type="password"
                         name='confirmPassword'
-                        required
+                        
                         value={formData.confirmPassword}
                         onChange={changeHandler}
                         placeholder='Confirm your password'

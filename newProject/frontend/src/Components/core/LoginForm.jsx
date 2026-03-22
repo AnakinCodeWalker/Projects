@@ -25,12 +25,13 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
         const result = signinInput.safeParse(formData);
 
-        if (!result.success) {
+          if (!result.success) {  //zod validation
 
             const firstError = result.error.issues[0];
-            toast.error(firstError.message);
+            toast.error(firstError.message);  //toast error
             return;
         }
+
 
 
         setIsLoggedIn(true)
@@ -46,7 +47,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                         Email Address <sup>*</sup>
                     </p>
                     <input type="email"
-                        required
+                        
                         value={formData.email}
                         onChange={changeHandler}
                         placeholder='Enter Email id '
@@ -59,7 +60,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                         Password <sup>*</sup>
                     </p>
                     <input type="password"
-                        required
+                        
                         value={formData.password}
                         onChange={changeHandler}
                         placeholder='Enter Password '
