@@ -1,13 +1,15 @@
 import React from 'react'
 import { useState } from 'react'
 import CTABUTTON from "./HomePage/CtaButton"
-
-const LoginForm = () => {
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link } from 'react-router-dom';
+const LoginForm = ({ setIsLoggedIn }) => {
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     })
-
+    const navigate = useNavigate();
     function changeHandler(e) {
         const { name, value } = e.target;
 
@@ -16,41 +18,56 @@ const LoginForm = () => {
             [name]: value  //update the field dynamically based on input name”
         }))
     }
-    return (
-        <form >
-            <label>
-                <p>
-                    Email Address <sup>*</sup>
-                </p>
-                <input type="email"
-                    required
-                    value={formData.email}
-                    onChange={changeHandler}
-                    placeholder='Enter Email id '
-                    name='email'
-                />
-            </label>
 
-            <label>
-                <p>
-                    Password <sup>*</sup>
-                </p>
-                <input type="password"
-                    required
-                    value={formData.password}
-                    onChange={changeHandler}
-                    placeholder='Enter Password '
-                    name='password'
-                />
-                <Link to={"/forgot-password"}>
-                <p>
-                    forgot Password
-                    
+    function submitHandler(event) {
+        event.preventDefault()
+        setIsLoggedIn(true)
+        toast.success("Logged in")
+        navigate("/dashboard")
+    }
+
+    return (
+        <div className='text-white'>
+            <form onSubmit={submitHandler}>
+                <label>
+                    <p>
+                        Email Address <sup>*</sup>
                     </p>
-                </Link>
-            </label>
-<CTABUTTON active={true} linkto={"/"}></CTABUTTON>
-        </form>
+                    <input type="email"
+                        required
+                        value={formData.email}
+                        onChange={changeHandler}
+                        placeholder='Enter Email id '
+                        name='email'
+                    />
+                </label>
+
+                <label>
+                    <p>
+                        Password <sup>*</sup>
+                    </p>
+                    <input type="password"
+                        required
+                        value={formData.password}
+                        onChange={changeHandler}
+                        placeholder='Enter Password '
+                        name='password'
+                    />
+                    <Link to={"/forgot-password"}>
+                        <p>
+                            forgot Password
+
+                        </p>
+                    </Link>
+                </label>
+
+                <div>
+                    <button className='bg-white text-black rounded-md m-4 p-2' type="submit">
+                        Create Account
+                    </button>
+                </div>
+            </form>
+        </div>
     )
 }
 export default LoginForm

@@ -58,7 +58,7 @@ const NavBar = () => {
                 </CtaButton>
 
 
-                <CtaButton active={false} linkto={"/signin"}>
+                <CtaButton active={false} linkto={"/login"}>
                     <div className="flex gap-2 flex-row items-center w-fit">
                         signin
                         <FaArrowRight></FaArrowRight>

@@ -1,92 +1,116 @@
 import { useState } from 'react'
 import CtaButton from './HomePage/CtaButton'
-const SignupForm = () => {
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-    const [FormData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        Password: "",
-        confrimPassword: "",
-    })
+const SignupForm = ({setIsLoggedIn}) => {
 
-    function changeHandler(e) {
-        const { name, value } = e.target;
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  })
+const navigate = useNavigate();
+  function changeHandler(e) {
+    const { name, value } = e.target;
 
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value  //update the field dynamically based on input name”
-        }))
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }))
+  }
+ function submitHandler(event) {
+        event.preventDefault()
+        setIsLoggedIn(true)
+         toast.success("signup success")
+         navigate("/dashboard")  // change it later on 
     }
-    return (
+  return (
+    <div className='text-white'>
+      
+      <div>
+        <CtaButton active={true}>Student</CtaButton>
+        <CtaButton active={false}>Instructor</CtaButton>
+      </div>
+
+      <form onSubmit={submitHandler}>
+
         <div>
-            <div>
-                <CtaButton active={true}> Student</CtaButton>
-                <CtaButton active={false}> Instructor </CtaButton>
-            </div>
 
-            <form>
-                <div>
+          <label>
+            <p>First Name <sup>*</sup></p>
+            <input
+              type="text"
+              name='firstName'
+              required
+              value={formData.firstName}
+              onChange={changeHandler}
+              placeholder='Enter your first Name'
+            />
+          </label>
 
-                    <label>
-                        <p>First Name <sup>*</sup></p>
-                        <input type="text"
-                            name='firstName'
-                            required
-                            onChange={changeHandler}
-                            placeholder='Enter your first Name' />
-                        value={FormData.firstName}
-                    </label>
+          <label>
+            <p>Last Name <sup>*</sup></p>
+            <input
+              type="text"
+              name='lastName'
+              required
+              value={formData.lastName}
+              onChange={changeHandler}
+              placeholder='Enter your last Name'
+            />
+          </label>
 
-                    <label>
-                        <p>last Name <sup>*</sup></p>
-                        <input type="text"
-                            name='lastName'
-                            required
-                            onChange={changeHandler}
-                            placeholder='Enter your last Name' />
-                        value={FormData.lastName}
-                    </label>
-
-                </div>
-
-                {/* email */}
-                <label>
-                    <p>email Address<sup>*</sup></p>
-                    <input type="email"
-                        name='email'
-                        required
-                        onChange={changeHandler}
-                        placeholder='Enter your email' />
-                    value={FormData.email}
-                </label>
-
-                {/* create password */}
-                <label>
-                    <p>create password<sup>*</sup></p>
-                    <input type="password"
-                        name='password'
-                        required
-                        onChange={changeHandler}
-                        placeholder='Enter your password' />
-                    value={FormData.Password}
-                </label>
-
-                <label>
-                    <p>confrim Password<sup>*</sup></p>
-                    <input type="password"
-                        name='confrimPassword'
-                        required
-                        onChange={changeHandler}
-                        placeholder='Enter your password' />
-                    value={FormData.confrimPassword}
-                </label>
-
- <CtaButton active={true} linkto={""}> Create Account</CtaButton>
-
-            </form>
         </div>
-    )
+
+        {/* email */}
+        <label>
+          <p>Email Address <sup>*</sup></p>
+          <input
+            type="email"
+            name='email'
+            required
+            value={formData.email}
+            onChange={changeHandler}
+            placeholder='Enter your email'
+          />
+        </label>
+
+        {/* password */}
+        <label>
+          <p>Create Password <sup>*</sup></p>
+          <input
+            type="password"
+            name='password'
+            required
+            value={formData.password}
+            onChange={changeHandler}
+            placeholder='Enter your password'
+          />
+        </label>
+
+        {/* confirm password */}
+        <label>
+          <p>Confirm Password <sup>*</sup></p>
+          <input
+            type="password"
+            name='confirmPassword'
+            required
+            value={formData.confirmPassword}
+            onChange={changeHandler}
+            placeholder='Confirm your password'
+          />
+        </label>
+
+     <button type="submit">
+  Create Account
+</button>
+
+      </form>
+    </div>
+  )
 }
 
 export default SignupForm

@@ -1,8 +1,9 @@
-import React from 'react'
-import CtaButton from "./Components/core/HomePage/CtaButton"
+
 import FrameImage from "../../assets/Images/frame.png"
 import SignupForm from "../core/SignupForm"
 import LoginForm from '../core/LoginForm'
+
+
 
 const Template = ({ title, desc1, desc2, image, formtype, setIsLoggedIn }) => {
   return (
@@ -19,7 +20,7 @@ const Template = ({ title, desc1, desc2, image, formtype, setIsLoggedIn }) => {
           </span>
         </p>
 
-        {formtype === "signup" ? (<SignupForm />) : (<LoginForm />)}
+        {formtype === "signup" ? (<SignupForm setIsLoggedIn={setIsLoggedIn}/>) : (<LoginForm setIsLoggedIn={setIsLoggedIn}/>)}
       </div>
 
       <div >
