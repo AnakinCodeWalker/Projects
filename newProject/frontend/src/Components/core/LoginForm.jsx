@@ -4,6 +4,10 @@ import toast from "react-hot-toast";
 import { Link } from 'react-router-dom';
 import { signinInput } from "../Common/validation/User.validation.js"
 
+
+const inputStyle = "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+const  labelInputStyle = "block text-gray-700 text-sm font-bold mb-2" 
+
 const LoginForm = ({ setIsLoggedIn }) => {
     const [formData, setFormData] = useState({
         email: "",
@@ -41,13 +45,14 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
     return (
         <div className='text-white'>
-            <form onSubmit={submitHandler}>
-                <label>
+            <form className="mt-12 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={submitHandler}>
+                <label className={labelInputStyle}>
                     <p>
-                        Email Address <sup>*</sup>
+                        Email Address 
                     </p>
-                    <input type="email"
-
+                    
+                    <input className={inputStyle}
+                        type="email"
                         value={formData.email}
                         onChange={changeHandler}
                         placeholder='Enter Email id '
@@ -55,23 +60,24 @@ const LoginForm = ({ setIsLoggedIn }) => {
                     />
                 </label>
 
-                <label>
+                <label className={labelInputStyle}>
                     <p>
-                        Password <sup>*</sup>
+                        Password 
                     </p>
-                    <input type="password"
-
+                    <input className={inputStyle}
+                        type="password"
                         value={formData.password}
                         onChange={changeHandler}
                         placeholder='Enter Password '
                         name='password'
                     />
-                    <Link to={"/forgot-password"}>
-                        <p>
-                            forgot Password
-
-                        </p>
+                    <p className='text-slate-400   text-sm  '>
+                            forgot Password?
+ <Link className='text-slate-400 ml-2 underline'  to={"/forgot-password"}>
+                       forgot-password
                     </Link>
+                        </p>
+                   
                 </label>
 
                 <div>

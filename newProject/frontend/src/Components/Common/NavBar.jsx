@@ -8,7 +8,7 @@ const NavBar = () => {
     return (
 
         // main div
-        <div className="  flex border h-14 w-full border-blue-300">
+        <div className="  w-11/12  flex border ml-4 max-w-[1500px] rounded-xl h-14 w-full border-blue-300">
 
 
             {/* image */}
@@ -60,7 +60,7 @@ const NavBar = () => {
 
                 <CtaButton active={false} linkto={"/login"}>
                     <div className="flex gap-2 flex-row items-center w-fit">
-                        signin
+                        login
                         <FaArrowRight></FaArrowRight>
 
                     </div>

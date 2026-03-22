@@ -16,7 +16,7 @@
 // footer  ------------------------------- section banao  
 
 // nav bar mai edit baki hai  ,
-
+// check route and load nav accordingly
 
 
 

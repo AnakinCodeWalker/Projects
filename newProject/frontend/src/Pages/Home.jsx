@@ -144,7 +144,7 @@ const Home = () => {
 
 
             <div className="mt-8 max-w-[200px] w-fit">
-              <CTABUTTON active={true} linkto={"/singup"}> Learn More </CTABUTTON>
+              <CTABUTTON active={true} linkto={"/signup"}> Learn More </CTABUTTON>
             </div>
 
           </div>

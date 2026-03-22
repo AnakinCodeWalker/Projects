@@ -20,7 +20,7 @@ const Template = ({ title, desc1, desc2, image, formtype, setIsLoggedIn }) => {
           </span>
         </p>
       </div>
-      <div className=" justify-evenly flex border white w-full max-w-50%">
+      <div className=" justify-evenly flex   w-full max-w-50%">
 
 
         <div className="w-max-50%">{formtype === "signup" ? (<SignupForm setIsLoggedIn={setIsLoggedIn} />) : (<LoginForm setIsLoggedIn={setIsLoggedIn} />)}
@@ -32,7 +32,7 @@ const Template = ({ title, desc1, desc2, image, formtype, setIsLoggedIn }) => {
               loading='lazy' />
           </div>
 
-          <div className="top-47 right-70 absolute">
+          <div className="shadow-2xl shadow-blue-500/30 top-47 right-60 absolute">
 
             <img src={image} alt="Student" width={558} height={490}
               loading='lazy' />
