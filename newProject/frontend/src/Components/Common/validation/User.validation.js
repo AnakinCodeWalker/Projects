@@ -49,11 +49,11 @@ export const signupInput = z.object({
             message: "Password must contain at least one special character",
         }),
 
-    otp: z.string({ message: "otp must be string" })
-        .min(6, { message: "otp  length must be of 6 digits" })
-        .max(6, { message: "otp  length must be of 6 digits" }),
+    // otp: z.string({ message: "otp must be string" })
+    //     .min(6, { message: "otp  length must be of 6 digits" })
+    //     .max(6, { message: "otp  length must be of 6 digits" }),
 
-    contactNumber: z.string(),
+    // contactNumber: z.string(),
 
     role: z.enum(["Student", "Admin", "Instructor"]).optional(),
 

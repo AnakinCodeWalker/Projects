@@ -1,9 +1,9 @@
-import React from 'react'
 import { useState } from 'react'
-import CTABUTTON from "./HomePage/CtaButton"
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Link } from 'react-router-dom';
+import { signinInput } from "../Common/validation/User.validation.js"
+
 const LoginForm = ({ setIsLoggedIn }) => {
     const [formData, setFormData] = useState({
         email: "",
@@ -20,10 +20,22 @@ const LoginForm = ({ setIsLoggedIn }) => {
     }
 
     function submitHandler(event) {
-        event.preventDefault()
+        event.preventDefault()  // page will not re render and i am going to handle the events is se yeh hots hai
+
+
+        const result = signinInput.safeParse(formData);
+
+        if (!result.success) {
+
+            const firstError = result.error.issues[0];
+            toast.error(firstError.message);
+            return;
+        }
+
+
         setIsLoggedIn(true)
-        toast.success("Logged in")
-        navigate("/dashboard")
+        toast.success("Logged successful")
+        navigate("/dashboard")   //Based on condition change the routes..
     }
 
     return (

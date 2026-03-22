@@ -15,6 +15,17 @@
 
 // footer  ------------------------------- section banao  
 
-// nav bar baki ,
-//  signup , login baki 
-// singup form any ohexg 
+// nav bar mai edit baki hai  ,
+
+
+
+
+/*
+    function submitHandler(event) {
+        event.preventDefault()  // page will not re render and i am going to handle the events is se yeh hots hai
+        setIsLoggedIn(true)
+        toast.success("Logged in")
+        navigate("/dashboard")   //Based on condition change the routes..
+    }
+
+*/
