@@ -36,15 +36,20 @@ const SignupForm = ({ setIsLoggedIn }) => {
 
 
         setIsLoggedIn(true)
-        toast.success("signup successful") 
+        toast.success("signup successful")
         navigate("/dashboard")  // change it later on 
     }
     return (
-        <div className='text-white'>
+        <div className='justify-center items-center gap-5 flex flex-col text-white'>
 
-            <div>
-                <CtaButton active={true}>Student</CtaButton>
-                <CtaButton active={false}>Instructor</CtaButton>
+            <div className="flex flex-row ml-5 gap-5">
+                <CtaButton active={true}>
+                    <div className="w-fit">
+                        Student
+                    </div></CtaButton>
+                <CtaButton active={false}>
+                    <div className="w-fit">Instructor</div>
+                </CtaButton>
             </div>
 
             <form onSubmit={submitHandler}>
@@ -52,11 +57,11 @@ const SignupForm = ({ setIsLoggedIn }) => {
                 <div>
 
                     <label>
-                        <p>First Name <sup>*</sup></p>
+                        <p>First Name </p>
                         <input
                             type="text"
                             name='firstName'
-                            
+
                             value={formData.firstName}
                             onChange={changeHandler}
                             placeholder='Enter your first Name'
@@ -64,11 +69,11 @@ const SignupForm = ({ setIsLoggedIn }) => {
                     </label>
 
                     <label>
-                        <p>Last Name <sup>*</sup></p>
+                        <p>Last Name </p>
                         <input
                             type="text"
                             name='lastName'
-                            
+
                             value={formData.lastName}
                             onChange={changeHandler}
                             placeholder='Enter your last Name'
@@ -79,11 +84,11 @@ const SignupForm = ({ setIsLoggedIn }) => {
 
                 {/* email */}
                 <label>
-                    <p>Email Address <sup>*</sup></p>
+                    <p>Email Address </p>
                     <input
                         type="email"
                         name='email' // if i  made this required , browser will thow its own error ..
-                        
+
                         value={formData.email}
                         onChange={changeHandler}
                         placeholder='Enter your email'
@@ -92,11 +97,11 @@ const SignupForm = ({ setIsLoggedIn }) => {
 
                 {/* password */}
                 <label>
-                    <p>Create Password <sup>*</sup></p>
+                    <p>Create Password </p>
                     <input
                         type="password"
                         name='password'
-                        
+
                         value={formData.password}
                         onChange={changeHandler}
                         placeholder='Enter your password'
@@ -105,11 +110,11 @@ const SignupForm = ({ setIsLoggedIn }) => {
 
                 {/* confirm password */}
                 <label>
-                    <p>Confirm Password <sup>*</sup></p>
+                    <p>Confirm Password </p>
                     <input
                         type="password"
                         name='confirmPassword'
-                        
+
                         value={formData.confirmPassword}
                         onChange={changeHandler}
                         placeholder='Confirm your password'
@@ -117,9 +122,13 @@ const SignupForm = ({ setIsLoggedIn }) => {
                 </label>
 
 
-                <button type="submit">
-                    Create Account
-                </button>
+                <div className=' w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
+       bg-blue-500 text-black
+      hover:scale-95 transition-all duration-200'>
+                    <button type="submit">
+                        Create Account
+                    </button>
+                </div>
 
             </form>
         </div>

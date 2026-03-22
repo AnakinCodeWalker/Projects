@@ -25,7 +25,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
         const result = signinInput.safeParse(formData);
 
-          if (!result.success) {  //zod validation
+        if (!result.success) {  //zod validation
 
             const firstError = result.error.issues[0];
             toast.error(firstError.message);  //toast error
@@ -47,7 +47,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                         Email Address <sup>*</sup>
                     </p>
                     <input type="email"
-                        
+
                         value={formData.email}
                         onChange={changeHandler}
                         placeholder='Enter Email id '
@@ -60,7 +60,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
                         Password <sup>*</sup>
                     </p>
                     <input type="password"
-                        
+
                         value={formData.password}
                         onChange={changeHandler}
                         placeholder='Enter Password '
@@ -75,7 +75,9 @@ const LoginForm = ({ setIsLoggedIn }) => {
                 </label>
 
                 <div>
-                    <button className='bg-white text-black rounded-md m-4 p-2' type="submit">
+                    <button className=' w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
+       bg-blue-500 text-black
+      hover:scale-95 transition-all duration-200' type="submit">
                         Create Account
                     </button>
                 </div>
