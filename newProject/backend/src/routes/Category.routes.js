@@ -4,14 +4,14 @@ import {Router} from "express"
 
 import {
 createCategoryController,
-    getAllCategoryController,
+    showAllCategoryController,
     categoryPageDetails
 } from "../controllers/Category.controllers.js"
 
 const categoryRouter = Router()
 
 categoryRouter.route("/create").post(createCategoryController)
-categoryRouter.route("/getAll").get(getAllCategoryController)
+categoryRouter.route("/getAll").get(showAllCategoryController)
 categoryRouter.route("/details").post(categoryPageDetails)
 
 

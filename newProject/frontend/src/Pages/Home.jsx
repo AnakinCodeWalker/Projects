@@ -26,7 +26,7 @@ const Home = () => {
 
         <div className="mt-16 p-1  mx-auto rounded-full bg-black font-bold text-gray-100 transition-all duration-200 hover:scale-95">
 
-          <div className=" flex flex-row items-center gap-2 rounded-full px-10 py-5 transition-all duration-200 font-bold ">
+          <div className="  border border-white text-slate-300 flex flex-row items-center gap-2 rounded-full px-10 py-5 transition-all duration-200 font-bold ">
 
             <p>Be an Instructor</p>
             <FaArrowRight />

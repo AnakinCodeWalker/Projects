@@ -53,7 +53,7 @@ const createCategoryController = asyncHandler(async (req, res) => {
 })
 
 
-const getAllCategoryController = asyncHandler(async (req, res) => {
+const showAllCategoryController = asyncHandler(async (req, res) => {
 
     const allCategory = await Category.find({}, {
         name: true,
@@ -130,6 +130,6 @@ const categoryPageDetails = asyncHandler(async (req, res) => {
 
 export {
     createCategoryController,
-    getAllCategoryController,
+    showAllCategoryController,
     categoryPageDetails
 }
