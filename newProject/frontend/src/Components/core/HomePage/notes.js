@@ -29,3 +29,15 @@
     }
 
 */
+
+/*
+
+slice - reducer - store created - wrap provider
+app - wrap - provider
+provider - store provide and create store via configure store  isme reducer pass krte hai 
+combine these reducer into root reducer
+    add these rooot reducer into store
+    reducer are created via slices 
+    each one has its own slice
+    token ka data from slices  token hai to profile drop down else login signup 
+*/
