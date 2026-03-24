@@ -6,6 +6,25 @@ import ProfileDropDown from "../core/Auth/ProfileDropDown.jsx";
 import { BsCart3 } from "react-icons/bs";
 import { NavbarLinks } from "../../data/navbar-links.js"
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { FaArrowCircleDown } from "react-icons/fa";
+import { apiConnector } from "../../services/apiconnector.js";
+import { categories } from "../../services/api.js";
+
+
+const subLinks = [
+    {
+        title: "python",
+        link: "/catalog/python"
+
+    },
+    {
+        title: "web dev",
+        link: "/catalog/web dev"
+
+    }
+]
+
 const NavBar = () => {
 
     //  slices
@@ -14,7 +33,22 @@ const NavBar = () => {
     const { user } = useSelector((state) => state.profile)
     const { totalItems } = useSelector((state) => state.cart)
 
+    // const [subLinks, setSubLinks] = useState([]);
 
+    // useEffect(() => {
+    //     const fetchSubLinks = async () => {
+    //         try {
+    //             const result = await apiConnector("GET", categories.CATEGORIES_API);
+    //             console.log(result.data);
+    //             setSubLinks(result.data);
+    //         } catch (error) {
+    //             console.log(error.message);
+    //             console.log(error)
+    //         }
+    //     };
+
+    //     fetchSubLinks();
+    // }, []);
 
     // route based login
     const location = useLocation()
@@ -36,6 +70,8 @@ const NavBar = () => {
 
             </div>
 
+
+
             <div className=" w-[50%] flex items-center justify-center flex-row">
                 <nav>
                     <ul className="flex flex-row gap-5 text-white">
@@ -43,7 +79,40 @@ const NavBar = () => {
                             NavbarLinks.map((link, index) => (
                                 <li key={index}>
                                     {
-                                        link.title === "Catalog" ? (<div></div>) : (
+                                        link.title === "Catalog" ? (
+
+                                            <div className="relative flex items-center gap-2 group">
+                                                <p>{link.title}</p>
+                                                <FaArrowCircleDown />
+
+                                                {/* parent pr kuch krega to child mai effect */}
+                                                <div className="invisible absolute left-[50%] top-[50%]
+                                                translate-x-[-50%] translate-y-[80%]
+                                                flex flex-col bg-white text-black opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 lg:w-[300px]">
+
+                                                    <div className="absolute left-[50%] top-0 h-6 w-6 rotate-45 
+                                                translate-x-[80%]  translate-y-[-45%] 
+                                                rounded bg-black">
+
+                                                    </div>
+                                                    {
+                                                        subLinks.length ? (
+                                                            subLinks.map((subLink, index) => (
+                                                                <Link to={subLink.link} key={index}>
+                                                                    <p>{subLink.title}</p>
+                                                                </Link>
+                                                            ))
+                                                        ) : (
+                                                            <div></div>
+                                                        )
+                                                    }
+
+                                                </div>
+
+
+
+
+                                            </div>) : (
                                             <Link to={link?.path}>
                                                 <p className={`${matchRoute(link?.path) ? "text-yellow-300"
                                                     : "text-white"}`}>
@@ -66,31 +135,6 @@ const NavBar = () => {
             {/* login/signup button */}
             <div className="flex  gap-5 flex-row w-[20%] items-center  justify-center ">
 
-                {/*
-                
-                <CtaButton active={true} linkto={"/signup"}>
-                    <div className="flex gap-2 flex-row items-center w-fit">
-                        signup
-                        <FaArrowRight></FaArrowRight>
-
-                    </div>
-
-                </CtaButton>
-                
-                */}
-
-                {/*
-                
-                <CtaButton active={false} linkto={"/login"}>
-                    <div className="flex gap-2 flex-row items-center w-fit">
-                        login
-                        <FaArrowRight></FaArrowRight>
-
-                    </div>
-
-                </CtaButton>
-                
-                */}
 
                 {
                     user && user.accountType != "Instructor" &&
@@ -157,11 +201,15 @@ const NavBar = () => {
                 {
                     token !== null && <ProfileDropDown />
                 }
-
             </div>
+            {/* <button className="mr-4 md:hidden">
+                <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
+            </button> */}
+
+        </div>
 
 
-        </div >
+
 
     )
 }
