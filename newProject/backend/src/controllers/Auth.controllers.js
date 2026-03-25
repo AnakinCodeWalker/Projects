@@ -70,9 +70,12 @@ const signupController = asyncHandler(async (req, res) => {
 
    const result = signupInput.safeParse(req.body)
 
-   if (!result.success)
-      throw new ApiError(403, "Validation failed")
+   if (!result.success){
+      console.error(error.response.data)
+      throw new ApiError(400, "Validation failed")
 
+   }
+      
 
    if (result.data.password !== result.data.confirmPassword) {
       throw new ApiError(400, "password and confirmPassword does not match")

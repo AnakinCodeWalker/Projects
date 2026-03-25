@@ -51,9 +51,11 @@ export const signupInput = z.object({
 
     otp: z.string({ message: "otp must be string" })
         .min(6, { message: "otp  length must be of 6 digits" })
-        .max(6, { message: "otp  length must be of 6 digits" }),
+        .max(6, { message: "otp  length must be of 6 digits" })
+        .optional(),
 
-    contactNumber: z.string(),
+    contactNumber: z.string()
+                   .optional(),
 
     role: z.enum(["Student", "Admin", "Instructor"]).optional(),
 

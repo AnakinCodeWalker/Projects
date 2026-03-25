@@ -36,7 +36,8 @@ const NavBar = () => {
     // const [subLinks, setSubLinks] = useState([]);
 
     // useEffect(() => {
-    //     const fetchSubLinks = async () => {
+    //     const fet
+    // chSubLinks = async () => {
     //         try {
     //             const result = await apiConnector("GET", categories.CATEGORIES_API);
     //             console.log(result.data);
@@ -86,19 +87,19 @@ const NavBar = () => {
                                                 <FaArrowCircleDown />
 
                                                 {/* parent pr kuch krega to child mai effect */}
-                                                <div className="invisible absolute left-[50%] top-[50%]
+                                                <div className="rounded-md invisible absolute left-[50%] top-[50%]
                                                 translate-x-[-50%] translate-y-[80%]
                                                 flex flex-col bg-white text-black opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 lg:w-[300px]">
 
-                                                    <div className="absolute left-[50%] top-0 h-6 w-6 rotate-45 
+                                                    <div className="rounded-md  absolute left-[50%] top-0 h-6 w-6 rotate-45 
                                                 translate-x-[80%]  translate-y-[-45%] 
-                                                rounded bg-black">
+                                                 bg-white">
 
                                                     </div>
                                                     {
                                                         subLinks.length ? (
                                                             subLinks.map((subLink, index) => (
-                                                                <Link to={subLink.link} key={index}>
+                                                                <Link className="ml-5 " to={subLink.link} key={index}>
                                                                     <p>{subLink.title}</p>
                                                                 </Link>
                                                             ))

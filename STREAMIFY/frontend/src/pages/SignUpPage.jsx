@@ -3,7 +3,7 @@ import { ShipWheelIcon } from "lucide-react";
 import { Link } from "react-router";
 
 import useSignUp from "../hooks/useSignUp";
-
+// import { useMutation } from "@tanstack/react-query";
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({
     fullName: "",
@@ -12,7 +12,9 @@ const SignUpPage = () => {
   });
 
   // This is how we did it at first, without using our custom hook
+  
   // const queryClient = useQueryClient();
+  
   // const {
   //   mutate: signupMutation,
   //   isPending,
