@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { ShipWheelIcon } from "lucide-react";
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
 import { signup } from "../lib/api";
 // import useSignUp from "../hooks/useSignUp";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
-
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({
     fullName: "",
@@ -28,9 +29,17 @@ const SignUpPage = () => {
   // This is how we did it using our custom hook - optimized version
   // const { isPending, error, signupMutation } = useSignUp();
 
+  // const navigate = useNavigate()
   const handleSignup = (e) => {
-    e.preventDefault();
-    signupMutation(signupData);
+   try {
+     e.preventDefault();
+     signupMutation(signupData);
+    //  toast.success("signup successful")
+    //  navigate("/login")
+   } catch (error) {
+    console.log(error);
+     toast.error("signup failed")
+   }
   };
 
   return (
@@ -53,6 +62,7 @@ const SignUpPage = () => {
           {error && (
             <div className="alert alert-error mb-4">
               <span>{error.response.data.message}</span>
+              {/* console.log(error.response.data.message); */}
             </div>
           )}
 

@@ -74,3 +74,12 @@ const handleChange = (e) => {
   onChange={handleChange}
 />
 */
+
+
+/*
+/////////////////////////////////////////////////////
+ complete the onbaording page from the start 
+////////////////////////////////
+update the route page
+
+*/

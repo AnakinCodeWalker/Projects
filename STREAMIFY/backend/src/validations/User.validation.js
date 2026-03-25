@@ -17,7 +17,7 @@ export const signupInput = z.object({
         .string()
         .min(6, { message: "Password must be at least 8 characters long" }),
 
-//  profilePic :z.string().optional(),
+    //  profilePic :z.string().optional(),
 
 })
 
@@ -38,10 +38,22 @@ export const onboardInput = z.object({
     fullName: z
         .string()
         .min(3, { message: "Name must be at least 3 characters long" })
-        .max(30, { message: "Name must be at most 30 characters long" }),
+        .max(30, { message: "Name must be at most 30 characters long" })
+        .optional(),
 
-    bio: z.string(),
-    nativeLanguage: z.string(),
-    learningLanguage: z.string(),
-    location: z.string()
+    bio: z
+        .string()
+        .optional(),
+
+    nativeLanguage: z
+        .string()
+        .optional(),
+
+    learningLanguage: z
+        .string()
+        .optional(),
+
+    location: z
+        .string()
+        .optional()
 })

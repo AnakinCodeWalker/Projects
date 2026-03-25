@@ -1,11 +1,12 @@
 import asyncHandler from "../utils/asyncHandler.js"
 
-import { signupInput, signinInput } from "../validations/User.validation.js"
+import { signupInput, signinInput, onboardInput } from "../validations/User.validation.js"
 import jwt from "jsonwebtoken"
 import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
 import env from "../config/env.config.js"
 import User from "../models/User.model.js"
+import { upsertStreamUser } from "../config/stream.js"
 
 const signup = asyncHandler(async (req, res) => {
 
@@ -37,6 +38,17 @@ const signup = asyncHandler(async (req, res) => {
 
   if (!createduser)
     throw new ApiError(400, "can not create user")
+
+  try {
+    await upsertStreamUser({
+      id: createduser._id.toString(), // convert id into string
+      name: createduser.fullName,
+      image: createduser.profilePic || "",
+    });
+    console.log(`Stream user created for ${createduser.fullName}`);
+  } catch (error) {
+    console.log("Error creating Stream user:", error);
+  }
 
   const token = jwt.sign(
     {
@@ -143,6 +155,7 @@ const onboard = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid user id")
 
   const result = onboardInput.safeParse(req.body)
+
   const {
     fullName,
     bio,
@@ -164,12 +177,22 @@ const onboard = asyncHandler(async (req, res) => {
 
     isOnboarded: true,
 
-  }, { new: true })
+  }, { returnDocument: "after" })
 
   if (!updatedUser)
     throw new ApiError(400, "can not updated User")
 
   // update the infromation into stream
+  try {
+    await upsertStreamUser({
+      id: updatedUser._id.toString(),
+      name: updatedUser.fullName,
+      image: updatedUser.profilePic || "",
+    });
+    console.log(`Stream user updated after onboarding for ${updatedUser.fullName}`);
+  } catch (streamError) {
+    console.log("Error updating Stream user during onboarding:", streamError.message);
+  }
 
 
   res.status(200).json(new ApiResponse(200, "User updated Successfully", {
