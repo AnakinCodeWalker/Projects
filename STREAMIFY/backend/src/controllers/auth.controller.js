@@ -1,37 +1,78 @@
 import asyncHandler from "../utils/asyncHandler.js"
 
-import { signupInput, signupInput } from "../validations/User.validation.js"
-
+import { signupInput, signinInput } from "../validations/User.validation.js"
+import jwt from "jsonwebtoken"
 import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
-
+import env from "../config/env.config.js"
 import User from "../models/User.model.js"
 
 const signup = asyncHandler(async (req, res) => {
 
   const result = signupInput.safeParse(req.body)
 
-  if (!result.success)
-    throw new ApiError(400, "Incorrect Inputs")
 
+  try {
+    if (result.success) {
+      console.log("success");
+    }
+
+  } catch (error) {
+    console.log(`${error.message}`);
+  }
   const { fullName, email, password } = result.data
 
   const foundUser = await User.findOne({
     email
   })
+
   if (foundUser)
     throw new ApiError(400, "email already exists")
+
+  // create a user in stream too.. 
 
   const createduser = await User.create({
     fullName,
     email,
     password,
-    /////////////////////////
+    profilePic: `https://api.dicebear.com/5.x/initials/svg?seed=${fullName}`, // providing default image to every user
+
   })
-  res.status(201).json(new ApiResponse(201, "user created successfully", {
-    user: createduser
-  }))
+
+  if (!createduser)
+    throw new ApiError(400, "can not create user")
+
+  const token = jwt.sign(
+    {
+      userId: createduser.id
+    },
+    env.JWT_SECRET_KEY,
+    {
+      expiresIn: "7d"
+    }
+  );
+
+  res.cookie("accessToken", token, {
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production"
+  });
+
+
+
+  console.log(createduser);
+  console.log(token);
+  res
+    .cookie("accessToken", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false
+    }).status(201).json(new ApiResponse(201, "user created successfully", {
+      user: createduser
+    }))
 })
+
 
 const login = asyncHandler(async (req, res) => {
 
@@ -56,9 +97,10 @@ const onboard = asyncHandler(async (req, res) => {
     location
   } = result.data
 
-  if (!result.success)
+  if (!result.success) {
+    console.log(error.message)
     throw new ApiError(400, "Incorrect Inputs")
-
+  }
   const updatedUser = await User.findByIdAndUpdate(userId, {
     ...(fullName && { fullName }),
     ...(bio && { bio }),

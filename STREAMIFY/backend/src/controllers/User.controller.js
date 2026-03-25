@@ -7,7 +7,7 @@ import ApiResponse from "../utils/ApiResponse.js"
 
 import User from "../models/User.model.js"
 import friendRequest from "../models/FriendRequest.model.js"
-import friendRequest from "../models/FriendRequest.model.js"
+// import friendRequest from "../models/FriendRequest.model.js"
 
 const getRecommendedUser = asyncHandler(async (req, res) => {
 
