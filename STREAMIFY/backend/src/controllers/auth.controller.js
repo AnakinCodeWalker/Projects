@@ -12,14 +12,10 @@ const signup = asyncHandler(async (req, res) => {
   const result = signupInput.safeParse(req.body)
 
 
-  try {
-    if (result.success) {
-      console.log("success");
-    }
 
-  } catch (error) {
-    console.log(`${error.message}`);
-  }
+  if (!result.success)
+    throw new ApiError(400, "Incorrect Inputs")
+
   const { fullName, email, password } = result.data
 
   const foundUser = await User.findOne({
@@ -52,10 +48,11 @@ const signup = asyncHandler(async (req, res) => {
     }
   );
 
+
   res.cookie("accessToken", token, {
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "lax",
     secure: process.env.NODE_ENV === "production"
   });
 
@@ -65,9 +62,10 @@ const signup = asyncHandler(async (req, res) => {
   console.log(token);
   res
     .cookie("accessToken", token, {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
       sameSite: "lax",
-      secure: false
+      secure: process.env.NODE_ENV === "production"
     }).status(201).json(new ApiResponse(201, "user created successfully", {
       user: createduser
     }))
@@ -75,12 +73,68 @@ const signup = asyncHandler(async (req, res) => {
 
 
 const login = asyncHandler(async (req, res) => {
+  const result = signinInput.safeParse(req.body)
 
+  if (!result.success)
+    throw new ApiError(400, "Incorrect Inputs")
+
+  const { email, password } = result.data
+
+
+  const foundUser = await User.findOne({ email })
+
+  if (!foundUser)
+    throw new ApiError(400, "Invalid email")
+
+  const isPasswordCorrect = await foundUser.isPasswordCorrect(password)
+
+  if (!isPasswordCorrect)
+    throw new ApiError(401, "Invalid password")
+
+
+  const token = jwt.sign(
+    {
+      userId: foundUser.id
+    },
+    env.JWT_SECRET_KEY,
+    {
+      expiresIn: "7d"
+    }
+  );
+
+  res.cookie("accessToken", token, {
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production"
+  });
+
+
+
+  console.log(foundUser);
+  console.log(token);
+  res
+    .cookie("accessToken", token, {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    }).status(200).json(new ApiResponse(200, "user created successfully", {
+      user: foundUser
+    }))
 })
 
 const logout = asyncHandler(async (req, res) => {
 
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.status(200).json(new ApiResponse(200, "User logged out successfully"))
 })
+
+
 
 const onboard = asyncHandler(async (req, res) => {
 
