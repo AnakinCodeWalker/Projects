@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import bcrypt from "bcrypt"
 const UserSchema = new mongoose.Schema({
 
     fullName: {
@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    profilepic: {
+    profilePic: {
         type: String,
         default: ""
     },
