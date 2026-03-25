@@ -25,7 +25,7 @@ const App = () => {
     queryFn: async () => {
 
       //  this function will hit the api 
-      const res = await axiosInstance.get("/auth/me") // of this route
+      const res = await axiosInstance.get("/api/v1/auth/me") // of this route
       return res.data
     }
   })
