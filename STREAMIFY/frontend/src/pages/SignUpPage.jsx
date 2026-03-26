@@ -6,7 +6,6 @@ import { signup } from "../lib/api";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({
     fullName: "",
@@ -32,10 +31,10 @@ const SignUpPage = () => {
   // const navigate = useNavigate()
   const handleSignup = (e) => {
    try {
-     e.preventDefault();
-     signupMutation(signupData);
-    //  toast.success("signup successful")
-    //  navigate("/login")
+     e.preventDefault(); // signupData
+     signupMutation(signupData);  // yeh mutate fn mai ja rha hai.
+  // signupMutation(signupData)  == internally singup function call hua 
+  // signup function api call krta hai 
    } catch (error) {
     console.log(error);
      toast.error("signup failed")
