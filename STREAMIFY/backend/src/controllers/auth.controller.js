@@ -156,6 +156,11 @@ const onboard = asyncHandler(async (req, res) => {
 
   const result = onboardInput.safeParse(req.body)
 
+  if (!result.success) {
+  console.log(result.error.message); 
+  throw new ApiError(400, "Incorrect Inputs");
+}
+
   const {
     fullName,
     bio,
@@ -164,10 +169,6 @@ const onboard = asyncHandler(async (req, res) => {
     location
   } = result.data
 
-  if (!result.success) {
-    console.log(error.message)
-    throw new ApiError(400, "Incorrect Inputs")
-  }
   const updatedUser = await User.findByIdAndUpdate(userId, {
     ...(fullName && { fullName }),
     ...(bio && { bio }),
