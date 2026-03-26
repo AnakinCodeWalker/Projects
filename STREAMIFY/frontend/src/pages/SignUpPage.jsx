@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { ShipWheelIcon } from "lucide-react";
-import { Link, Navigate } from "react-router";
+import { Link } from "react-router";
 import { signup } from "../lib/api";
 // import useSignUp from "../hooks/useSignUp";
-import { useMutation } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation ,useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({

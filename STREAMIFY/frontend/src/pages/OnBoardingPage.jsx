@@ -1,12 +1,12 @@
 // profile picture is not being loaded 
 
-import React, { useState } from 'react'
-import useAuthUser from '../components/hooks/useAuthUser'
+import { useState } from 'react'
+import useAuthUser from '../hooks/useAuthUser'
 import { useMutation } from '@tanstack/react-query';
 import { completeOnBoarding } from "../lib/api";
 import toast from "react-hot-toast";
 import { useQueryClient } from '@tanstack/react-query';
-import { CameraIcon, ShuffleIcon, MapPinIcon, ShipWheelIcon } from 'lucide-react';
+import { CameraIcon, ShuffleIcon, MapPinIcon, ShipWheelIcon, LoaderIcon } from 'lucide-react';
 import { LANGUAGES } from '../Constants';
 const OnBoardingPage = () => {
 
@@ -48,8 +48,8 @@ const OnBoardingPage = () => {
   }
 
   const handleRandomAvatar = () => {
-    const idx = Math.floor(Math.random() * 100) + 1; // 1-100 included
-    const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
+    const randomAvatar = `https://robohash.org/${Math.random()}`;
+
 
     setFormState({ ...formState, profilePic: randomAvatar });
     toast.success("Random profile picture generated!");
