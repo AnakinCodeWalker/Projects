@@ -82,4 +82,36 @@ const handleChange = (e) => {
 ////////////////////////////////
 update the route page
 
+change the url of the profile in the backend ..
+*/
+
+/*
+react query 
+map 
+conditional  rendering 
+protected routes
+hook
+*/
+
+/*
+
+Frontend → sends request
+        ↓
+Browser → attaches cookies (JWT)   -- api hit mai with credential se hota hai yeh 
+        ↓
+Middleware → verifies token
+        ↓
+req.user = decoded token
+        ↓
+Controller → uses req.user.id
+
+*/
+
+/*
+have a look an onboarding page
+*/
+
+
+/*
+add error loading in login page 
 */

@@ -27,12 +27,13 @@ const signup = asyncHandler(async (req, res) => {
     throw new ApiError(400, "email already exists")
 
   // create a user in stream too.. 
-
+//  const idx = Math.floor(Math.random() * 100) + 1;
+const randomAvatar = `https://robohash.org/${Math.random()}`;
   const createduser = await User.create({
     fullName,
     email,
     password,
-    profilePic: `https://api.dicebear.com/5.x/initials/svg?seed=${fullName}`, // providing default image to every user
+    profilePic: randomAvatar, // providing default image to every user
 
   })
 
@@ -87,8 +88,10 @@ const signup = asyncHandler(async (req, res) => {
 const login = asyncHandler(async (req, res) => {
   const result = signinInput.safeParse(req.body)
 
-  if (!result.success)
+  if (!result.success) {
+    console.log(result.error.message);
     throw new ApiError(400, "Incorrect Inputs")
+  }
 
   const { email, password } = result.data
 
@@ -157,9 +160,9 @@ const onboard = asyncHandler(async (req, res) => {
   const result = onboardInput.safeParse(req.body)
 
   if (!result.success) {
-  console.log(result.error.message); 
-  throw new ApiError(400, "Incorrect Inputs");
-}
+    console.log(result.error.message);
+    throw new ApiError(400, "Incorrect Inputs");
+  }
 
   const {
     fullName,

@@ -12,7 +12,8 @@ import NotFoundPage from "./pages/NotFoundPage"
 
 import { Toaster } from "react-hot-toast"
 // import { getAuthUser } from "./lib/api"
-import useAuthUser from "./components/hooks/useAuthUser"
+import useAuthUser from "./hooks/useAuthUser"
+import Layout from "./components/Layout"
 
 const App = () => {
 
@@ -36,7 +37,12 @@ const App = () => {
       {/* “We fetch the current user from backend using /auth/me. If user exists, allow access; otherwise redirect to login.” */}
 
       <Route path="/" element={isAuthenticated && isOnboarded ?
-        (<HomePage />)
+        (
+
+          <Layout showSideBar={true}>
+            <HomePage />
+          </Layout>
+        )
         :
         (<Navigate to={
           !isAuthenticated ? ("/login")
@@ -64,9 +70,7 @@ const App = () => {
 
       <Route path="/chat" element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />}></Route>
 
-      <Route path="/onboarding" element={isAuthenticated ? (
-        !isOnboarded ? <OnBoardingPage /> : <Navigate to="/" />
-      ) : < Navigate to="/login" />}></Route>
+      <Route path="/onboarding" element={<OnBoardingPage />} ></Route>
 
       <Route path="*" element={<NotFoundPage />}></Route>
 
