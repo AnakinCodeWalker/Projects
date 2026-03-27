@@ -27,7 +27,7 @@ app.use(urlencoded({
 
 app.use(cors({
     origin: env.ORIGIN,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT','PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['content-Type', 'Authorization'],
     credentials: true
 }))
