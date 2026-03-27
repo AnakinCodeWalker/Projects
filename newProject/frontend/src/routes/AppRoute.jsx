@@ -10,6 +10,8 @@ import DashboardPage from "../Pages/DashboardPage.jsx";
 import ContactUsPage from "../Pages/ContactUsPage.jsx";
 import AboutUsPage from "../Pages/AboutUsPage.jsx";
 import PageNotFound from "../Pages/PageNotFound.jsx"
+import ProfilePage from "../Pages/ProfilePage.jsx";
+
 const AppRoute = () => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -22,6 +24,7 @@ const AppRoute = () => {
                     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />}></Route>
                     <Route path="/signup" element={<Signup setIsLoggedIn={setIsLoggedIn} />}></Route>
                     <Route path="/dashboard" element={<DashboardPage />}></Route>
+                    <Route path="/profile" element={<ProfilePage/>}></Route>
                     <Route path="/forgot-password" element={<ForgotPasswordPage />}></Route>
                     <Route path="/about" element={<AboutUsPage />}></Route>
                     <Route path="/contact" element={<ContactUsPage />}></Route>

@@ -1,20 +1,25 @@
 // links
 
-const BASE_URL = "http://localhost:3000" //backend url
+// const BASE_URL = "http://localhost:3000" //backend url
 
-export const categories = {
 
-    CATEGORIES_API: BASE_URL + "/api/v1/category/getAll"
-}
 
 export const user = {
-    SIGNUP_API: BASE_URL + "/api/v1/users/signup",
-    SIGNIN_API: BASE_URL + "/api/v1/users/signin",
+    SIGNUP_API:  "/api/v1/users/signup",
+    SIGNIN_API:  "/api/v1/users/signin",
 
 
-    LOGOUT_API: BASE_URL + "/api/v1/users/logout",
+    LOGOUT_API: "/api/v1/users/logout",
 }
 
+export const contactUs ={
+      CONTACTUS_API:   "/api/v1/contactUs/details",
+    
+} 
+
+export const Profile = {
+    UPDATE_API : "/api/v1/profile/update"
+}
 /*
 
 userRouter.route("/sendOtp").post(sendOtp)
