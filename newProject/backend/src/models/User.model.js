@@ -30,10 +30,7 @@ const UserSchema = new mongoose.Schema({
         required: true,
         
     },
-    otp: {
-        type: String,
-        required: true
-    },
+    
     contactNumber: {
         type: String,
         trim : true,

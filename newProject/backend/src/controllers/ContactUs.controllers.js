@@ -13,7 +13,7 @@ const contactUsController = asyncHandler(async (req, res) => {
 
 
 
-    await mailsender(env.email, "your data sent successfully", JSON.stringify(userQuery))
+    await mailsender(env.AdminEmail, "your data sent successfully", JSON.stringify(userQuery))
     res.status(200).json(new ApiResponse(200, " mail sent Successfully", {
         email,
         userQuery

@@ -24,30 +24,14 @@ export const signupInput = z.object({
     password: z
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
-        .max(64, { message: "Password must be at most 64 characters long" })
-        .regex(/[a-z]/, {
-            message: "Password must contain at least one lowercase letter",
-        })
-        .regex(/[0-9]/, {
-            message: "Password must contain at least one number",
-        })
-        .regex(/[@$!%*?&#]/, {
-            message: "Password must contain at least one special character",
-        }),
+        .max(64, { message: "Password must be at most 64 characters long" }),
+        
 
     confirmPassword: z
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
-        .max(64, { message: "Password must be at most 64 characters long" })
-        .regex(/[a-z]/, {
-            message: "Password must contain at least one lowercase letter",
-        })
-        .regex(/[0-9]/, {
-            message: "Password must contain at least one number",
-        })
-        .regex(/[@$!%*?&#]/, {
-            message: "Password must contain at least one special character",
-        }),
+        .max(64, { message: "Password must be at most 64 characters long" }),
+        
 
     // otp: z.string({ message: "otp must be string" })
     //     .min(6, { message: "otp  length must be of 6 digits" })
@@ -73,15 +57,7 @@ export const signinInput = z.object({
         .min(6, { message: "Password must be at least 6 characters long" })
         .max(64, { message: "Password must be at most 64 characters long" })
 
-        .regex(/[a-z]/, {
-            message: "Password must contain at least one lowercase letter",
-        })
-        .regex(/[0-9]/, {
-            message: "Password must contain at least one number",
-        })
-        .regex(/[@$!%*?&#]/, {
-            message: "Password must contain at least one special character",
-        }),
+        
 })
 
 export const changePasswordInput = z.object({
@@ -95,42 +71,18 @@ export const changePasswordInput = z.object({
     oldPassword: z
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
-        .max(64, { message: "Password must be at most 64 characters long" })
-        .regex(/[a-z]/, {
-            message: "Password must contain at least one lowercase letter",
-        })
-        .regex(/[0-9]/, {
-            message: "Password must contain at least one number",
-        })
-        .regex(/[@$!%*?&#]/, {
-            message: "Password must contain at least one special character",
-        }),
+        .max(64, { message: "Password must be at most 64 characters long" }),
+        
 
     newPassword: z
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
-        .max(64, { message: "Password must be at most 64 characters long" })
-        .regex(/[a-z]/, {
-            message: "Password must contain at least one lowercase letter",
-        })
-        .regex(/[0-9]/, {
-            message: "Password must contain at least one number",
-        })
-        .regex(/[@$!%*?&#]/, {
-            message: "Password must contain at least one special character",
-        }),
+        .max(64, { message: "Password must be at most 64 characters long" }),
+       
 
     confirmNewPassword: z
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
         .max(64, { message: "Password must be at most 64 characters long" })
-        .regex(/[a-z]/, {
-            message: "Password must contain at least one lowercase letter",
-        })
-        .regex(/[0-9]/, {
-            message: "Password must contain at least one number",
-        })
-        .regex(/[@$!%*?&#]/, {
-            message: "Password must contain at least one special character",
-        })
+        
 })

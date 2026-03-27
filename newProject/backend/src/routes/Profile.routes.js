@@ -16,7 +16,7 @@ const profileRouter =  Router()
 profileRouter.route("/details").get(authMiddleware,getProfileDetails)
 
 //user want to partiall update so patch
-profileRouter.route("/update").patch(authMiddleware,upload.single("avatar"),updateProfile)
+profileRouter.route("/update").patch(authMiddleware,updateProfile)
 
 profileRouter.route("/delete").post(authMiddleware,deleteProfile)
 

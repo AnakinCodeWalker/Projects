@@ -6,11 +6,10 @@ import ProfileDropDown from "../core/Auth/ProfileDropDown.jsx";
 import { BsCart3 } from "react-icons/bs";
 import { NavbarLinks } from "../../data/navbar-links.js"
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { FaArrowCircleDown } from "react-icons/fa";
-import { apiConnector } from "../../services/apiconnector.js";
-import { categories } from "../../services/api.js";
-
+// import { apiConnector } from "../../services/apiconnector.js";
+// import { categories } from "../../services/api.js";
 
 const subLinks = [
     {
@@ -203,6 +202,8 @@ const NavBar = () => {
                     token !== null && <ProfileDropDown />
                 }
             </div>
+           
+           
             {/* <button className="mr-4 md:hidden">
                 <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
             </button> */}
