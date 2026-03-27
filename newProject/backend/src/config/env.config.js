@@ -41,9 +41,12 @@ const env = {
     RAZORPAY_SECRET: process.env.RAZORPAY_SECRET,
    
    
-    NODE_ENV: "TESTING"
+    NODE_ENV: "TESTING",
 
     // NODE_ENV : "development"  
+
+    // Contact us page ...
+    AdminEmail :process.env.email
 }
 
 export default env

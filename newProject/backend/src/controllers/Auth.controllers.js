@@ -70,12 +70,12 @@ const signupController = asyncHandler(async (req, res) => {
 
    const result = signupInput.safeParse(req.body)
 
-   if (!result.success){
-      console.error(error.response.data)
+   if (!result.success) {
+      console.error(result.error.issues)
       throw new ApiError(400, "Validation failed")
 
    }
-      
+
 
    if (result.data.password !== result.data.confirmPassword) {
       throw new ApiError(400, "password and confirmPassword does not match")
@@ -90,14 +90,14 @@ const signupController = asyncHandler(async (req, res) => {
       throw new ApiError(400, "user already exists ..")
 
 
-   // find most recent otp based on email
-   const recentOtp = await Otp.find({ email: result.data.email })
-      .sort({ createdAt: -1 })
-      .limit(1)
+   // // find most recent otp based on email
+   // const recentOtp = await Otp.find({ email: result.data.email })
+   //    .sort({ createdAt: -1 })
+   //    .limit(1)
 
-   // find returns an array... so sort the array and take the first one.
-   if (!recentOtp.length || result.data.otp !== recentOtp[0].otp)
-      throw new ApiError(403, "Invalid otp")
+   // // find returns an array... so sort the array and take the first one.
+   // if (!recentOtp.length || result.data.otp !== recentOtp[0].otp)
+   //    throw new ApiError(403, "Invalid otp")
 
 
 
@@ -112,6 +112,7 @@ const signupController = asyncHandler(async (req, res) => {
 
 
    console.log("checking");
+   const randomAvatar = `https://robohash.org/${Math.random()}`;
 
    const newUser = await User.create({
       firstName: result.data.firstName,
@@ -121,8 +122,8 @@ const signupController = asyncHandler(async (req, res) => {
       contactNumber: result.data.contactNumber,
       role: result.data.role,
       additionalDetails: additionalDetails._id, // object id
-      image: `https://api.dicebear.com/5.x/initials/svg?seed=${result.data.firstName}${result.data.lastName}`, // providing default image to every user
-      otp: result.data.otp
+      image: randomAvatar, // providing default image to every user
+      // otp: "123456"
    })
 
    console.log("checking");
@@ -135,7 +136,7 @@ const signupController = asyncHandler(async (req, res) => {
    }
 
    console.log("user sign up successfully");
-
+   console.log(newUser);
    res.status(201)
       .json(
          new ApiResponse(201,
@@ -155,8 +156,11 @@ const signinController = asyncHandler(async (req, res) => {
 
    const result = signinInput.safeParse(req.body)
 
-   if (!result.success)
-      throw new ApiError(403, "Validation failed")
+   if (!result.success) {
+      console.error(result.error.issues)
+      throw new ApiError(400, "Validation failed")
+
+   }
 
    const existingUser = await User.findOne({
 
@@ -164,9 +168,10 @@ const signinController = asyncHandler(async (req, res) => {
 
    })
 
-   if (!existingUser)
+   if (!existingUser) {
+      console.error(result.error.issues)
       throw new ApiError(401, "signup first ..")
-
+   }
 
 
    // do the password check //////////////////
@@ -222,6 +227,7 @@ const signinController = asyncHandler(async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000
    }
 
+   console.log(`login successfully ${result.data.firstName}`);
    res.status(200)
       .cookie("accessToken", accessToken, accessTokenCookieOptions)
       .cookie("refreshToken", refreshToken, refreshTokenCookieOptions)
@@ -280,7 +286,7 @@ const changePassword = asyncHandler(async (req, res) => {
    } catch (error) {
       console.log(`error in sending mail ${error.message}`);
    }
- 
+
    console.log("password updated successfully");
 
    res.status(200).json(new ApiResponse(200, "Password updated SuccessFully", {
@@ -386,7 +392,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 
    const userId = req.user.id
 
-    await User.findByIdAndUpdate(userId, {
+   await User.findByIdAndUpdate(userId, {
       accessToken: null,
       refreshToken: null
    })
