@@ -18,9 +18,7 @@ const ProfileScehma = new mongoose.Schema({
         type: Number,
         trim: true
     },
-    avatar:{
-        type:String
-    }
+
 }, {
     timestamps: true,
 })
