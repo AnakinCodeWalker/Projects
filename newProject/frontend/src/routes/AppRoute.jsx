@@ -16,12 +16,18 @@ const AppRoute = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     return (
         <>
-            
+
+
+            {/* Child routes are relative to parent path */}
+            {/* Parent: /dashboard */}
+            {/* Child: "profile" → becomes /dashboard/profile */}
+
+            {/* if u add a absolute path as parent , u have to reomve  / and only give the route name  */}
             <Routes>
                 {/*  this becomes the parent route  which will have the outlets*/}
                 <Route path="/" element={<Layout />}>
 
-                  {/*  this will be the default page*/}
+                    {/*  this will be the default page*/}
                     <Route index element={<Home />}></Route>
                     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />}></Route>
                     <Route path="/signup" element={<Signup setIsLoggedIn={setIsLoggedIn} />}></Route>
