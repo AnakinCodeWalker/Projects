@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { FaArrowRight } from "react-icons/fa";
 
 // components
-import HighlightText from "../Components/core/HomePage/HighlightText"
+import HighlightText from "../Components/Common/HighlightText"
 import CTABUTTON from "../Components/core/HomePage/CtaButton"
 import CodeBlocks from "../Components/core/HomePage/CodeBlocks"
 import LearningLanguageSection from "../Components/core/HomePage/LearningLanguageSection";
