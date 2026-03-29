@@ -1,11 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import CtaButton from './HomePage/CtaButton'
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { signupInput } from "../Common/validation/User.validation.js"
 
 import { apiConnector } from "../../services/apiconnector.js";
-import {user} from "../../services/api.js"
+import { user } from "../../services/api.js"
+
+
+// jis button pr click kre woh value ho jaye 
+//  studnet to role mai student 
+// instructor to instructor
 
 
 const inputStyle = "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -19,7 +24,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
         password: "",
         confirmPassword: "",
     })
-  
+
     const navigate = useNavigate();
     function changeHandler(e) {
         const { name, value } = e.target;
@@ -42,25 +47,25 @@ const SignupForm = ({ setIsLoggedIn }) => {
         }
 
 
-try {
-    const response = await apiConnector(
-      "POST",
-      user.SIGNUP_API,
-      formData
-    );
+        try {
+            const response = await apiConnector(
+                "POST",
+                user.SIGNUP_API,
+                formData
+            );
 
-   
-    setIsLoggedIn(true);
-    toast.success("Signup successful");
-    navigate("/dashboard");
-console.log(response.data);
-  } catch (error) {
-    console.log(error.message);
-    console.log(error)
-    console.log(error.response.data);
-    toast.error("Signup failed");
-  }
-}
+
+            setIsLoggedIn(true);
+            toast.success("Signup successful");
+            navigate("/login");
+            console.log(response.data);
+        } catch (error) {
+            console.log(error.message);
+            console.log(error)
+            console.log(error.response.data);
+            toast.error("Signup failed");
+        }
+    }
     return (
         <div className='justify-center items-center gap-5 flex flex-col text-white'>
 

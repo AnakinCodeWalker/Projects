@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Link } from 'react-router-dom';
 import { signinInput } from "../Common/validation/User.validation.js"
-
-
+import { apiConnector } from "../../services/apiconnector.js";
+import { user } from '../../services/api.js';
 const inputStyle = "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-const  labelInputStyle = "block text-gray-700 text-sm font-bold mb-2" 
+const labelInputStyle = "block text-gray-700 text-sm font-bold mb-2"
 
 const LoginForm = ({ setIsLoggedIn }) => {
     const [formData, setFormData] = useState({
@@ -23,9 +23,9 @@ const LoginForm = ({ setIsLoggedIn }) => {
         }))
     }
 
-    function submitHandler(event) {
-        event.preventDefault()  // page will not re render and i am going to handle the events is se yeh hots hai
+    async function submitHandler(event) {
 
+        event.preventDefault()  // page will not re render and i am going to handle the events is se yeh hots hai
 
         const result = signinInput.safeParse(formData);
 
@@ -36,11 +36,25 @@ const LoginForm = ({ setIsLoggedIn }) => {
             return;
         }
 
+        //  make the api request in here .......
+        try {
+            const response = await apiConnector("POST",
+                user.SIGNIN_API,
+                formData
+            )
 
 
-        setIsLoggedIn(true)
-        toast.success("Logged successful")
-        navigate("/dashboard")   //Based on condition change the routes..
+            setIsLoggedIn(true);
+            toast.success("login successful");
+            navigate("/Dashboard");
+            console.log(response.data);   //Based on condition change the routes..
+
+        } catch (error) {
+            toast.error(error.message)
+        }
+
+
+
     }
 
     return (
@@ -48,9 +62,9 @@ const LoginForm = ({ setIsLoggedIn }) => {
             <form className="mt-12 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={submitHandler}>
                 <label className={labelInputStyle}>
                     <p>
-                        Email Address 
+                        Email Address
                     </p>
-                    
+
                     <input className={inputStyle}
                         type="email"
                         value={formData.email}
@@ -62,7 +76,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
                 <label className={labelInputStyle}>
                     <p>
-                        Password 
+                        Password
                     </p>
                     <input className={inputStyle}
                         type="password"
@@ -72,12 +86,12 @@ const LoginForm = ({ setIsLoggedIn }) => {
                         name='password'
                     />
                     <p className='text-slate-400   text-sm  '>
-                            forgot Password?
- <Link className='text-slate-400 ml-2 underline'  to={"/forgot-password"}>
-                       forgot-password
-                    </Link>
-                        </p>
-                   
+                        forgot Password?
+                        <Link className='text-slate-400 ml-2 underline' to={"/forgot-password"}>
+                            forgot-password
+                        </Link>
+                    </p>
+
                 </label>
 
                 <div>
