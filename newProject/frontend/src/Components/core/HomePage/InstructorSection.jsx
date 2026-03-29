@@ -1,6 +1,6 @@
 import { FaArrowRight } from "react-icons/fa";
 import CTABUTTON from './CtaButton'
-import HighlightText from './HighlightText'
+import HighlightText from '../../Common/HighlightText'
 import Instructor from "../../../assets/Images/Instructor.png"
 const InstructorSection = () => {
   return <div className="flex flex-row gap-20 items-center  ">
