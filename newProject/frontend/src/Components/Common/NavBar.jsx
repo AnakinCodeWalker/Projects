@@ -1,6 +1,7 @@
-import { Link, useLocation } from "react-router-dom"
+
+// used navlink and change the color of active class to yellow 
+import { Link, NavLink, useLocation } from "react-router-dom"
 import { FaArrowRight } from "react-icons/fa";
-import CtaButton from "../core/HomePage/CtaButton.jsx";
 import logo from "../../assets/Logo/logo-Full-Light.png"
 import ProfileDropDown from "../core/Auth/ProfileDropDown.jsx";
 import { BsCart3 } from "react-icons/bs";
@@ -113,12 +114,15 @@ const NavBar = () => {
 
 
                                             </div>) : (
-                                            <Link to={link?.path}>
-                                                <p className={`${matchRoute(link?.path) ? "text-yellow-300"
-                                                    : "text-white"}`}>
-                                                    {link.title}
-                                                </p>
-                                            </Link>
+                                            <NavLink
+                                            // Click → URL changes → NavLink detects → isActive → style changes
+                                                to={link?.path}  // comming from another file by mapping on it 
+                                                className={({ isActive }) =>
+                                                    isActive ? "text-yellow-300" : "text-white"
+                                                }
+                                            >
+                                                {link.title}
+                                            </NavLink>
                                         )
                                     }
                                 </li>
@@ -179,6 +183,8 @@ const NavBar = () => {
 
                         <Link to={"/login"}>
 
+
+
                             <div className=' w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
        bg-blue-500 text-black
       hover:scale-95 transition-all duration-200'>
@@ -202,8 +208,8 @@ const NavBar = () => {
                     token !== null && <ProfileDropDown />
                 }
             </div>
-           
-           
+
+
             {/* <button className="mr-4 md:hidden">
                 <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
             </button> */}
