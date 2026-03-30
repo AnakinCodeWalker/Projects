@@ -173,7 +173,7 @@ const Home = () => {
 
     {/* footer */}
 
-    <Footer />
+    
   </div>
 
 }
