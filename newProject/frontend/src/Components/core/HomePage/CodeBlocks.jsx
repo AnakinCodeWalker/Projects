@@ -1,5 +1,5 @@
 import CtaButton from "./CtaButton"
-import HighlightText from "./HighlightText"
+// import HighlightText from "../../Common/HighlightText"
 import { FaArrowRight } from "react-icons/fa"
 
 const CodeBlocks = ({

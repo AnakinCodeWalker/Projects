@@ -1,5 +1,5 @@
 //  isme slices ko combine krte hai
-// isme reducers hote hai 
+// root reducers  hai 
 import { combineReducers } from '@reduxjs/toolkit';
 import authReducer from "../slices/authslice"
 import profileReducer from "../slices/profileSlice"

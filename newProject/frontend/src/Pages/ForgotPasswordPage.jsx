@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 
-import React from 'react'
 
 const ForgotPasswordPage = () => {
   
@@ -19,7 +18,7 @@ const ForgotPasswordPage = () => {
     loading
     </div>) 
     :(
-<div>
+<div className="text-white">
    <h1>
   
   {
@@ -40,7 +39,7 @@ const ForgotPasswordPage = () => {
 
 <form action="">
   {
-    !emailSent ? 
+    !emailSent ? (<></>) :(<></>)
   }
 </form>
         </div>

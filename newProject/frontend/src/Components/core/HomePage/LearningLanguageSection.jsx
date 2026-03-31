@@ -1,4 +1,4 @@
-import HighlightText from "./HighlightText"
+import HighlightText from "../../Common/HighlightText"
 import know_your_progress from "../../../assets/Images/know_your_progress.png"
 import compare_with_others from "../../../assets/Images/compare_with_others.png"
 import plan_your_lessons from "../../../assets/Images/plan_your_lessons.png"
