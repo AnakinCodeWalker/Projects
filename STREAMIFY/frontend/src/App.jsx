@@ -30,7 +30,7 @@ const App = () => {
 
   const isOnboarded = authUser?.isOnboarded
 
-  return <>
+  return <div className="h-screen " data-theme="forest">
     <Routes>
 
       {/* “Protected Route” concepts */}
@@ -80,7 +80,7 @@ const App = () => {
 
     <Toaster /> {/* used to create components */}
 
-  </>
+  </div>
 }
 
 export default App

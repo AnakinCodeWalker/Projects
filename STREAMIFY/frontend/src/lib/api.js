@@ -8,9 +8,15 @@ export const signup = async (signupData) => {
 
 
 export const getAuthUser = async () => {
-        const response = await axiosInstance.get("/api/v1/auth/me")
+        try {
+                const response = await axiosInstance.get("/api/v1/auth/me")
 
-        return response.data
+                return response.data
+        } catch (error) {
+
+                console.log(error);
+                return null
+        }
 
 }
 
@@ -25,6 +31,10 @@ export const login = async (loginData) => {
         return response.data
 }
 
+export const logout = async () => {
+        const response = axiosInstance.post("/api/v1/auth/logout")
+        return response.data
+}
 /*
 handleSignup trigger hua
         ↓
