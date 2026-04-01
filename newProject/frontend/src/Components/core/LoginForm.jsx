@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 import { signinInput } from "../Common/validation/User.validation.js"
 import { apiConnector } from "../../services/apiconnector.js";
 import { user } from '../../services/api.js';
+import { useDispatch } from "react-redux";
+import { setUser } from "../../slices/profileSlice";
+import { setToken } from "../../slices/authslice";
+
 const inputStyle = "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
 const labelInputStyle = "block text-gray-700 text-sm font-bold mb-2"
 
@@ -22,6 +26,8 @@ const LoginForm = ({ setIsLoggedIn }) => {
             [name]: value  //update the field dynamically based on input name”
         }))
     }
+
+    const dispatch = useDispatch();
 
     async function submitHandler(event) {
 
@@ -43,6 +49,21 @@ const LoginForm = ({ setIsLoggedIn }) => {
                 formData
             )
 
+console.log("FULL RESPONSE:", response);  // to find out where the userData and token is?
+console.log("DATA:", response.data);
+
+            const token = response?.data?.message?.token;
+            const userData = response?.data?.data?.user;
+
+            if(!token){
+            return  toast.error("Invalid response from server")
+            
+                }
+            //   local storage mai save
+            localStorage.setItem("token", token)
+            //    Redux me save karo  we will use this in future
+            dispatch(setToken(token));
+            dispatch(setUser(userData));
 
             setIsLoggedIn(true);
             toast.success("login successful");
@@ -50,7 +71,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
             console.log(response.data);   //Based on condition change the routes..
 
         } catch (error) {
-            toast.error(error.message)
+          return  toast.error(error.message)
         }
 
 

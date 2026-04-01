@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Loader2, LucideFileSpreadsheet } from "lucide-react";
+import { Loader2} from "lucide-react";
 import { resetPassword } from "../services/api";
 import { Link } from "react-router-dom"
 import { apiConnector } from "../services/apiconnector";
