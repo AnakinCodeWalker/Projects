@@ -20,6 +20,11 @@ export const contactUs ={
 export const Profile = {
     UPDATE_API : "/api/v1/profile/update"
 }
+
+export const resetPassword ={
+    RESET_PASSWORD_API : "/api/v1/users/resetPassword"
+
+}
 /*
 
 userRouter.route("/sendOtp").post(sendOtp)

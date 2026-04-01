@@ -10,6 +10,8 @@ import AboutUsPage from "../Pages/AboutUsPage.jsx";
 import PageNotFound from "../Pages/PageNotFound.jsx"
 import ProfilePage from "../Pages/ProfilePage.jsx";
 import Layout from "./Layout.jsx";
+import Setting from "../Pages/Setting.jsx";
+import UpdatePassword from "../Pages/UpdatePassword.jsx";
 
 const AppRoute = () => {
 
@@ -31,9 +33,18 @@ const AppRoute = () => {
                     <Route index element={<Home />}></Route>
                     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />}></Route>
                     <Route path="/signup" element={<Signup setIsLoggedIn={setIsLoggedIn} />}></Route>
-                    <Route path="/dashboard" element={<DashboardPage />}></Route>
-                    <Route path="/profile" element={<ProfilePage />}></Route>
+
+                    <Route path="/dashboard" element={<DashboardPage />}>
+
+                        <Route path="profile" element={<ProfilePage />} />
+                        <Route path="settings" element={<Setting/>} />
+
+
+                    </Route>
+                    
                     <Route path="/forgot-password" element={<ForgotPasswordPage />}></Route>
+                    <Route path="/update-password" element={<UpdatePassword />}></Route>
+
                     <Route path="/about" element={<AboutUsPage />}></Route>
                     <Route path="/contact" element={<ContactUsPage />}></Route>
                     <Route path="/*" element={<PageNotFound />}></Route>

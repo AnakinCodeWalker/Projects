@@ -5,9 +5,10 @@ import authReducer from "../slices/authslice"
 import profileReducer from "../slices/profileSlice"
 import cartReducer from "../slices/cartSlice"
 
+//  this is whole state
 const rootReducer = combineReducers({
-
-    auth: authReducer,
+// state.key.field
+    auth: authReducer,  
     profile: profileReducer,
     cart: cartReducer
 });
