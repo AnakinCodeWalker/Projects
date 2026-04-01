@@ -9,6 +9,7 @@ import { NavbarLinks } from "../../data/navbar-links.js"
 import { useSelector } from "react-redux";
 // import { useEffect, useState } from "react";
 import { FaArrowCircleDown } from "react-icons/fa";
+import LogoutButton from "./LogoutButton.jsx";
 // import { apiConnector } from "../../services/apiconnector.js";
 // import { categories } from "../../services/api.js";
 
@@ -205,7 +206,20 @@ const NavBar = () => {
                     )
                 }
                 {
-                    token !== null && <ProfileDropDown />
+                    !token  && 
+                    
+                    <div className="flex  gap-2 ">
+                     
+                     <div className="flex items-center gap-4">
+  <button className="text-white hover:underline">
+                        <ProfileDropDown />
+  </button>
+  </div>
+
+                           <LogoutButton/>
+                    </div>
+                  
+
                 }
             </div>
 

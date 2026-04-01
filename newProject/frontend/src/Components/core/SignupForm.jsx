@@ -23,6 +23,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
         email: "",
         password: "",
         confirmPassword: "",
+        role : "Student"
     })
 
     const navigate = useNavigate();
@@ -70,13 +71,29 @@ const SignupForm = ({ setIsLoggedIn }) => {
         <div className='justify-center items-center gap-5 flex flex-col text-white'>
 
             <div className="flex flex-row ml-5 gap-5">
-                <CtaButton active={true}>
-                    <div className="w-fit">
-                        Student
-                    </div></CtaButton>
-                <CtaButton active={false}>
-                    <div className="w-fit">Instructor</div>
-                </CtaButton>
+             <button
+  type="button"
+  name="role"
+  value="Student"
+  onClick={changeHandler}
+  className='w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
+      bg-yellow-300 text-black 
+      hover:scale-95 transition-all duration-200'
+>
+  Student
+</button>
+
+<button
+  type="button"
+  name="role"
+  value="Instructor"
+  onClick={changeHandler}
+  className='w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
+      bg-blue-500 text-black 
+      hover:scale-95 transition-all duration-200'
+>
+  Instructor
+</button>
             </div>
 
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={submitHandler}>

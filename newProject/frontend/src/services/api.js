@@ -25,6 +25,11 @@ export const resetPassword ={
     RESET_PASSWORD_API : "/api/v1/users/resetPassword"
 
 }
+
+export const confirmResetPassword ={
+   CONFIRM_RESET_PASSWORD_API: "/api/v1/users/confirmResetPassword"
+}
+
 /*
 
 userRouter.route("/sendOtp").post(sendOtp)

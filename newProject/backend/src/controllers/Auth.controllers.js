@@ -156,6 +156,7 @@ const signinController = asyncHandler(async (req, res) => {
 
    const result = signinInput.safeParse(req.body)
 
+
    if (!result.success) {
       console.error(result.error.issues)
       throw new ApiError(400, "Validation failed")
@@ -227,11 +228,18 @@ const signinController = asyncHandler(async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000
    }
 
-   console.log(`login successfully ${result.data.firstName}`);
+   console.log(`login successfully ${result.data.email}`);
+
    res.status(200)
       .cookie("accessToken", accessToken, accessTokenCookieOptions)
       .cookie("refreshToken", refreshToken, refreshTokenCookieOptions)
-      .json(new ApiResponse(200, "user logged in"))
+      .json(
+         new ApiResponse(200, {
+            token: accessToken,
+            user: existingUser
+         }, "user logged in")
+      );
+
 
 })
 
@@ -323,6 +331,7 @@ const resetpasswordToken = asyncHandler(async (req, res) => {
 
    // send this to the frontend mail 
 
+   // maybe i have to change this one 
    const url = `http://localhost:5173/update-password/${token}`
    try {
       await mailsender(email, "Reset password link", url)

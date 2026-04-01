@@ -92,3 +92,37 @@ Reconciliation = process of comparing old Virtual DOM with new Virtual DOM and u
 /*
 props are passed parents to child genreally but u can do vice versa but u shoud n't its antipattern
 */
+
+/*
+// state.reducerkey.leftvariable
+
+  /*
+  
+   state → poora Redux store
+auth → reducer key (store me jo naam diya)
+loading → uske andar ka variable
+*/
+
+
+/*
+
+import { useDispatch } from "react-redux";
+import { setSignupData } from "../slices/authSlice";
+
+const dispatch = useDispatch();
+
+dispatch(setSignupData({ name: "Prince", email: "abc@gmail.com" }));
+
+
+
+import { useSelector } from "react-redux";
+
+const { signupData, loading, token } = useSelector((state) => state.auth);
+
+*/
+
+/*
+delete 
+update page
+
+*/

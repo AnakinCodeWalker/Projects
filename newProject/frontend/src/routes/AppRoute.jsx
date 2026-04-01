@@ -37,8 +37,10 @@ const AppRoute = () => {
                     <Route path="/dashboard" element={<DashboardPage />}>
 
                         <Route path="profile" element={<ProfilePage />} />
-                        <Route path="settings" element={<Setting/>} />
+                        <Route path="enrolled-Courses" element={<div className="text-white text-3xl mx-auto"> Enorlled course create the page  and file</div>} />
+                        <Route path="cart"  element={<div className="text-white text-3xl mx-auto"> Enorlled courses in the cart create the page and file</div>} />
 
+                        <Route path="settings" element={<Setting/>} />
 
                     </Route>
                     

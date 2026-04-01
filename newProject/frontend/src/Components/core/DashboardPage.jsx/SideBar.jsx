@@ -1,53 +1,54 @@
-import React from 'react'
-import { Loader2 } from 'lucide-react'
-import { sidebarLinks } from '../../../data/dashboard-links'
-import { logout } from '../../../services/operations/authApi'
-import { useSelector } from 'react-redux'
-import SideBarLink from './SideBarLink'
+import { useSelector } from "react-redux";
+import { VscSettingsGear } from "react-icons/vsc"; // ✅ CORRECT
+import { sidebarLinks } from "../../../data/dashboard-links.js"
+import SideBarLink from "./SideBarLink.jsx"
+import { Loader2 } from "lucide-react";
 
-import { VscSettingsGear } from "react-icons/vsc";
 const SideBar = () => {
+  const { loading: authLoading } = useSelector((state) => state.auth);
+  const { user, loading: profileLoading } = useSelector((state) => state.profile);
 
-    const { loading: authLoading } = useSelector((state) => state.auth)
-    const { user, loading: profileLoading } = useSelector((state) => state.profile)
+  // get the data from the backned
 
-    if (profileLoading || authLoading) {
-        return <div className='text-3xl mx-auto font-bold text-gray-500'>
-            <Loader2 className='animate-spin' />
-        </div>
-    }
 
+  if (profileLoading || authLoading ) {
     return (
-        <div className='flex min-w-[222px] flex-col border-r-[1px] border-black 
-        bg-black py-10 h-[calc(100vh-3.5rem) ]'>
+      <div className='text-3xl mx-auto font-bold text-gray-500'>
+        <Loader2 className='animate-spin' />
+      </div>
+    );
+  }
 
-            <div className='flex flex-col'>
-                {
-                    sidebarLinks.map((link) => {
+  const filteredLinks = sidebarLinks.filter((link) => {
+    if (!link.type) return true;
+    return link.type === user?.role;
+  });
 
-                        //  why do this
-                        if (link.type && user?.accountType !== link.type) return null
+  console.log("USER:", user);
+  console.log("role:", user?.role);
 
-                        return <>
-                            <SideBarLink link={link} key={link.id} iconName={link.icon} />
-                        </>
-                    })
-                }
-            </div>
+  return (
+    <div className='flex min-w-[222px] flex-col border-r-[1px] border-black bg-black py-10 h-[calc(100vh-3.5rem)]'>
 
-            <div className='mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-black '>
-            </div>
+      {/* Links */}
+      <div className='flex flex-col'>
+        {filteredLinks.map((link) => (
+          <SideBarLink key={link.id} link={link} />
+        ))}
+      </div>
 
-            <div className='flex flex-col '>
+      {/* Divider */}
+      <div className='mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-gray-600' />
 
-                <SideBarLink
-                    link={{ name: "Settings", path: "dashboard/settings" }}
-                    iconName={VscSettingsGear}
-                ></SideBarLink>
-
-            </div>
-        </div>
-    )
-}
+      {/* Settings */}
+      <div className='flex flex-col'>
+        <SideBarLink
+          link={{ name: "Settings", path: "/dashboard/settings" }}
+          icon={VscSettingsGear}
+        />
+      </div>
+    </div>
+  );
+};
 
 export default SideBar
