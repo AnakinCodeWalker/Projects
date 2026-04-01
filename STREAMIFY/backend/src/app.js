@@ -1,7 +1,6 @@
 import express from "express"
 import cors from "cors"
 const app = express()
-import env from "./config/env.config.js"
 import authRoutes from "./routes/auth.route.js"
 import userRoutes from "./routes/User.route.js"
 import errorMiddleware from "./middlewares/errorMiddleware.js"
@@ -16,7 +15,7 @@ app.use(express.urlencoded({
 
 
 app.use(cors({
-   origin: "http://localhost:5173", 
+   origin: ["http://localhost:5173" ] ,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true

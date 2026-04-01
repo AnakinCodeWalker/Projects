@@ -10,6 +10,7 @@ const cartSlice = createSlice({
     name: "cart",
     initialState: initialState,
     reducers: {
+
         setTotalItems(state, value) {
             state.token = value.payload
         },
