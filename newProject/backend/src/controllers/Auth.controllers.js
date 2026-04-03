@@ -235,7 +235,7 @@ const signinController = asyncHandler(async (req, res) => {
       .cookie("refreshToken", refreshToken, refreshTokenCookieOptions)
       .json(
          new ApiResponse(200, {
-            token: accessToken,
+            // token: accessToken,   // i am extracting things from the localstorage i will fix them in future 
             user: existingUser
          }, "user logged in")
       );
