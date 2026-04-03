@@ -399,7 +399,7 @@ const resetpassword = asyncHandler(async (req, res) => {
 
 const logoutUser = asyncHandler(async (req, res) => {
 
-   const userId = req.user.id
+   const userId = req.user._id
 
    await User.findByIdAndUpdate(userId, {
       accessToken: null,
@@ -433,4 +433,3 @@ export {
    resetpassword,
    logoutUser
 }
-

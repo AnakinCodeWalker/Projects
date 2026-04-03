@@ -1,5 +1,5 @@
 import dotenv from "dotenv"
-dotenv.config()
+dotenv.config({ quiet: true })
 
 const env = {
 
@@ -22,7 +22,7 @@ const env = {
     JWT_ACCESS_EXPIRES: process.env.JWT_ACCESS_EXPIRES_IN,
 
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET,
-    JWT_REFRESH_EXPIRES: process.env.JWT_REFRESH_EXPIRES_IN,
+    JWT_REFRESH_EXPIRES:  process.env.JWT_REFRESH_EXPIRES_IN,
 
 
     //cloudinary configuration
@@ -39,14 +39,14 @@ const env = {
 
     RAZORPAY_KEY: process.env.RAZORPAY_KEY,
     RAZORPAY_SECRET: process.env.RAZORPAY_SECRET,
-   
-   
+
+
     NODE_ENV: "TESTING",
 
     // NODE_ENV : "development"  
 
     // Contact us page ...
-    AdminEmail :process.env.email
+    AdminEmail: process.env.email
 }
 
 export default env

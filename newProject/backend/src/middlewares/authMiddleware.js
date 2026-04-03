@@ -9,6 +9,7 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
     const token = req.cookies?.accessToken
         ?? req.headers["authorization"]?.replace("Bearer ", "")
         ?? req.body?.accessToken
+        
     if (!token)
         return next(new ApiError(401, "Invalid token"))
 

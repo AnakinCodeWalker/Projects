@@ -87,3 +87,9 @@ remaining controller
 
 
 */
+
+/*
+👉 Backend sets cookie  and send it into  a header 
+👉 Browser stores cookie
+👉 Browser decides when to send it
+*/
