@@ -7,7 +7,8 @@ import { apiConnector } from "../../services/apiconnector.js";
 import { user } from '../../services/api.js';
 import { useDispatch } from "react-redux";
 import { setUser } from "../../slices/profileSlice";
-import { setToken } from "../../slices/authslice";
+// import { setSignupData } from '../../slices/authslice.js';
+// import { setToken } from "../../slices/authslice";
 
 const inputStyle = "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
 const labelInputStyle = "block text-gray-700 text-sm font-bold mb-2"
@@ -33,6 +34,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
         event.preventDefault()  // page will not re render and i am going to handle the events is se yeh hots hai
 
+   
         const result = signinInput.safeParse(formData);
 
         if (!result.success) {  //zod validation
@@ -44,6 +46,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
         //  make the api request in here .......
         try {
+           
             const response = await apiConnector("POST",
                 user.SIGNIN_API,
                 formData
@@ -52,26 +55,40 @@ const LoginForm = ({ setIsLoggedIn }) => {
 console.log("FULL RESPONSE:", response);  // to find out where the userData and token is?
 console.log("DATA:", response.data);
 
+// extracting userData from backend response
+//  this line nai bhut paresan kiya yawr  ,
+const userData = response?.data?.message?.user;
+/*
             const token = response?.data?.message?.token;
-            const userData = response?.data?.data?.user;
-
             if(!token){
             return  toast.error("Invalid response from server")
             
                 }
-            //   local storage mai save
-            localStorage.setItem("token", token)
+            */
+                //   local storage mai save
+            // localStorage.setItem("token", token)
             //    Redux me save karo  we will use this in future
-            dispatch(setToken(token));
-            dispatch(setUser(userData));
+            // dispatch(setToken(token));
 
+
+
+if (!userData) {
+  return toast.error("User data not found");
+}
+            dispatch(setUser(userData));
+// dispatch(setSignupData(userData))  //checking this in nav bar and renderig component accordingly
             setIsLoggedIn(true);
             toast.success("login successful");
             navigate("/Dashboard");
             console.log(response.data);   //Based on condition change the routes..
 
         } catch (error) {
-          return  toast.error(error.message)
+           console.log("ERROR:", error?.response?.data);
+
+  const message =
+    error?.response?.data?.message || "Login failed";
+
+  return toast.error(message);
         }
 
 

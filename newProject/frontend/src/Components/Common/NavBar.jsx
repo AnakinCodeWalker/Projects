@@ -30,7 +30,7 @@ const NavBar = () => {
 
     //  slices
 
-    const { token } = useSelector((state) => state.auth)
+    // const { user} = useSelector((state) => state.auth)
     const { user } = useSelector((state) => state.profile)
     const { totalItems } = useSelector((state) => state.cart)
 
@@ -157,7 +157,7 @@ const NavBar = () => {
 
                 }
                 {
-                    token === null && (
+                    user=== null && (
                         <Link to={"/signup"}>
                             <div className=' w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
        bg-yellow-300 text-black
@@ -180,7 +180,7 @@ const NavBar = () => {
                 }
 
                 {
-                    token === null && (
+                    user=== null && (
 
                         <Link to={"/login"}>
 
@@ -206,7 +206,7 @@ const NavBar = () => {
                     )
                 }
                 {
-                    token !== null &&
+                    user!== null &&
 
                     <div className="flex  gap-2 ">
 

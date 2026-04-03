@@ -93,3 +93,10 @@ remaining controller
 👉 Browser stores cookie
 👉 Browser decides when to send it
 */
+
+/*
+ stroe bnega uske andar hoga 
+ uske andar hoga reducer 
+ reducer folder  kai andar sare slices likhte hai hmlog 
+
+*/

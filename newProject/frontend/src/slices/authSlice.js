@@ -8,7 +8,7 @@ const initialState = { // starting value
   signupData: null,
   loading: false,
   // token: localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null,
-token: localStorage.getItem("token") || null
+// token: localStorage.getItem("token") || null
 };
 
 const authSlice = createSlice({
@@ -23,9 +23,9 @@ const authSlice = createSlice({
     setLoading(state, value) {
       state.loading = value.payload;
     },
-    setToken(state, value) { // state.varaible = value.payload
-      state.token = value.payload;
-    },
+    // setToken(state, value) { // state.varaible = value.payload
+    //   state.token = value.payload;
+    // },
   },
 });
 

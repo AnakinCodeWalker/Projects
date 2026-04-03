@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { user } from '../../services/api.js'
 import { useDispatch } from 'react-redux'
-import { setToken } from '../../slices/authslice'
+// import { setToken } from '../../slices/authslice'
 import { setUser } from '../../slices/profileSlice'
 const LogoutButton = () => {
 const dispatch = useDispatch()
@@ -14,13 +14,15 @@ const dispatch = useDispatch()
  
   async function onClickHandler() {
     try {
+       console.log("Cookies:", document.cookie) 
+            console.log("hi");
       await apiConnector("POST", user.LOGOUT_API)
-  
-      dispatch(setToken(null))
+  console.log("Cookies:", document.cookie) 
+      // dispatch(setToken(null))
       dispatch(setUser(null))
 
 
-localStorage.removeItem("token")  // remove token from the  localstorage
+// localStorage.removeItem("token")  // remove token from the  localstorage
 
 
 toast.success("logged out successfully")

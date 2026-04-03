@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import CtaButton from './HomePage/CtaButton'
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { signupInput } from "../Common/validation/User.validation.js"

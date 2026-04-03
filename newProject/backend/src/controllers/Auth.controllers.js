@@ -401,6 +401,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 
    const userId = req.user._id
 
+   console.log("REQ COOKIES:", req.cookies);
+   
    await User.findByIdAndUpdate(userId, {
       accessToken: null,
       refreshToken: null
@@ -415,6 +417,9 @@ const logoutUser = asyncHandler(async (req, res) => {
       secure: env.NODE_ENV === "production",
       sameSite: env.NODE_ENV === "production" ? "none" : "lax"
    }
+   
+   console.log("REQ COOKIES:", req.cookies);
+
    return res
       .clearCookie("accessToken", options)
       .clearCookie("refreshToken", options)
