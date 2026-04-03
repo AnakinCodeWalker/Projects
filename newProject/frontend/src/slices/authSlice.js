@@ -30,7 +30,7 @@ const authSlice = createSlice({
 });
 
 //  actions ko export kro
-export const { setSignupData, setLoading, setToken } = authSlice.actions;
+export const { setSignupData, setLoading  } = authSlice.actions;
 
 // reducers ko v export krna 
 export default authSlice.reducer;

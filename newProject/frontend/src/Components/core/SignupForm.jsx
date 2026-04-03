@@ -5,7 +5,9 @@ import { signupInput } from "../Common/validation/User.validation.js"
 
 import { apiConnector } from "../../services/apiconnector.js";
 import { user } from "../../services/api.js"
-
+import { Loader2 } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '../../slices/profileSlice.js';
 
 // jis button pr click kre woh value ho jaye 
 //  studnet to role mai student 
@@ -34,6 +36,9 @@ const SignupForm = ({ setIsLoggedIn }) => {
             [name]: value
         }))
     }
+
+    const {loading} =useSelector((state)=>state.auth)
+    const dispatch = useDispatch()
     async function submitHandler(event) {
         event.preventDefault()
 
@@ -48,18 +53,22 @@ const SignupForm = ({ setIsLoggedIn }) => {
 
 
         try {
+
+            dispatch(setLoading(true))
             const response = await apiConnector(
                 "POST",
                 user.SIGNUP_API,
                 formData
             );
-
-
+            dispatch(setLoading(false))
             setIsLoggedIn(true);
             toast.success("Signup successful");
             navigate("/login");
             console.log(response.data);
+            
         } catch (error) {
+dispatch(setLoading(false))
+
             console.log(error.message);
             console.log(error)
             console.log(error.response.data);
@@ -68,7 +77,11 @@ const SignupForm = ({ setIsLoggedIn }) => {
     }
     return (
         <div className='justify-center items-center gap-5 flex flex-col text-white'>
-
+  {   
+    loading  &&  (<div className=" overflow-y-hidden  bg-white  h-screen w-full flex items-center justify-center">
+          <Loader2 className="animate-spin  w-[40%] h-[40%]  " />
+        </div>)
+        }
             <div className="flex flex-row ml-5 gap-5">
              <button
   type="button"

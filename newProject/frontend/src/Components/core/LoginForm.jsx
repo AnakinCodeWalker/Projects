@@ -7,6 +7,9 @@ import { apiConnector } from "../../services/apiconnector.js";
 import { user } from '../../services/api.js';
 import { useDispatch } from "react-redux";
 import { setUser } from "../../slices/profileSlice";
+import { setLoading } from '../../slices/profileSlice';
+import { Loader2} from "lucide-react";
+import { useSelector } from 'react-redux';
 // import { setSignupData } from '../../slices/authslice.js';
 // import { setToken } from "../../slices/authslice";
 
@@ -29,12 +32,11 @@ const LoginForm = ({ setIsLoggedIn }) => {
     }
 
     const dispatch = useDispatch();
-
+ const loading = useSelector((state) => state.auth.loading)
     async function submitHandler(event) {
 
         event.preventDefault()  // page will not re render and i am going to handle the events is se yeh hots hai
 
-   
         const result = signinInput.safeParse(formData);
 
         if (!result.success) {  //zod validation
@@ -46,11 +48,13 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
         //  make the api request in here .......
         try {
-           
+                dispatch(setLoading(true))
+
             const response = await apiConnector("POST",
                 user.SIGNIN_API,
                 formData
             )
+     dispatch(setLoading(false))
 
 console.log("FULL RESPONSE:", response);  // to find out where the userData and token is?
 console.log("DATA:", response.data);
@@ -83,6 +87,8 @@ if (!userData) {
             console.log(response.data);   //Based on condition change the routes..
 
         } catch (error) {
+                 dispatch(setLoading(false))
+
            console.log("ERROR:", error?.response?.data);
 
   const message =
@@ -97,6 +103,11 @@ if (!userData) {
 
     return (
         <div className='text-white'>
+         {   
+    loading  &&  (<div className=" overflow-y-hidden  bg-white  h-screen w-full flex items-center justify-center">
+          <Loader2 className="animate-spin  w-[40%] h-[40%]  " />
+        </div>)
+        }
             <form className="mt-12 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={submitHandler}>
                 <label className={labelInputStyle}>
                     <p>
