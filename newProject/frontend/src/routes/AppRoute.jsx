@@ -45,7 +45,7 @@ const AppRoute = () => {
                     </Route>
                     
                     <Route path="/forgot-password" element={<ForgotPasswordPage />}></Route>
-                    <Route path="/update-password" element={<UpdatePassword />}></Route>
+                    <Route path="/update-password/:token" element={<UpdatePassword />}></Route>
 
                     <Route path="/about" element={<AboutUsPage />}></Route>
                     <Route path="/contact" element={<ContactUsPage />}></Route>

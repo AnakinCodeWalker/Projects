@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { user } from '../../services/api.js'
 import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
+import { setToken } from '../../slices/authslice'
+import { setUser } from '../../slices/profileSlice'
 const LogoutButton = () => {
 const dispatch = useDispatch()
 
   const navigate = useNavigate();
-  const {setToken} = useSelector((state)=>state.auth)
-  const {setUser} = useSelector((state)=>state.profile)
+
+ 
   async function onClickHandler() {
     try {
       await apiConnector("POST", user.LOGOUT_API)

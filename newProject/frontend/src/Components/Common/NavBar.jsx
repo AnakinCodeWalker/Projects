@@ -59,8 +59,8 @@ const NavBar = () => {
     }
     return (
 
-        // main div
-        <div className="  w-11/12  flex border ml-4 max-w-[1500px] rounded-xl h-14 w-full border-blue-300">
+        // main div   hidden on small screen block on larger screen
+        <div className=" border mt-3  w-11/12  flex border ml-4 max-w-[1500px] rounded-xl h-14 w-full border-blue-300">
 
 
             {/* image */}
@@ -116,7 +116,7 @@ const NavBar = () => {
 
                                             </div>) : (
                                             <NavLink
-                                            // Click → URL changes → NavLink detects → isActive → style changes
+                                                // Click → URL changes → NavLink detects → isActive → style changes
                                                 to={link?.path}  // comming from another file by mapping on it 
                                                 className={({ isActive }) =>
                                                     isActive ? "text-yellow-300" : "text-white"
@@ -206,19 +206,19 @@ const NavBar = () => {
                     )
                 }
                 {
-                    !token  && 
-                    
-                    <div className="flex  gap-2 ">
-                     
-                     <div className="flex items-center gap-4">
-  <button className="text-white hover:underline">
-                        <ProfileDropDown />
-  </button>
-  </div>
+                    token !== null &&
 
-                           <LogoutButton/>
+                    <div className="flex  gap-2 ">
+
+                        <div className="flex items-center gap-4">
+                            <button className="text-white hover:underline">
+                                <ProfileDropDown />
+                            </button>
+                        </div>
+
+                        <LogoutButton />
                     </div>
-                  
+
 
                 }
             </div>

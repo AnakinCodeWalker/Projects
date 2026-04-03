@@ -72,7 +72,7 @@ const Home = () => {
 
       {/* review generic CodeBlock componnent */}
       <div className="max-w-full">
-        <CodeBlocks className=" max-w-full " position={"lg:flex-row"}
+        <CodeBlocks className=" max-w-full  " position={"lg:flex-row"}
 
           heading={
             <div className="text-4xl font-semibold">

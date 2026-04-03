@@ -11,7 +11,7 @@ const CodeBlocks = ({
 }) => {
   return <>
 
-<div className={`flex ${position} my-20  max-w-full justify-evenly gap-10`}>
+<div className={`flex ${position}  my-20  max-w-full justify-evenly gap-10`}>
 
 <div className="w-[50%] flex flex-col gap-8">
   {heading}
