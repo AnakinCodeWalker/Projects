@@ -7,6 +7,7 @@ import {createSlice} from "@reduxjs/toolkit"
 const initialState ={
      user: null,
      loading: false,
+     userDetail : null
 }
 
 const profileSlice = createSlice({
@@ -16,13 +17,16 @@ reducers:{
     setUser(state,value){
         state.user = value.payload
     },
+     setUserDetail(state,value){
+        state.userDetail = value.payload
+    },
     setLoading(state, value) {
       state.loading = value.payload;
     },
 }
 })
 
-export const {setUser ,setLoading} = profileSlice.actions
+export const {setUser ,setUserDetail,setLoading} = profileSlice.actions
 export  default profileSlice.reducer
 
 

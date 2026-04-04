@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { Loader2 } from "lucide-react";
 import { Outlet } from 'react-router-dom'
-import SideBar from '../Components/core/DashboardPage.jsx/SideBar'
+import SideBar from '../Components/core/DashboardPage/SideBar'
 
 const DashboardPage = () => {
 

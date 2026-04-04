@@ -12,24 +12,30 @@ import { GENDER } from "../utils/constants.js"
 import { apiConnector } from '../services/apiconnector.js';
 import { Profile } from '../services/api.js';
 import countrycode from "../data/countrycode.json"
-
+import { useSelector } from 'react-redux';
+// import { useNavigate } from 'react-router-dom';
 const ProfilePage = () => {
 
   const inputStyle = "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
 
   const labelInputStyle = "block text-gray-400 text-sm font-bold mb-2"
 
+const  user = useSelector((state)=>state.profile.user)
 
+console.log(user);
+// const navigate  = useNavigate()
   const [formState, setFormState] = useState({
-    firstName: "",
-    lastName: "",
-    gender: "",
-    dateOfBirth: "",
-    contactNumber: "",
-    about: "",
-    profilePic: ""
+    firstName: user.firstName || "" ,
+    lastName : user.lastName || "",
+    gender: user.gender || "",
+    dateOfBirth:  user.dateOfBirth || "",
+    contactNumber: user.contactNumber || "" ,
+    about:  user.about  || "",
+    profilePic: user.image || "",
 
   })
+
+  
 
   const handleRandomAvatar = () => {
     const randomAvatar = `https://robohash.org/${Math.random()}`;
@@ -76,7 +82,7 @@ const ProfilePage = () => {
                   formState.profilePic ? (
                     // if profilePic present then put this one 
 
-                    <img src={formState.profilePic} alt='profilePic' className='w-full h-full object-cover'></img>
+                    <img src={formState.profilePic} alt='Pic' className='w-full h-full object-cover'></img>
                   ) : (
 
                     <div className='flex items-center justify-center h-full '>

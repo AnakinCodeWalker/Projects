@@ -7,12 +7,11 @@ import { apiConnector } from "../../services/apiconnector.js";
 import { user } from "../../services/api.js"
 import { Loader2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoading } from '../../slices/profileSlice.js';
+import { setLoading, setUserDetail } from '../../slices/profileSlice.js';
 
 // jis button pr click kre woh value ho jaye 
 //  studnet to role mai student 
 // instructor to instructor
-
 
 const inputStyle = "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
 const labelInputStyle = "block text-gray-700 text-sm font-bold mb-2"
@@ -24,7 +23,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
         email: "",
         password: "",
         confirmPassword: "",
-        role : "Student"
+        role: "Student"
     })
 
     const navigate = useNavigate();
@@ -37,7 +36,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
         }))
     }
 
-    const {loading} =useSelector((state)=>state.auth)
+    const { loading } = useSelector((state) => state.auth)
     const dispatch = useDispatch()
     async function submitHandler(event) {
         event.preventDefault()
@@ -61,13 +60,21 @@ const SignupForm = ({ setIsLoggedIn }) => {
                 formData
             );
             dispatch(setLoading(false))
+            dispatch(setUserDetail(response.data.data.user))
+           
+            // putting things in loalstorage kyuki , it will persist
+            localStorage.setItem(
+                "user",
+                JSON.stringify(response.data.data.user)
+            )
             setIsLoggedIn(true);
             toast.success("Signup successful");
             navigate("/login");
-            console.log(response.data);
-            
+            // console.log("response user" ,response.data.user);
+            console.log("response data" ,response.data.data.user);
+
         } catch (error) {
-dispatch(setLoading(false))
+            dispatch(setLoading(false))
 
             console.log(error.message);
             console.log(error)
@@ -77,35 +84,35 @@ dispatch(setLoading(false))
     }
     return (
         <div className='justify-center items-center gap-5 flex flex-col text-white'>
-  {   
-    loading  &&  (<div className=" overflow-y-hidden  bg-white  h-screen w-full flex items-center justify-center">
-          <Loader2 className="animate-spin  w-[40%] h-[40%]  " />
-        </div>)
-        }
+            {
+                loading && (<div className=" overflow-y-hidden  bg-white  h-screen w-full flex items-center justify-center">
+                    <Loader2 className="animate-spin  w-[40%] h-[40%]  " />
+                </div>)
+            }
             <div className="flex flex-row ml-5 gap-5">
-             <button
-  type="button"
-  name="role"
-  value="Student"
-  onClick={changeHandler}
-  className='w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
+                <button
+                    type="button"
+                    name="role"
+                    value="Student"
+                    onClick={changeHandler}
+                    className='w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
       bg-yellow-300 text-black 
       hover:scale-95 transition-all duration-200'
->
-  Student
-</button>
+                >
+                    Student
+                </button>
 
-<button
-  type="button"
-  name="role"
-  value="Instructor"
-  onClick={changeHandler}
-  className='w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
+                <button
+                    type="button"
+                    name="role"
+                    value="Instructor"
+                    onClick={changeHandler}
+                    className='w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
       bg-blue-500 text-black 
       hover:scale-95 transition-all duration-200'
->
-  Instructor
-</button>
+                >
+                    Instructor
+                </button>
             </div>
 
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={submitHandler}>

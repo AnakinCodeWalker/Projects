@@ -4,7 +4,8 @@
 import {
     getProfileDetails,
         updateProfile,
-        deleteProfile
+        deleteProfile,
+        getEnrolledCourses
 } from "../controllers/Profile.controllers.js"
 
 import authMiddleware from "../middlewares/authMiddleware.js"
@@ -17,6 +18,8 @@ profileRouter.route("/details").get(authMiddleware,getProfileDetails)
 
 //user want to partiall update so patch
 profileRouter.route("/update").patch(authMiddleware,updateProfile)
+
+profileRouter.route("/enrolledCourse").post(authMiddleware,getEnrolledCourses)
 
 profileRouter.route("/delete").post(authMiddleware,deleteProfile)
 
