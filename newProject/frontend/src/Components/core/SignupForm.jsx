@@ -7,7 +7,7 @@ import { apiConnector } from "../../services/apiconnector.js";
 import { user } from "../../services/api.js"
 import { Loader2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoading, setUserDetail } from '../../slices/profileSlice.js';
+import { setLoading } from '../../slices/profileSlice.js';
 
 // jis button pr click kre woh value ho jaye 
 //  studnet to role mai student 
@@ -15,7 +15,7 @@ import { setLoading, setUserDetail } from '../../slices/profileSlice.js';
 
 const inputStyle = "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
 const labelInputStyle = "block text-gray-700 text-sm font-bold mb-2"
-const SignupForm = ({ setIsLoggedIn }) => {
+const SignupForm = () => {
 
     const [formData, setFormData] = useState({
         firstName: "",
@@ -60,14 +60,14 @@ const SignupForm = ({ setIsLoggedIn }) => {
                 formData
             );
             dispatch(setLoading(false))
-            dispatch(setUserDetail(response.data.data.user))
-           
+            // dispatch(setUserDetail(response.data.data.user))
+    
             // putting things in loalstorage kyuki , it will persist
             localStorage.setItem(
                 "user",
                 JSON.stringify(response.data.data.user)
             )
-            setIsLoggedIn(true);
+            // setIsLoggedIn(true);
             toast.success("Signup successful");
             navigate("/login");
             // console.log("response user" ,response.data.user);
@@ -78,7 +78,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
 
             console.log(error.message);
             console.log(error)
-            console.log(error.response.data);
+            // console.log(error.response.data);
             toast.error("Signup failed");
         }
     }

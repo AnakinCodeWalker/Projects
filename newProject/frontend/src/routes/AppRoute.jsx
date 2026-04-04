@@ -3,7 +3,7 @@ import Home from "../Pages/Home.jsx"
 import Signup from "../Pages/SignupPage.jsx";
 import Login from "../Pages/LoginPage.jsx";
 import ForgotPasswordPage from "../Pages/ForgotPasswordPage.jsx"
-import { useState } from "react";
+// import { useState } from "react";
 import DashboardPage from "../Pages/DashboardPage.jsx";
 import ContactUsPage from "../Pages/ContactUsPage.jsx";
 import AboutUsPage from "../Pages/AboutUsPage.jsx";
@@ -16,7 +16,7 @@ import UpdatePassword from "../Pages/UpdatePassword.jsx";
 
 const AppRoute = () => {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
     
     
     
@@ -35,8 +35,8 @@ const AppRoute = () => {
 
                     {/*  this will be the default page*/}
                     <Route index element={<Home />}></Route>
-                    <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />}></Route>
-                    <Route path="/signup" element={<Signup setIsLoggedIn={setIsLoggedIn} />}></Route>
+                    <Route path="/login" element={<Login  />}></Route>
+                    <Route path="/signup" element={<Signup />}></Route>
 
                     <Route path="/dashboard" element={<DashboardPage />}>
 

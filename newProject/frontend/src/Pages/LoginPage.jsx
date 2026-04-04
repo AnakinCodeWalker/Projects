@@ -2,7 +2,7 @@ import Template from "../Components/Common/FormTemplate"
 import LoginForm from "../Components/core/LoginForm"
 import loginImg from "../assets/Images/login.webp"
 
-const Login = ({setIsLoggedIn}) => {
+const Login = () => {
   return (
   <Template
     title="Welcome back"
@@ -10,7 +10,8 @@ const Login = ({setIsLoggedIn}) => {
     desc2={` Skills,that actually move you forward one skill at a time.`}
     image={loginImg}
     formtype="login"
-    setIsLoggedIn={setIsLoggedIn}>
+    // setIsLoggedIn={setIsLoggedIn}
+    >
       </Template>
   )
 }

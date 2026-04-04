@@ -22,7 +22,7 @@ const dispatch = useDispatch()
       dispatch(setUser(null))
 
 
-// localStorage.removeItem("token")  // remove token from the  localstorage
+localStorage.removeItem("user")  // remove token from the  localstorage
 
 
 toast.success("logged out successfully")

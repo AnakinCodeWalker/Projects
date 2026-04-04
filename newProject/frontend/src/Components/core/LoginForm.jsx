@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 const inputStyle = "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
 const labelInputStyle = "block text-gray-700 text-sm font-bold mb-2"
 
-const LoginForm = ({ setIsLoggedIn }) => {
+const LoginForm = () => {
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -32,7 +32,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
     }
 
     const dispatch = useDispatch();
- const loading = useSelector((state) => state.auth.loading)
+ const loading = useSelector((state) => state.profile.loading)
     async function submitHandler(event) {
 
         event.preventDefault()  // page will not re render and i am going to handle the events is se yeh hots hai
@@ -79,9 +79,10 @@ const userData = response?.data?.message?.user;
 if (!userData) {
   return toast.error("User data not found");
 }
-            dispatch(setUser(userData));
+localStorage.setItem("user", JSON.stringify(userData));      
+dispatch(setUser(userData));
 // dispatch(setSignupData(userData))  //checking this in nav bar and renderig component accordingly
-            setIsLoggedIn(true);
+        
             toast.success("login successful");
             navigate("/Dashboard");
             console.log(response.data);   //Based on condition change the routes..

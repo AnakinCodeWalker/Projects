@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
 // import CtaButton from './HomePage/CtaButton'
 // import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -25,17 +25,16 @@ const  user = useSelector((state)=>state.profile.user)
 console.log(user);
 // const navigate  = useNavigate()
   const [formState, setFormState] = useState({
-    firstName: user.firstName || "" ,
-    lastName : user.lastName || "",
-    gender: user.gender || "",
-    dateOfBirth:  user.dateOfBirth || "",
-    contactNumber: user.contactNumber || "" ,
-    about:  user.about  || "",
-    profilePic: user.image || "",
+    firstName: user?.firstName ,
+    lastName : user?.lastName ,
+    gender: user?.gender || "",
+    dateOfBirth:  user?.dateOfBirth || "",
+    contactNumber: user?.contactNumber || "" ,
+    about:  user?.about  || "",
+    profilePic: user?.image || "",
 
   })
 
-  
 
   const handleRandomAvatar = () => {
     const randomAvatar = `https://robohash.org/${Math.random()}`;
