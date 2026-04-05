@@ -5,8 +5,6 @@ import BannerImage3 from "../assets/Images/aboutus3.webp"
 import Quote from '../Components/core/AboutUs/Quote'
 import foundingStory from "../assets/Images/foundingStory.png"
 import StatsComponent from "../Components/core/AboutUs/StatsComponent"
-import ContactUsPage from "../Components/core/AboutUs/ContactUsPage"
-import Footer from "../Components/Common/Footer"
 const AboutUsPage = () => {
   return (
 
@@ -117,14 +115,11 @@ const AboutUsPage = () => {
 
       {/* section 5 */}
 
-      <div className="flex mt-10 justify-center items-center">
-        <ContactUsPage />
-
-      </div>
+     
 
       {/* section 6 */}
 
-      <Footer />
+  
     </div>
   )
 }

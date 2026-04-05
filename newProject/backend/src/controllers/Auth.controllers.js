@@ -87,7 +87,7 @@ const signupController = asyncHandler(async (req, res) => {
    })
 
    if (existingUser)
-      throw new ApiError(400, "user already exists ..")
+      throw new ApiError(400, "user already exists")
 
 
    // // find most recent otp based on email
@@ -171,7 +171,7 @@ const signinController = asyncHandler(async (req, res) => {
 
    if (!existingUser) {
       console.error(result.error.issues)
-      throw new ApiError(401, "signup first ..")
+      throw new ApiError(401, "signup first")
    }
 
 
@@ -402,7 +402,7 @@ const logoutUser = asyncHandler(async (req, res) => {
    const userId = req.user._id
 
    console.log("REQ COOKIES:", req.cookies);
-   
+
    await User.findByIdAndUpdate(userId, {
       accessToken: null,
       refreshToken: null
@@ -417,7 +417,7 @@ const logoutUser = asyncHandler(async (req, res) => {
       secure: env.NODE_ENV === "production",
       sameSite: env.NODE_ENV === "production" ? "none" : "lax"
    }
-   
+
    console.log("REQ COOKIES:", req.cookies);
 
    return res

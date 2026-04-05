@@ -1,4 +1,4 @@
-import { useState , useEffect } from 'react'
+import { useState } from 'react'
 // import CtaButton from './HomePage/CtaButton'
 // import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -20,27 +20,33 @@ const ProfilePage = () => {
 
   const labelInputStyle = "block text-gray-400 text-sm font-bold mb-2"
 
-const  user = useSelector((state)=>state.profile.user)
+  const user = useSelector((state) => state.profile.user)
 
-console.log(user);
-// const navigate  = useNavigate()
+  const [profileGenrated, setProfileGenrated] = useState(false)
+  console.log(user);
+  // const navigate  = useNavigate()
   const [formState, setFormState] = useState({
-    firstName: user?.firstName ,
-    lastName : user?.lastName ,
+    firstName: user?.firstName,
+    lastName: user?.lastName,
     gender: user?.gender || "",
-    dateOfBirth:  user?.dateOfBirth || "",
-    contactNumber: user?.contactNumber || "" ,
-    about:  user?.about  || "",
+    dateOfBirth: user?.dateOfBirth || "",
+    contactNumber: user?.contactNumber || "",
+    about: user?.about || "",
     profilePic: user?.image || "",
 
   })
 
 
   const handleRandomAvatar = () => {
-    const randomAvatar = `https://robohash.org/${Math.random()}`;
-
-    setFormState({ ...formState, profilePic: randomAvatar });
-    toast.success("Random profile picture generated!");
+    try {
+      const randomAvatar = `https://robohash.org/${Math.random()}`;
+      setProfileGenrated(false)
+      setFormState({ ...formState, profilePic: randomAvatar });
+      setProfileGenrated(true)
+    } catch (error) {
+      console.log(error);
+      toast.error("can not generate the profile pic")
+    }
   };
 
   async function submitHandler(e) {
@@ -81,7 +87,16 @@ console.log(user);
                   formState.profilePic ? (
                     // if profilePic present then put this one 
 
-                    <img src={formState.profilePic} alt='Pic' className='w-full h-full object-cover'></img>
+                    <img
+                      src={formState.profilePic}
+                      onLoad={() => {
+                        if (profileGenrated) {  // load only when the profile is genrated.
+                          toast.success("profile picture generated!")
+                        }
+                      }} // diplay when profile pic is genrated else not 
+                      alt='Pic'
+                      className='w-full h-full object-cover' />
+
                   ) : (
 
                     <div className='flex items-center justify-center h-full '>
@@ -255,8 +270,8 @@ console.log(user);
                   }
                 >
                   {countrycode.map((element) => (
-                   <option key={`${element.code}-${element.country}`}
-                     value={element.code}>
+                    <option key={`${element.code}-${element.country}`}
+                      value={element.code}>
                       {element.code}
                     </option>
                   ))}
@@ -271,7 +286,7 @@ console.log(user);
 
                   <input
                     type="tel"
-                     maxLength={10}
+                    maxLength={10}
                     placeholder="xxx-xxxx-xxx"
                     className={`pl-12 input input-bordered w-full ${inputStyle}`}
                     name="contactNumber"
