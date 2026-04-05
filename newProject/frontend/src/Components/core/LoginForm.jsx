@@ -105,10 +105,10 @@ dispatch(setUser(userData));
     return (
         <div className='text-white'>
          {   
-    loading  &&  (<div className=" overflow-y-hidden  bg-white  h-screen w-full flex items-center justify-center">
+    loading  ? (<div className=" overflow-y-hidden overflow-x-hidden  bg-black  h-screen w-full flex items-center justify-center">
           <Loader2 className="animate-spin  w-[40%] h-[40%]  " />
         </div>)
-        }
+        :(
             <form className="mt-12 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={submitHandler}>
                 <label className={labelInputStyle}>
                     <p>
@@ -152,6 +152,8 @@ dispatch(setUser(userData));
                     </button>
                 </div>
             </form>
+        )
+    }
         </div>
     )
 }

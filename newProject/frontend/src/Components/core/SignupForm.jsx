@@ -36,7 +36,7 @@ const SignupForm = () => {
         }))
     }
 
-    const { loading } = useSelector((state) => state.auth)
+    const { loading } = useSelector((state) => state.profile)
     const dispatch = useDispatch()
     async function submitHandler(event) {
         event.preventDefault()
@@ -78,17 +78,23 @@ const SignupForm = () => {
 
             console.log(error.message);
             console.log(error)
-            // console.log(error.response.data);
-            toast.error("Signup failed");
+
+            // error.response.data.message comming from the backend
+            const message = error?.response?.data?.message 
+                           || "signup failed";
+
+  return toast.error(message);
         }
     }
     return (
         <div className='justify-center items-center gap-5 flex flex-col text-white'>
             {
-                loading && (<div className=" overflow-y-hidden  bg-white  h-screen w-full flex items-center justify-center">
+                loading ? (<div className=" overflow-y-hidden overflow-x-hidden  bg-black  h-screen w-full flex items-center justify-center">
                     <Loader2 className="animate-spin  w-[40%] h-[40%]  " />
-                </div>)
-            }
+                </div>) :
+            
+            (<>
+            
             <div className="flex flex-row ml-5 gap-5">
                 <button
                     type="button"
@@ -195,6 +201,8 @@ const SignupForm = () => {
                 </div>
 
             </form>
+            
+            </>)}
         </div>
     )
 }
