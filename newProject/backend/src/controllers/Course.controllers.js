@@ -5,7 +5,7 @@ import ApiResponse from "../utils/ApiResponse.js"
 import Category from "../models/Category.model.js"
 import asyncHandler from "../utils/asyncHandler.js"
 import Course from "../models/Course.model.js"
-import { createCourseInput } from "../validation/Course.ZodValidation.js"
+import { createCourseInput } from "anakincodewalker"
 import User from "../models/User.model.js"
 
 const createCourse = asyncHandler(async (req, res) => {

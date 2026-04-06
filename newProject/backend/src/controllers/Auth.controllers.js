@@ -7,7 +7,7 @@ import User from "../models/User.model.js"
 import Profile from "../models/Profile.model.js"
 import asyncHandler from "../utils/asyncHandler.js"
 
-import { signupInput, signinInput, changePasswordInput } from "../validation/User.ZodValidation.js"
+import { signupInput, signinInput, changePasswordInput } from "anakincodewalker"
 
 import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
@@ -170,7 +170,6 @@ const signinController = asyncHandler(async (req, res) => {
    })
 
    if (!existingUser) {
-      console.error(result.error.issues)
       throw new ApiError(401, "signup first")
    }
 
