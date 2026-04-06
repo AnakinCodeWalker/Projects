@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { apiConnector } from '../services/apiconnector'
 import toast from 'react-hot-toast'
 import { confirmResetPassword } from '../services/api'
-import { setLoading } from '../slices/authslice'
+import { setLoading } from '../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from "react-router-dom" //to extract token from the params
 const UpdatePassword = () => {

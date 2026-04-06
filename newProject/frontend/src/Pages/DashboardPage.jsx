@@ -11,8 +11,8 @@ const DashboardPage = () => {
     if (profileLoading || authLoading) {
         return (
             <div className=" overflow-y-hidden  bg-white  h-screen w-full flex items-center justify-center">
-          <Loader2 className="animate-spin  w-[40%] h-[40%]  " />
-        </div>
+                <Loader2 className="animate-spin  w-[40%] h-[40%]  " />
+            </div>
         )
     }
 
