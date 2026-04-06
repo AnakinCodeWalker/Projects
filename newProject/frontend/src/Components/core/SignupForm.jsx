@@ -13,6 +13,8 @@ import { setLoading } from '../../slices/profileSlice.js';
 //  studnet to role mai student 
 // instructor to instructor
 
+// zod used  input fetch kai liye 
+//  backend se error jo aa rha hai usko
 const inputStyle = "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
 const labelInputStyle = "block text-gray-700 text-sm font-bold mb-2"
 const SignupForm = () => {
@@ -45,6 +47,16 @@ const SignupForm = () => {
 
         if (!result.success) {  //zod validation
 
+            /*
+            zod error return krta hai uska syntax hi hota hai [
+         {} ,{} ,{}
+        ]
+         // hmesha first error dikhao ,
+        */
+
+
+
+
             const firstError = result.error.issues[0];
             toast.error(firstError.message);  //toast error
             return;
@@ -61,7 +73,7 @@ const SignupForm = () => {
             );
             dispatch(setLoading(false))
             // dispatch(setUserDetail(response.data.data.user))
-    
+
             // putting things in loalstorage kyuki , it will persist
             localStorage.setItem(
                 "user",
@@ -71,7 +83,7 @@ const SignupForm = () => {
             toast.success("Signup successful");
             navigate("/login");
             // console.log("response user" ,response.data.user);
-            console.log("response data" ,response.data.data.user);
+            console.log("response data", response.data.data.user);
 
         } catch (error) {
             dispatch(setLoading(false))
@@ -80,10 +92,13 @@ const SignupForm = () => {
             console.log(error)
 
             // error.response.data.message comming from the backend
-            const message = error?.response?.data?.message 
-                           || "signup failed";
+            // jb v fetch mai status code bhejta hai (400, 401, 500 etc.)
+            //  to ek error object bnta hai jo erorr , tum bhejte ho backend se 
+            // so isme ata hai
+            const message = error?.response?.data?.message  // tumne jo backend se errror bheja hai sbse common yhi hota hai 
+                || "signup failed";
 
-  return toast.error(message);
+            return toast.error(message);
         }
     }
     return (
@@ -92,117 +107,117 @@ const SignupForm = () => {
                 loading ? (<div className=" overflow-y-hidden overflow-x-hidden  bg-black  h-screen w-full flex items-center justify-center">
                     <Loader2 className="animate-spin  w-[40%] h-[40%]  " />
                 </div>) :
-            
-            (<>
-            
-            <div className="flex flex-row ml-5 gap-5">
-                <button
-                    type="button"
-                    name="role"
-                    value="Student"
-                    onClick={changeHandler}
-                    className='w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
+
+                    (<>
+
+                        <div className="flex flex-row ml-5 gap-5">
+                            <button
+                                type="button"
+                                name="role"
+                                value="Student"
+                                onClick={changeHandler}
+                                className='w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
       bg-yellow-300 text-black 
       hover:scale-95 transition-all duration-200'
-                >
-                    Student
-                </button>
+                            >
+                                Student
+                            </button>
 
-                <button
-                    type="button"
-                    name="role"
-                    value="Instructor"
-                    onClick={changeHandler}
-                    className='w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
+                            <button
+                                type="button"
+                                name="role"
+                                value="Instructor"
+                                onClick={changeHandler}
+                                className='w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
       bg-blue-500 text-black 
       hover:scale-95 transition-all duration-200'
-                >
-                    Instructor
-                </button>
-            </div>
+                            >
+                                Instructor
+                            </button>
+                        </div>
 
-            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={submitHandler}>
+                        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={submitHandler}>
 
-                <div className='gap-3 flex flex-col'>
+                            <div className='gap-3 flex flex-col'>
 
-                    <label className={labelInputStyle}>
-                        <p>First Name </p>
-                        <input className={inputStyle}
-                            type="text"
-                            name='firstName'
+                                <label className={labelInputStyle}>
+                                    <p>First Name </p>
+                                    <input className={inputStyle}
+                                        type="text"
+                                        name='firstName'
 
-                            value={formData.firstName}
-                            onChange={changeHandler}
-                            placeholder='Enter your first Name'
-                        />
-                    </label>
+                                        value={formData.firstName}
+                                        onChange={changeHandler}
+                                        placeholder='Enter your first Name'
+                                    />
+                                </label>
 
-                    <label className={labelInputStyle}>
-                        <p>Last Name </p>
-                        <input className={inputStyle}
-                            type="text"
-                            name='lastName'
+                                <label className={labelInputStyle}>
+                                    <p>Last Name </p>
+                                    <input className={inputStyle}
+                                        type="text"
+                                        name='lastName'
 
-                            value={formData.lastName}
-                            onChange={changeHandler}
-                            placeholder='Enter your last Name'
-                        />
-                    </label>
+                                        value={formData.lastName}
+                                        onChange={changeHandler}
+                                        placeholder='Enter your last Name'
+                                    />
+                                </label>
 
 
 
-                    {/* email */}
-                    <label className={labelInputStyle}>
-                        <p>Email</p>
-                        <input className={inputStyle}
-                            type="email"
-                            name='email' // if i  made this required , browser will thow its own error ..
+                                {/* email */}
+                                <label className={labelInputStyle}>
+                                    <p>Email</p>
+                                    <input className={inputStyle}
+                                        type="email"
+                                        name='email' // if i  made this required , browser will thow its own error ..
 
-                            value={formData.email}
-                            onChange={changeHandler}
-                            placeholder='Enter your email'
-                        />
-                    </label>
+                                        value={formData.email}
+                                        onChange={changeHandler}
+                                        placeholder='Enter your email'
+                                    />
+                                </label>
 
-                    {/* password */}
-                    <label className={labelInputStyle}>
-                        <p>Password </p>
-                        <input className={inputStyle}
-                            type="password"
-                            name='password'
+                                {/* password */}
+                                <label className={labelInputStyle}>
+                                    <p>Password </p>
+                                    <input className={inputStyle}
+                                        type="password"
+                                        name='password'
 
-                            value={formData.password}
-                            onChange={changeHandler}
-                            placeholder='Enter your password'
-                        />
-                    </label>
+                                        value={formData.password}
+                                        onChange={changeHandler}
+                                        placeholder='Enter your password'
+                                    />
+                                </label>
 
-                    {/* confirm password */}
-                    <label className={labelInputStyle}>
-                        <p>Confirm Password </p>
-                        <input className={inputStyle}
-                            type="password"
-                            name='confirmPassword'
+                                {/* confirm password */}
+                                <label className={labelInputStyle}>
+                                    <p>Confirm Password </p>
+                                    <input className={inputStyle}
+                                        type="password"
+                                        name='confirmPassword'
 
-                            value={formData.confirmPassword}
-                            onChange={changeHandler}
-                            placeholder='Confirm your password'
-                        />
-                    </label>
-                    <p className='text-slate-400  -mt-5 text-sm'>Already have a account?<Link className='text-slate-400 ml-2 underline' to={"/login"}>login</Link></p>
-                </div>
+                                        value={formData.confirmPassword}
+                                        onChange={changeHandler}
+                                        placeholder='Confirm your password'
+                                    />
+                                </label>
+                                <p className='text-slate-400  -mt-5 text-sm'>Already have a account?<Link className='text-slate-400 ml-2 underline' to={"/login"}>login</Link></p>
+                            </div>
 
-                <div className='mt-5  w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
+                            <div className='mt-5  w-fit text-center px-6 py-3 rounded-md font-bold text-[13px]
        bg-blue-500 text-black
       hover:scale-95 transition-all duration-200'>
-                    <button type="submit">
-                        Create Account
-                    </button>
-                </div>
+                                <button type="submit">
+                                    Create Account
+                                </button>
+                            </div>
 
-            </form>
-            
-            </>)}
+                        </form>
+
+                    </>)}
         </div>
     )
 }

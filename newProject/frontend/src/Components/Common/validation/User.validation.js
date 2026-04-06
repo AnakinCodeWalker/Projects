@@ -25,19 +25,14 @@ export const signupInput = z.object({
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
         .max(64, { message: "Password must be at most 64 characters long" }),
-        
+
 
     confirmPassword: z
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
         .max(64, { message: "Password must be at most 64 characters long" }),
-        
 
-    // otp: z.string({ message: "otp must be string" })
-    //     .min(6, { message: "otp  length must be of 6 digits" })
-    //     .max(6, { message: "otp  length must be of 6 digits" }),
 
-    // contactNumber: z.string(),
 
     role: z.enum(["Student", "Admin", "Instructor"]).optional(),
 
@@ -49,7 +44,7 @@ export const signinInput = z.object({
     email: z
         .string()
         .trim()
-         .min(1, { message: "Email is required" })
+        .min(1, { message: "Email is required" })
         .email({ message: "Invalid email address" }),
 
     password: z
@@ -57,7 +52,7 @@ export const signinInput = z.object({
         .min(6, { message: "Password must be at least 6 characters long" })
         .max(64, { message: "Password must be at most 64 characters long" })
 
-        
+
 })
 
 export const changePasswordInput = z.object({
@@ -72,17 +67,17 @@ export const changePasswordInput = z.object({
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
         .max(64, { message: "Password must be at most 64 characters long" }),
-        
+
 
     newPassword: z
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
         .max(64, { message: "Password must be at most 64 characters long" }),
-       
+
 
     confirmNewPassword: z
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
         .max(64, { message: "Password must be at most 64 characters long" })
-        
+
 })

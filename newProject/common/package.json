@@ -1,0 +1,25 @@
+{
+  "name": "anakincodewalker",
+  "version": "1.0.1",
+  "description": "zod validation for my course app",
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "zod": "^4.3.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "AnakinCodeWalker"
+  },
+  "keywords": [
+    "[\"AnakinCodeWalker\"",
+    "\"StudyNotion\"",
+    "\"zod",
+    "validation\"]"
+  ],
+  "author": "AnakinCodeWalker",
+  "license": "ISC"
+}

@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "anakincodewalker": "^1.0.1",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
     "cookie-parser": "^1.4.7",
@@ -24,8 +25,7 @@
     "nodemailer": "^8.0.1",
     "otp-generator": "^4.0.1",
     "path": "^0.12.7",
-    "razorpay": "^2.9.6",
-    "zod": "^4.3.6"
+    "razorpay": "^2.9.6"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
