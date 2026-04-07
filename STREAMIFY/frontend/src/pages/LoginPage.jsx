@@ -26,10 +26,12 @@ const LoginPage = () => {
           queryKey: ["authUser"]
         })
         
+        toast.success("user logged in")
     },
 
     onError: (error) => {
-      toast.error(error.response.data.message)
+       return toast.error(error?.response?.data?.message || "something went wrong")
+      // console.log(error.response.data.message)
     },
   })
   const submitHandler = (e) => {
@@ -63,6 +65,7 @@ const LoginPage = () => {
               </span>
             </div>
           )}
+
           <div className='w-full'>
             <form onSubmit={submitHandler}>
 
