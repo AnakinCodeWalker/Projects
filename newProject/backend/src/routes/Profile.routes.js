@@ -19,7 +19,7 @@ profileRouter.route("/details").get(authMiddleware,getProfileDetails)
 //user want to partiall update so patch
 profileRouter.route("/update").patch(authMiddleware,updateProfile)
 
-profileRouter.route("/enrolledCourse").post(authMiddleware,getEnrolledCourses)
+profileRouter.route("/enrolledCourse").get(authMiddleware,getEnrolledCourses)
 
 profileRouter.route("/delete").post(authMiddleware,deleteProfile)
 
