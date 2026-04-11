@@ -11,7 +11,7 @@ export const getAuthUser = async () => {
         try {
                 const response = await axiosInstance.get("/api/v1/auth/me")
 
-                return response.data
+                return response?.data?.data?.user
         } catch (error) {
 
                 console.log(error);
@@ -27,14 +27,38 @@ export const completeOnBoarding = async (formState) => {
 }
 
 export const login = async (loginData) => {
-        const response = axiosInstance.post("/api/v1/auth/login", loginData)
+        const response = await axiosInstance.post("/api/v1/auth/login", loginData)
         return response.data
 }
 
 export const logout = async () => {
-        const response = axiosInstance.post("/api/v1/auth/logout")
+        const response =  await axiosInstance.post("/api/v1/auth/logout")
         return response.data
 }
+
+export const getUserFriends = async () => {
+        const response =  await axiosInstance.get("/api/v1/users/friends")
+        return response.data
+}
+
+
+export const getRecommendedFriends = async () => {
+        const response =  await axiosInstance.get("/api/v1/users")
+        return response.data
+}
+
+export const getOutgoingFriendReqs = async () => {
+        const response =  await axiosInstance.get("/api/v1/users/outgoing-friend-requests")
+        return response.data
+}
+
+
+
+export const sendFriendRequest = async (userId) => {
+        const response =  await axiosInstance.post(`/api/v1/users/friend-requests/${userId}`)
+        return response.data
+}
+
 /*
 handleSignup trigger hua
         ↓
