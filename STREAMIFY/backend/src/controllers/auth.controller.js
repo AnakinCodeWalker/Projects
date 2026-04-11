@@ -99,7 +99,7 @@ const login = asyncHandler(async (req, res) => {
   const foundUser = await User.findOne({ email })
 
   if (!foundUser)
-    throw new ApiError(400, "Invalid email")
+    throw new ApiError(400, "user does not exists")
 
   const isPasswordCorrect = await foundUser.isPasswordCorrect(password)
 
