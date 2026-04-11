@@ -3,6 +3,8 @@ import cors from "cors"
 const app = express()
 import authRoutes from "./routes/auth.route.js"
 import userRoutes from "./routes/User.route.js"
+import chatRoutes from "./routes/Chat.routes.js"
+
 import errorMiddleware from "./middlewares/errorMiddleware.js"
 import cookieParser from "cookie-parser"
 import helmet from "helmet"
@@ -32,6 +34,7 @@ app.use(helmet())
 
 app.use("/api/v1/auth",authRoutes)
 app.use("/api/v1/user",userRoutes)
+app.use("/api/v1/chat",chatRoutes)
 
 app.use(errorMiddleware)
 export default app
