@@ -8,11 +8,12 @@ import toast from "react-hot-toast";
 import { useQueryClient } from '@tanstack/react-query';
 import { CameraIcon, ShuffleIcon, MapPinIcon, ShipWheelIcon, LoaderIcon } from 'lucide-react';
 import { LANGUAGES } from '../Constants';
+import {  useNavigate } from 'react-router';
 const OnBoardingPage = () => {
 
   const { authUser } = useAuthUser()
 
-
+const navigate = useNavigate()
   const queryClient = useQueryClient();
 
   //{/* we are taking things from the authUser  so when we go to authUser page we will see firstName etc data */}
@@ -29,16 +30,21 @@ const OnBoardingPage = () => {
 
   const { mutate: onBoardingMutation,
     isPending,
-  } = useMutation({
-    mutationFn: completeOnBoarding,
+  } = useMutation({ // if u want to pass some args pass it like this  iniside  arrow function
+    mutationFn: (formState)=>completeOnBoarding(formState),
     onSuccess: () => {
       toast.success("Profile onBoarded successFully");
       setTimeout(() => {
         queryClient.invalidateQueries({ queryKey: ["authUser"] });
       }, 500);
+
+      setTimeout(()=>{
+ navigate("/")
+      },900)
+     
     },
     onError: (error) => {
-      toast.error(error.response.data.message)
+      toast.error(error?.response?.data?.message || "Something went wrong")
     }
   });
 

@@ -217,3 +217,8 @@ cls
 //  NOTE : if your api has no limits u can not use this hook  
 
 */
+
+
+/*
+revisit the home page and  protected routes
+*/ 

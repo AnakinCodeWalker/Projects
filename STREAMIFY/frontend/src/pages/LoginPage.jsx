@@ -6,6 +6,7 @@ import { Link } from 'react-router'
 import { toast } from "react-hot-toast";
 const LoginPage = () => {
 
+  console.log();
   const [loginData, setLoginData] = useState({
     email: " ",
     password: "",

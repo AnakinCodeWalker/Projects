@@ -26,6 +26,11 @@ const App = () => {
   console.log(isLoading);
   // console.log(error);
 
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
   const isAuthenticated = Boolean(authUser)
 
   const isOnboarded = authUser?.isOnboarded
@@ -36,39 +41,37 @@ const App = () => {
       {/* “Protected Route” concepts */}
       {/* “We fetch the current user from backend using /auth/me. If user exists, allow access; otherwise redirect to login.” */}
 
-      <Route path="/" element={isAuthenticated && isOnboarded ?
-        (
-
-          <Layout showSideBar={true}>
-            <HomePage />
-          </Layout>
-        )
-        :
-        (<Navigate to={
-          !isAuthenticated ? ("/login")
-            : ("/onboarding")
-        } />)
-      }> </Route>
-
+      <Route
+        path="/"
+        element={
+          isAuthenticated && isOnboarded ? (
+            <Layout showSideBar={true}>
+              <HomePage />
+            </Layout>
+          ) : (
+            <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+          )
+        }
+      />
 
       <Route
         path="/signup"
         element={
-          !isAuthenticated ? <SignupPage /> : <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+          !isAuthenticated ? (<SignupPage />) : !isOnboarded ? (<Navigate to={"/onboarding"} />) : (<Navigate to={"/"} />)
         }
       />
       <Route
         path="/login"
         element={
-          !isAuthenticated ? <LoginPage /> : <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+          !isAuthenticated ? <LoginPage /> : !isOnboarded ? <Navigate to={"/onboarding"} /> : <Navigate to={"/"} />
         }
       />
 
-      <Route path="/notification" element={isAuthenticated ? <NotificationPage /> : <Navigate to="/signup" />}></Route>
+      <Route path="/notifications" element={isAuthenticated && isOnboarded ? <NotificationPage /> : !isAuthenticated ? <Navigate to="/login" /> : <Navigate to={"/onboarding"} />}></Route>
 
       <Route path="/call" element={isAuthenticated ? <CallPage /> : <Navigate to="/login" />}></Route>
 
-      <Route path="/chat" element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />}></Route>
+      <Route path="/chat/:id" element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />}></Route>
 
       <Route path="/onboarding" element={<OnBoardingPage />} ></Route>
 

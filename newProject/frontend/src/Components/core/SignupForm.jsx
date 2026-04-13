@@ -106,8 +106,8 @@ const SignupForm = () => {
             {
                 loading ? (<div className=" overflow-y-hidden overflow-x-hidden  bg-black  h-screen w-full flex items-center justify-center">
                     <Loader2 className="animate-spin  w-[40%] h-[40%]  " />
-                </div>) :
-
+                </div>
+                ) :
                     (<>
 
                         <div className="flex flex-row ml-5 gap-5">

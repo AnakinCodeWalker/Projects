@@ -42,11 +42,12 @@ const Navbar = () => {
           </div>
 
           {/* TODO */}
-          <ThemeSelector />
+          {/* <ThemeSelector /> */}
 
           <div className="avatar">
             <div className="w-9 rounded-full">
               <img src={authUser?.profilePic} alt="User Avatar" rel="noreferrer" />
+              {console.log("profile pic" ,authUser.profilePic)}
             </div>
           </div>
 

@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { ShipWheelIcon } from "lucide-react";
-import { Link } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { signup } from "../lib/api";
 // import useSignUp from "../hooks/useSignUp";
-import { useMutation ,useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+
+
 const SignUpPage = () => {
+
+  const navigate = useNavigate()
   const [signupData, setSignupData] = useState({
     fullName: "",
     email: "",
@@ -22,22 +26,26 @@ const SignUpPage = () => {
     error,
   } = useMutation({
     mutationFn: signup,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["authUser"] })
+
+      navigate("/login")
+    },
   });
   // This is how we did it using our custom hook - optimized version
   // const { isPending, error, signupMutation } = useSignUp();
 
   // const navigate = useNavigate()
   const handleSignup = (e) => {
-   try {
-     e.preventDefault(); // signupData
-     signupMutation(signupData);  // yeh mutate fn mai ja rha hai.
-  // signupMutation(signupData)  == internally singup function call hua 
-  // signup function api call krta hai 
-   } catch (error) {
-    console.log(error);
-     toast.error("signup failed")
-   }
+    try {
+      e.preventDefault(); // signupData
+      signupMutation(signupData);  // yeh mutate fn mai ja rha hai.
+      // signupMutation(signupData)  == internally singup function call hua 
+      // signup function api call krta hai 
+    } catch (error) {
+      console.log(error);
+      toast.error("signup failed")
+    }
   };
 
   return (

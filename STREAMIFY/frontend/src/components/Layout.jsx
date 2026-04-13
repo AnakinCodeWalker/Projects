@@ -1,12 +1,13 @@
 
 import SideBar from './SideBar'
 import NavBar from './NavBar'
+
 const Layout = ({ children, showSideBar = false }) => {
     return (
         <div className='min-h-screen'>
             <div className='flex'>
                 {
-                    showSideBar && (<SideBar />)
+                    showSideBar && <SideBar />
                 }
 
                 <div className="flex  flex-1 flex-col">

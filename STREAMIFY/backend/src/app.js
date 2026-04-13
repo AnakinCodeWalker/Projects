@@ -33,7 +33,7 @@ app.use(helmet())
 // http://localhost:3000/api/v1/auth
 
 app.use("/api/v1/auth",authRoutes)
-app.use("/api/v1/user",userRoutes)
+app.use("/api/v1/users",userRoutes)
 app.use("/api/v1/chat",chatRoutes)
 
 app.use(errorMiddleware)

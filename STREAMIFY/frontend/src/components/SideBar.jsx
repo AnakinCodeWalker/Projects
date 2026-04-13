@@ -1,6 +1,7 @@
-import { useLocation } from "react-router"
+import { useLocation, Link } from "react-router"
 import useAuthUser from "../hooks/useAuthUser"
 import { BellIcon, HomeIcon, ShipWheelIcon, UserIcon } from "lucide-react"
+
 const SideBar = () => {
     const { authUser } = useAuthUser()
 
@@ -23,26 +24,25 @@ const SideBar = () => {
             <Link to="/"
                 className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${currentPath === "/" ? "btn-active" : ""}`}
             >
-                <HomeIcon className="size-5 text-base-content opacity-70">
-                    <span> Home</span>
-                </HomeIcon>
+                <HomeIcon className="size-5 text-base-content opacity-70" />
+
+                <span> Home</span>
+
             </Link>
 
             <Link to="/friends"
                 className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${currentPath === "/friends" ? "btn-active" : ""}`}
             >
-                <UserIcon className="size-5 text-base-content opacity-70">
-                    <span> friends</span>
-                </UserIcon>
+                <UserIcon className="size-5 text-base-content opacity-70" />
+                <span> Friends</span>
             </Link>
 
 
             <Link to="/notifications"
                 className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${currentPath === "/notifications" ? "btn-active" : ""}`}
             >
-                <BellIcon className="size-5 text-base-content opacity-70">
-                    <span> Notifications</span>
-                </BellIcon>
+                <BellIcon className="size-5 text-base-content opacity-70" />
+                <span> Notifications</span>
             </Link>
 
 
@@ -58,8 +58,8 @@ const SideBar = () => {
                     </div>
                 </div>
                 <div className="flex-1">
-                    <p className="font-semibold text-sm">{authUser?.fullName}</p>
-                    <p className="text-xs text-success flex items-center gap-1">
+                    {/* <p className="font-semibold text-sm truncate">{authUser?.fullName}</p> */}
+                    <p className="mt-3 text-xs text-success flex items-center gap-1">
                         <span className="size-2 rounded-full bg-success inline-block" />
                         Online
                     </p>

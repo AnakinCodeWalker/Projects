@@ -5,7 +5,8 @@ import{
     getMyFriends,
     sendFriendRequest,
     getFriendRequest,
-    acceptFriendRequest
+    acceptFriendRequest,
+    getOutgoingFriendRequest
 } from "../controllers/User.controller.js"
 const router  = Router()
 
