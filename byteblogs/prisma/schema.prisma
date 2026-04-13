@@ -12,3 +12,48 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id          String     @id @default(cuid()) // why not uuid ?
+  clerkUserId String     @unique
+  email       String     @unique
+  name        String
+  imageUrl    String?
+  articles    Articles[]
+  comments    Comment[]
+  likes       Likes[]
+}
+
+model Articles {
+  id            String    @id @default(cuid())
+  title         String
+  content       String
+  category      String
+  featuredImage String
+  author        User      @relation(fields: [authorId], references: [id])
+  authorId      String
+  comment       Comment[]
+  like          Likes[]
+  createdAt     DateTime  @default(now())
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  body      String
+  author    User?     @relation(fields: [authorId], references: [id])
+  authorId  String?
+  articles  Articles? @relation(fields: [articleId], references: [id])
+  articleId String?
+  createdAt DateTime  @default(now())
+}
+
+model Likes {
+  id        String    @id @default(cuid())
+  user      User?     @relation(fields: [userId], references: [id])
+  userId    String?
+  articles  Articles? @relation(fields: [articleId], references: [id])
+  articleId String?
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, articleId]) // article mai sirf user id 1 hi bar hona chahiye 
+}
