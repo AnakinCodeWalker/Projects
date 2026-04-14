@@ -62,10 +62,10 @@ const EnrolledCourses = () => {
                       <div key={course._id}>
 
                         <div>
-                          <img src={course.thumbnail} alt="" />
+                          <img src={course?.thumbnail} alt="" />
                           <div>
-                            <p>{course.courseName}</p>
-                            <p>{course.courseDescription}</p>
+                            <p>{course?.courseName}</p>
+                            <p>{course?.courseDescription}</p>
                           </div>
                         </div>
 
@@ -77,7 +77,7 @@ const EnrolledCourses = () => {
                           <p>Progress : {course?.progressPercentage || 0}%</p>
 
                           <ProgressBar
-                            completed={course.progressPercentage || 0}
+                            completed={course?.progressPercentage || 0}
                             isLabelVisible={false}
                             height={8}
                             color="#FFC107"
