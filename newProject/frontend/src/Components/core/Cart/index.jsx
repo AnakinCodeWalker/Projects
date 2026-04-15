@@ -1,9 +1,9 @@
-import auth from "../../../slices/authSlice"
+// import auth from "../../../slices/authSlice"
 import RenderCartComponent from "./RenderCartCourses"
 import RenderTotalAmount from "./RenderTotalAmount"
 
 import { useSelector } from "react-redux"
-export default function cart() {
+export default function Cart() {
 
 
     const { total, totaitems } = useSelector((state) => (state.auth))
@@ -23,8 +23,8 @@ export default function cart() {
                     ? (<div>
 
 
-<RenderCartComponent/>
-<RenderTotalAmount/>
+                        <RenderCartComponent />
+                        <RenderTotalAmount />
 
                     </div>)
                     : (<p>
