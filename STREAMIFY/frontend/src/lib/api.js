@@ -70,7 +70,7 @@ export const acceptFriendRequest = async (userId) => {
 }
 
 export const getStreamToken = async () => {
-        const response =  await axiosInstance.put(`/api/v1/chat/token`)
+        const response =  await axiosInstance.get(`/api/v1/chat/token`)
         return response.data
 }
 

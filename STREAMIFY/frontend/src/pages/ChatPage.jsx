@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import useAuthUser from '../hooks/useAuthUser'
-import { useQueries } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getStreamToken } from '../lib/api'
 import toast from 'react-hot-toast'
 import ChatLoader from '../components/ChatLoader'
@@ -28,11 +28,11 @@ const ChatPage = () => {
   const [channel, setChannel] = useState(null);
   const [loading, setLoading] = useState(true);
  
-  const STREAM_API_KEY = import.meta.env.STREAM_API_KEY
- 
+  // const STREAM_API_KEY = import.meta.env.STREAM_API_KEY
+const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY 
   const { authUser } = useAuthUser()
 
-  const { data: tokenData } = useQueries({
+  const { data: tokenData } = useQuery({
     queryKey: ["streamtoken"],
     queryFn: getStreamToken,
     enabled: !!authUser  // will only run the function if we have the authenticated user 
@@ -40,7 +40,7 @@ const ChatPage = () => {
   })
   useEffect(() => {
     const initChat = async () => {
-      if (!tokenData?.token || !authUser) return;
+      if (!tokenData?.data?.token || !authUser) return;
 
       try {
         console.log("Initializing stream chat client...");
@@ -49,11 +49,11 @@ const ChatPage = () => {
 
         await client.connectUser(
           {
-            id: authUser._id,
+            id: String(authUser._id),
             name: authUser.fullName,
             image: authUser.profilePic,
           },
-          tokenData.token
+          tokenData.data.token
         );
 
         //
