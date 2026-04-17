@@ -112,7 +112,7 @@ const sendFriendRequest = asyncHandler(async (req, res) => {
     })
 
     if (existingRequest)
-        throw  new ApiError(400, "A friend request is already in between you and user")
+        throw  new ApiError(400, "A friend request is already in between you and this user")
 
     const newFriendRequest  = await friendRequest.create({
         sender: userId,

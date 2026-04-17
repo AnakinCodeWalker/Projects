@@ -1,9 +1,9 @@
-  
-    public class Nto1 {
+
+public class Nto1 {
     public static void main(String[] args) {
 
         Nto1 obj = new Nto1();
-       
+
         // obj.printIncreasing(5);
         // System.out.println(obj.productNto1(5));
         // System.out.println(obj.sumNto1(5));
@@ -12,9 +12,12 @@
 
         // int[] arr = { 1, 1, 2, 1 };
         // System.out.println(obj.palindrome(arr, 0, arr.length - 1));
-      
-        System.out.println(obj.countZeros(1020203, 0));
-   
+
+        // System.out.println(obj.countZeros(1020203, 0));
+
+        String str = "abaccadad";
+     System.out.println(   obj.removeString(str, new StringBuilder(), 0));
+
     }
 
     int count = 0;
@@ -106,6 +109,20 @@
 
     }
 
+    // "baccad"
+    public String removeString(String str, StringBuilder newStr, int index) {
+
+        if (index > str.length() - 1) {
+            return newStr.toString();
+        }
+        char rem = 'a';
+      
+        if (str.charAt(index) != rem) {
+            newStr.append(str.charAt(index));
+        }
+
+        return removeString(str, newStr, index + 1);
+
+    }
+
 }
-
-
