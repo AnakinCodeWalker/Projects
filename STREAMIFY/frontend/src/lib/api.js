@@ -69,6 +69,11 @@ export const acceptFriendRequest = async (userId) => {
         return response.data
 }
 
+export const getStreamToken = async () => {
+        const response =  await axiosInstance.put(`/api/v1/chat/token`)
+        return response.data
+}
+
 /*
 handleSignup trigger hua
         ↓
