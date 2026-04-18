@@ -1,11 +1,12 @@
 //  add a global d.ts for userId 
 
 import { NextFunction, Request, Response } from "express"
-import jwt  from "jsonwebtoken"
+import jwt, { JwtPayload }  from "jsonwebtoken"
  
 
 import { env } from "../config/env.config.js"
 import { ApiError } from "./ApiError.js"
+import { prisma } from "@repo/db/client"
 
 
 const authMiddleware = async(req:Request,res:Response,next : NextFunction)=>{
@@ -19,9 +20,13 @@ const authMiddleware = async(req:Request,res:Response,next : NextFunction)=>{
 
     }
     
-    const decodedToken = jwt.verify(token ,env.JWT_SECRET_KEY)
+    const decodedToken = jwt.verify(token ,env.JWT_SECRET_KEY) as JwtPayload
     
-    const user = await User.findById(decodedToken?._id)
+    const user = await prisma.user.findFirst({
+        where:{
+            id :decodedToken.userId
+        }
+    })
     
     if(!user)
         throw new ApiError(401 ,"Invalid access token")
