@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ApiResponse } from "../utils/ApiResponse";
-import { signinInput, signinInputType, signupInput, signupInputType } from "../validation/userValidation";
+import { createRoomInput, createRoomInputType, signinInput, signinInputType, signupInput, signupInputType } from "@repo/common/types";
 import jwt from "jsonwebtoken";
 import { env } from "../config/env.config";
 import { ApiError } from "../utils/ApiError";
@@ -13,10 +13,10 @@ export const signup = async (req: Request<{}, {}, signupInputType, {}>, res: Res
     if (!result.success)
         throw new ApiError(304, "Invalid inputs", result.error.issues)
 
-    const {email,password } = result.data
+    const { username, name, password } = result.data
 
-    const hashedPassword = await bcrypt.hash(password,10)
-    
+    const hashedPassword = await bcrypt.hash(password, 10)
+
     const user = "213"
 
 
@@ -32,18 +32,18 @@ export const signin = async (req: Request<{}, {}, signinInputType, {}>, res: Res
     if (!result.success)
         throw new ApiError(304, "Invalid inputs", result.error.issues)
 
-    const {email,password } = result.data
+    const { username, password } = result.data
 
     // find user
     const user = 123
-    
-    const passwordCorrect  = bcrypt.compare(password,) 
-    
 
-    const userId = 1
+    const passwordCorrect = bcrypt.compare(password,)
+
+
+    // const userId = 1
 
     const token = jwt.sign({
-        userId,
+        userId : 1,
     }, env.JWT_SECRET_KEY)
 
 
@@ -56,7 +56,14 @@ export const signin = async (req: Request<{}, {}, signinInputType, {}>, res: Res
     }))
 }
 
-export const room = async (req: Request, res: Response): Promise<void> => {
+export const room = async (req: Request<{}, {}, createRoomInputType, {}>, res: Response): Promise<void> => {
+
+    const result = createRoomInput.safeParse(req.body)
+
+    if (!result.success)
+        throw new ApiError(400, "Invlalid Inputs", result.error.issues)
+
+    const { name } = result.data
 
     const createdRoom = 124;
 
