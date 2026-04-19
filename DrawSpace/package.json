@@ -1,5 +1,5 @@
 {
-  "name": "DrawSpace",
+  "name": "@repo/drawspace",
   "private": true,
   "scripts": {
     "build": "turbo run build",
