@@ -2,12 +2,13 @@ import express, { Express, urlencoded } from "express"
 import cors , { CorsOptions } from "cors"
 import cookieParser from "cookie-parser"
 import { env } from "./config/env.config"
+import userRoutes from "./routes/User.route"
 const app: Express = express()
 
 
 
 app.use(
-    express.urlencoded({
+    urlencoded({
     extended:true,
     limit:'16kb'
 })
@@ -27,5 +28,5 @@ app.use(cors({
 
 app.use(cookieParser())
 
-// app.use("",someRouter)
+app.use("/api/v1/users",userRoutes)
 export default app

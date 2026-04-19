@@ -1,11 +1,13 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
+
+
 
 model User {
 
@@ -45,3 +47,4 @@ model Chat {
   room    Room   @relation(references: [id], fields: [roomId])
 
 }
+

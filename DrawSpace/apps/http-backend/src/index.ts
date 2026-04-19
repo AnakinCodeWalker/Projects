@@ -2,7 +2,7 @@ import app from "./app";
 
 try {
 
-    app.listen(3000, () => "started on port 3000")
+        app.listen(3000, () => console.log("started on port 3000"))
 
 } catch (e) {
 
