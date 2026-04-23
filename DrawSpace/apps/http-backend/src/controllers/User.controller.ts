@@ -131,3 +131,28 @@ export const room = async (req: Request<{}, {}, createRoomInputType, {}>, res: R
         createdRoom
     }))
 }
+
+export const chats = async (req: Request, res: Response): Promise<void> => {
+
+    try {
+
+        const roomId = Number(req.params.roomId)
+
+
+        const messages = await prisma.chat.findMany({
+            where: {
+                roomId: roomId
+            }, take: 50,
+            orderBy: {
+                id: "desc"
+            }
+        })
+
+        res.status(200).json(new ApiResponse(200, "chat joined successfully", {
+            messages
+        }))
+    } catch (error) {
+        if (error instanceof Error) // api error expects an array of error
+            throw new ApiError(400, "some went wrong", [error.message])
+    }
+}
