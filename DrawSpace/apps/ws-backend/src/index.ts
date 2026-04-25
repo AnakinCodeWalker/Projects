@@ -2,6 +2,7 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { WebSocketServer, WebSocket } from "ws";
 import { env } from "./config/env.config";
+import { prisma } from "@repo/db"
 
 // in future use a map to iterate on the ws 
 
@@ -34,7 +35,7 @@ function checkUser(token: string): null | string {
     }
 }
 
-wss.on('connection', (ws, request) => {
+wss.on('connection',  (ws, request) => {
 
     const url = request.url
 
@@ -68,7 +69,7 @@ wss.on('connection', (ws, request) => {
         ws
     })
 
-    ws.on("message", (data) => {
+    ws.on("message",async  (data) => {
         // lets  u convert string object into normal js  object  
         const parsedData = JSON.parse(data as unknown as string)
 
@@ -87,8 +88,16 @@ wss.on('connection', (ws, request) => {
 
         if (parsedData.type === "chat") {
             const roomId = parsedData.roomId;
-            const message = parsedData.message
+             const message = parsedData.message
 
+            // before u broadcast put this into db 
+await prisma.chat.create({
+    data:{
+        message,
+        userId,
+        roomId
+    }
+})
             users.forEach(user => {
                 if (user.rooms.includes(roomId)) {
 
