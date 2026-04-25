@@ -156,3 +156,28 @@ export const chats = async (req: Request, res: Response): Promise<void> => {
             throw new ApiError(400, "some went wrong", [error.message])
     }
 }
+
+export const slug = async (req: Request, res: Response): Promise<void> => {
+
+    try {
+
+        const slug = req.params.slug
+
+        if (!slug || typeof slug !== "string")
+            throw new ApiError(400, "Invlaid slug")
+
+        // if(typeof slug === Array)
+        const room = await prisma.room.findFirst({
+            where: {
+                slug
+            }
+        })
+
+        res.status(200).json(new ApiResponse(200, "chat joined successfully", {
+            room
+        }))
+    } catch (error) {
+        if (error instanceof Error) // api error expects an array of error
+            throw new ApiError(400, "some went wrong", [error.message])
+    }
+}

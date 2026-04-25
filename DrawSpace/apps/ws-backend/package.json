@@ -12,7 +12,8 @@
     "dotenv": "^17.4.2",
     "jsonwebtoken": "^9.0.3",
     "ws": "^8.20.0",
-    "@repo/common" : "workspace:*"
+    "@repo/common" : "workspace:*",
+    "@repo/db" : "workspace:*"
   },
   "keywords": [],
   "author": "",
