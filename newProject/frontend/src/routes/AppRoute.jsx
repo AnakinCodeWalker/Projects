@@ -13,6 +13,7 @@ import Layout from "./Layout.jsx";
 import Setting from "../Pages/Setting.jsx";
 import UpdatePassword from "../Pages/UpdatePassword.jsx";
 import EnrolledCourses from "../Components/core/DashboardPage/EnrolledCourses.jsx";
+import AddCourse from "../Components/core/DashboardPage/AddCourse/index.jsx";
 // import MyProfile from "../Components/core/DashboardPage/MyProfile.jsx";
 
 const AppRoute = () => {
@@ -46,6 +47,7 @@ const AppRoute = () => {
                         <Route path="cart"  element={<div className="text-white text-3xl mx-auto"> Enorlled courses in the cart create the page and file</div>} />
 
                         <Route path="settings" element={<Setting/>} />
+                        <Route path="add-course" element={<AddCourse/>} />
 
                     </Route>
                     
