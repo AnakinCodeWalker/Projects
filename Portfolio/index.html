@@ -1,13 +1,320 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>portfolio</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Prince Kumar - Full Stack Developer portfolio focused on MERN, backend engineering, APIs, and real-time web applications.">
+  <title>Prince Kumar | Full Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Prince Kumar home">PK</a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="Prince_Kumar_Resume.pdf">Resume</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>Prince Kumar</h1>
+        <p class="hero-text">
+          I build MERN applications, authentication systems, REST APIs, and real-time web products with React, Node.js,
+          MongoDB, Docker, and clean backend architecture. I learn by building, breaking, debugging, and improving.
+        </p>
+        <div class="hero-actions" aria-label="Primary actions">
+          <a class="button primary" href="#projects">View projects</a>
+          <a class="button secondary" href="Prince_Kumar_Resume.pdf">Resume</a>
+          <a class="button secondary" href="mailto:parag31ja@gmail.com">Hire me</a>
+          <a class="button secondary" href="https://github.com/AnakinCodeWalker/">GitHub</a>
+          <a class="button secondary" href="https://www.linkedin.com/in/princekumar3111">LinkedIn</a>
+          <a class="button secondary" href="https://leetcode.com/prince31ja">LeetCode</a>
+        </div>
+      </div>
+      <aside class="hero-panel" aria-label="Profile summary">
+        <div>
+          <span class="metric">0-1 yr</span>
+          <span class="label">building full stack projects</span>
+        </div>
+        <div>
+          <span class="metric">30+</span>
+          <span class="label">students mentored at ACM HIT</span>
+        </div>
+        <div>
+          <span class="metric">40%</span>
+          <span class="label">engagement boost in chapter work</span>
+        </div>
+        <div>
+          <span class="metric">806</span>
+          <span class="label">LinkedIn followers and growing developer network</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="intro section-band reveal">
+      <div class="section-heading">
+        <p class="eyebrow">About</p>
+        <h2>Building toward backend internships, junior developer roles, and freelance work.</h2>
+      </div>
+      <p>
+        I am a B.Tech IT student at Haldia Institute of Technology with a diploma in Computer Engineering. My work focuses
+        on practical web systems: authentication, payments, media uploads, real-time messaging, video calls, and APIs that
+        are understandable enough to maintain and extend. My GitHub profile says it well: learning by building, improving
+        by breaking.
+      </p>
+    </section>
+
+    <section id="projects" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Featured work</p>
+        <h2>Systems that show how I think through full stack problems.</h2>
+      </div>
+      <div class="project-grid">
+        <article class="project-showcase reveal">
+          <span class="project-number">01</span>
+          <div class="project-body">
+            <div class="project-topline">
+              <span>MERN EdTech</span>
+              <span>Full stack platform</span>
+            </div>
+            <h3>StudyNotion</h3>
+            <p class="project-summary">
+              A multi-role learning platform for course discovery, enrollment workflows, instructor dashboards, and
+              protected student experiences.
+            </p>
+            <ul class="details-list">
+              <li>Built authenticated course flows with REST APIs, protected routes, and MongoDB data models.</li>
+              <li>Separated frontend routes, UI components, service layers, and backend controllers for easier maintenance.</li>
+              <li>Implemented state-driven dashboard views for learners and course management workflows.</li>
+            </ul>
+          </div>
+          <div class="project-aside">
+            <div class="tag-row">
+              <span>React</span>
+              <span>Redux</span>
+              <span>Node.js</span>
+              <span>MongoDB</span>
+            </div>
+            <a class="project-cta" href="https://github.com/AnakinCodeWalker/Projects/tree/master/newProject">View GitHub</a>
+          </div>
+        </article>
+
+        <article class="project-showcase reveal">
+          <span class="project-number">02</span>
+          <div class="project-body">
+            <div class="project-topline">
+              <span>Real-time app</span>
+              <span>Communication system</span>
+            </div>
+            <h3>Streamify</h3>
+            <p class="project-summary">
+              A collaboration product with authenticated sessions, chat workflows, video meeting capabilities, and protected
+              backend APIs.
+            </p>
+            <ul class="details-list">
+              <li>Built frontend and backend services with Vite, React, Express, Mongoose, and Stream APIs.</li>
+              <li>Used React Query, Axios, routing, auth tokens, Helmet, Zod, and protected endpoints.</li>
+              <li>Organized the app around clear API boundaries and real-time user workflows.</li>
+            </ul>
+          </div>
+          <div class="project-aside">
+            <div class="tag-row">
+              <span>React</span>
+              <span>Stream SDK</span>
+              <span>React Query</span>
+              <span>JWT</span>
+              <span>MongoDB</span>
+            </div>
+            <a class="project-cta" href="https://github.com/AnakinCodeWalker/Projects/tree/master/STREAMIFY">View GitHub</a>
+          </div>
+        </article>
+
+        <article class="project-showcase reveal">
+          <span class="project-number">03</span>
+          <div class="project-body">
+            <div class="project-topline">
+              <span>Auth service</span>
+              <span>Backend API</span>
+            </div>
+            <h3>AuthSystem</h3>
+            <p class="project-summary">
+              An identity and access backend with email verification, access/refresh JWT lifecycle, secure password
+              handling, validation, and API documentation.
+            </p>
+            <ul class="details-list">
+              <li>Designed signup, email verification, login, refresh token, current user, and logout routes.</li>
+              <li>Used modular controllers, middleware, models, validation, utilities, and consistent error handling.</li>
+              <li>Documented security flows and API behavior for testing and technical discussion.</li>
+            </ul>
+          </div>
+          <div class="project-aside">
+            <div class="tag-row">
+              <span>Node.js</span>
+              <span>Express</span>
+              <span>JWT</span>
+              <span>Zod</span>
+              <span>Nodemailer</span>
+            </div>
+            <a class="project-cta" href="https://github.com/AnakinCodeWalker/Projects/tree/master/AuthSystem">View GitHub</a>
+          </div>
+        </article>
+      </div>
+      <div class="project-links">
+        <a class="text-link" href="https://github.com/AnakinCodeWalker/Projects">View full GitHub projects repository</a>
+      </div>
+    </section>
+
+    <section id="experience" class="section section-band reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Experience</p>
+        <h2>Campus leadership, open source practice, and remote web development.</h2>
+      </div>
+      <div class="timeline">
+        <article class="timeline-item reveal">
+          <span>Oct 2025 - Present</span>
+          <h3>Web Developer, ACM Student Chapter HIT</h3>
+          <p>Mentored 30+ students, improved engagement by 40%, and introduced Docker-based development practices.</p>
+        </article>
+        <article class="timeline-item reveal">
+          <span>Jan 2026 - Present</span>
+          <h3>Open Source Contributor, Open Source Connect</h3>
+          <p>Contributed to MERN projects while using Git, Agile collaboration, Docker, and practical issue-based workflows.</p>
+        </article>
+        <article class="timeline-item reveal">
+          <span>Aug 2025 - Jan 2026</span>
+          <h3>Web Development Intern, GAOTek Inc.</h3>
+          <p>Worked on WordPress updates, SEO improvements, and page speed optimization for web properties.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills" class="section skills-layout reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Skills</p>
+        <h2>Tools I use to build, ship, and debug web applications.</h2>
+      </div>
+      <div class="skill-groups">
+        <article>
+          <h3>Languages</h3>
+          <p>JavaScript, TypeScript, Java, Python, C</p>
+        </article>
+        <article>
+          <h3>Frontend</h3>
+          <p>React.js, HTML5, CSS3, Tailwind CSS</p>
+        </article>
+        <article>
+          <h3>Backend</h3>
+          <p>Node.js, Express.js, REST APIs, JWT, WebSockets</p>
+        </article>
+        <article>
+          <h3>Databases</h3>
+          <p>MongoDB, Mongoose, PostgreSQL, Prisma</p>
+        </article>
+        <article>
+          <h3>Dev tools</h3>
+          <p>Git, GitHub, Docker, VS Code, Postman, WSL</p>
+        </article>
+        <article>
+          <h3>Integrations</h3>
+          <p>Nodemailer, Stream SDK, WebRTC, bcrypt, JWT, Swagger</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-band credentials reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Education and certifications</p>
+        <h2>Current study backed by hands-on web development learning.</h2>
+      </div>
+      <div class="credential-grid">
+        <article>
+          <h3>Haldia Institute of Technology</h3>
+          <p>B.Tech in Information Technology, CGPA 8.0, 2024 - 2027 expected</p>
+        </article>
+        <article>
+          <h3>Government Polytechnic, Khutri</h3>
+          <p>Diploma in Computer Engineering, 75%, 2021 - 2024</p>
+        </article>
+        <article class="certification-panel">
+          <h3>Certifications</h3>
+          <div class="cert-grid">
+            <a class="cert-card verified" href="https://verify.skilljar.com/c/az6pocr7hxy2">
+              <span>Verified</span>
+              <strong>API Beginner Learning Path</strong>
+              <small>Postman Academy</small>
+            </a>
+            <a class="cert-card" href="https://ude.my/UC-06e6b2e8-4d7b-48d5-afc5-834d833d1284">
+              <span>Udemy</span>
+              <strong>Docker Containers</strong>
+              <small>Issued Feb. 1, 2026</small>
+            </a>
+            <a class="cert-card" href="https://media.geeksforgeeks.org/courses/certificates/14c3ed2b3b7ee4f94911761ee77e14f7.pdf">
+              <span>GFG</span>
+              <strong>Java Programming</strong>
+              <small>Certificate PDF</small>
+            </a>
+            <a class="cert-card" href="https://ude.my/UC-10d7cda6-6f2b-4768-9526-102ba23f0999">
+              <span>Udemy</span>
+              <strong>Prompt Engineering and Gen AI</strong>
+              <small>Issued Aug. 3, 2025</small>
+            </a>
+            <a class="cert-card" href="https://www.linkedin.com/in/princekumar3111/details/certifications/">
+              <span>LinkedIn</span>
+              <strong>Open Source Contribution Workshop</strong>
+              <small>Certification record</small>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="contact reveal">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2>Open to backend internships, junior developer roles, and freelance web work.</h2>
+      </div>
+      <div class="contact-actions">
+        <a class="button primary" href="mailto:parag31ja@gmail.com">Gmail</a>
+        <a class="button secondary" href="Prince_Kumar_Resume.pdf">Resume</a>
+        <a class="button secondary" href="tel:+916209673251">Contact</a>
+        <a class="button secondary" href="https://github.com/AnakinCodeWalker/">GitHub</a>
+        <a class="button secondary" href="https://github.com/AnakinCodeWalker/Projects">Projects</a>
+        <a class="button secondary" href="https://www.linkedin.com/in/princekumar3111">LinkedIn</a>
+      </div>
+      <p class="location">Haldia, West Bengal, India</p>
+    </section>
+
+    <footer class="signature-footer" aria-label="Portfolio signature">
+      <span>Designed, built, and signed by</span>
+      <strong>Prince Kumar</strong>
+    </footer>
+  </main>
+
+  <script>
+    const revealItems = document.querySelectorAll(".reveal");
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.16 });
+
+      revealItems.forEach((item) => observer.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+    }
+  </script>
+</body>
 </html>
