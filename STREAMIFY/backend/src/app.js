@@ -9,7 +9,7 @@ import chatRoutes from "./routes/Chat.routes.js"
 
 import errorMiddleware from "./middlewares/errorMiddleware.js"
 import cookieParser from "cookie-parser"
-import helmet from "helmet"
+// import helmet from "helmet"
 import env from "./config/env.config.js"
 // app.use(express.static("public")) // in case u want to files data in server.
 
@@ -33,7 +33,7 @@ app.use(express.static("public"))
 // to access cookie and token which will stored in here.
 // you can now access them into the req and res 
 app.use(cookieParser())
-app.use(helmet())
+// app.use(helmet())
 // http://localhost:3000/auth/v1/signup
 // http://localhost:3000/api/v1/auth
 
