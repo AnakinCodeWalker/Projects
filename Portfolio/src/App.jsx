@@ -180,9 +180,18 @@ export default function Portfolio() {
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">React</span>
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Redux</span>
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Node.js</span>
+                  <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Express.js</span>
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">MongoDB</span>
+
+                  <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Zod</span>
+
                 </div>
-                <a className="inline-flex w-fit min-h-[42px] items-center justify-center px-[14px] py-[10px] text-[#ffffff] font-extrabold bg-[#15171a] rounded-[8px] transition-all duration-180 hover:bg-[#0b4f4a] hover:-translate-y-[2px]" href="https://github.com/AnakinCodeWalker/Projects/tree/master/newProject">View GitHub</a>
+                <div className='flex gap-5'>
+                  <a className="inline-flex w-fit min-h-[42px] items-center justify-center px-[14px] py-[10px] text-[#ffffff] font-extrabold bg-[#15171a] rounded-[8px] transition-all duration-180 hover:bg-[#0b4f4a] hover:-translate-y-[2px]" href="https://github.com/AnakinCodeWalker/Projects/tree/master/newProject">Live Demo</a>
+
+                  <a className="inline-flex w-fit min-h-[42px] items-center justify-center px-[14px] py-[10px] text-[#ffffff] font-extrabold bg-[#15171a] rounded-[8px] transition-all duration-180 hover:bg-[#0b4f4a] hover:-translate-y-[2px]" href="https://github.com/AnakinCodeWalker/Projects/tree/master/newProject">View GitHub</a>
+
+                </div>
               </div>
             </article>
 
@@ -200,19 +209,27 @@ export default function Portfolio() {
                 </p>
                 <ul className="grid gap-[10px] my-[6px] mb-[22px] pl-[18px] text-[#5d6571] leading-[1.6]">
                   <li>Built frontend and backend services with Vite, React, Express, Mongoose, and Stream APIs.</li>
-                  <li>Used React Query, Axios, routing, auth tokens, Helmet, Zod, and protected endpoints.</li>
+                  <li>Used React Query, routing, auth tokens, Helmet, Zod, and protected endpoints.</li>
                   <li>Organized the app around clear API boundaries and real-time user workflows.</li>
                 </ul>
               </div>
               <div className="flex flex-col gap-[18px] justify-between pl-[clamp(0px,2vw,22px)] border-l border-[#d7dedb] max-[900px]:pl-0 max-[900px]:border-l-0 max-[900px]:border-t max-[900px]:pt-[18px]">
                 <div className="flex flex-wrap gap-[8px] mt-auto">
+                  <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Node.js</span>
+                  <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Express js</span>
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">React</span>
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Stream SDK</span>
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">React Query</span>
-                  <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">JWT</span>
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">MongoDB</span>
+                  <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Zod</span>
+                  <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">JWT</span>
+
                 </div>
-                <a className="inline-flex w-fit min-h-[42px] items-center justify-center px-[14px] py-[10px] text-[#ffffff] font-extrabold bg-[#15171a] rounded-[8px] transition-all duration-180 hover:bg-[#0b4f4a] hover:-translate-y-[2px]" href="https://github.com/AnakinCodeWalker/Projects/tree/master/STREAMIFY">View GitHub</a>
+                <div className='flex gap-5'>
+                  <a className="inline-flex w-fit min-h-[42px] items-center justify-center px-[14px] py-[10px] text-[#ffffff] font-extrabold bg-[#15171a] rounded-[8px] transition-all duration-180 hover:bg-[#0b4f4a] hover:-translate-y-[2px]" href="https://streamify-live.onrender.com/">Live Demo</a>
+                  <a className="inline-flex w-fit min-h-[42px] items-center justify-center px-[14px] py-[10px] text-[#ffffff] font-extrabold bg-[#15171a] rounded-[8px] transition-all duration-180 hover:bg-[#0b4f4a] hover:-translate-y-[2px]" href="https://github.com/AnakinCodeWalker/Projects/tree/master/STREAMIFY">View GitHub</a>
+
+                </div>
               </div>
             </article>
 
@@ -237,12 +254,19 @@ export default function Portfolio() {
               <div className="flex flex-col gap-[18px] justify-between pl-[clamp(0px,2vw,22px)] border-l border-[#d7dedb] max-[900px]:pl-0 max-[900px]:border-l-0 max-[900px]:border-t max-[900px]:pt-[18px]">
                 <div className="flex flex-wrap gap-[8px] mt-auto">
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Node.js</span>
-                  <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Express</span>
+                  <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Express.js</span>
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">JWT</span>
+                  <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">bcrypt</span>
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Zod</span>
                   <span className="px-[10px] py-[7px] text-[#0b4f4a] text-[0.82rem] font-bold bg-[#e4f1ee] rounded-full">Nodemailer</span>
                 </div>
-                <a className="inline-flex w-fit min-h-[42px] items-center justify-center px-[14px] py-[10px] text-[#ffffff] font-extrabold bg-[#15171a] rounded-[8px] transition-all duration-180 hover:bg-[#0b4f4a] hover:-translate-y-[2px]" href="https://github.com/AnakinCodeWalker/Projects/tree/master/AuthSystem">View GitHub</a>
+
+                <div className='flex gap-5'>
+                  <a className="inline-flex w-fit min-h-[42px] items-center justify-center px-[14px] py-[10px] text-[#ffffff] font-extrabold bg-[#15171a] rounded-[8px] transition-all duration-180 hover:bg-[#0b4f4a] hover:-translate-y-[2px]" href="https://github.com/AnakinCodeWalker/Projects/tree/master/AuthSystem">Live Demo</a>
+
+                  <a className="inline-flex w-fit min-h-[42px] items-center justify-center px-[14px] py-[10px] text-[#ffffff] font-extrabold bg-[#15171a] rounded-[8px] transition-all duration-180 hover:bg-[#0b4f4a] hover:-translate-y-[2px]" href="https://github.com/AnakinCodeWalker/Projects/tree/master/AuthSystem">View GitHub</a>
+
+                </div>
               </div>
             </article>
           </div>
