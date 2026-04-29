@@ -73,7 +73,7 @@ const App = () => {
 
       <Route path="/chat/:id" element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />}></Route>
 
-      <Route path="/onboarding" element={<OnBoardingPage />} ></Route>
+      <Route path="/onboarding" element={isAuthenticated ? isOnboarded ? <Navigate to="/"/> : <OnBoardingPage />} ></Route>
 
       <Route path="*" element={<NotFoundPage />}></Route>
 
