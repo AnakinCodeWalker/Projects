@@ -1,7 +1,7 @@
 // 1: 05 min se dekho label mai htmlfor add kro ..
 
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { get, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 
 const CourseInformationForm = () => {
@@ -170,6 +170,16 @@ className='min-h-[130px] w-full'
   )
 }
 </div>
+
+<RequirementField
+name="courseRequirements"
+label="Requirements/Instructions"
+register={register}
+errors={errors}
+setValue={setValue}
+getValues={getValues}
+
+/>
     </form>
   )
 }
